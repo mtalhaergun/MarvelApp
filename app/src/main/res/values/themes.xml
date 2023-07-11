@@ -6,4 +6,6 @@
     </style>
 
     <style name="Theme.MarvelApp" parent="Base.Theme.MarvelApp" />
+
+
 </resources>
