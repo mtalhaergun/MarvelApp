@@ -4,6 +4,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
@@ -53,7 +54,12 @@ dependencies {
     implementation Libs.AndroidX.core
     implementation Libs.AndroidX.appCompat
     implementation Libs.AndroidX.constraintLayout
+
     implementation Libs.Google.material
+
+    implementation Libs.AndroidX.navigation
+    implementation Libs.AndroidX.navigationUI
+
     testImplementation Libs.Test.junit
     androidTestImplementation Libs.Test.testExt
     androidTestImplementation Libs.Test.espresso

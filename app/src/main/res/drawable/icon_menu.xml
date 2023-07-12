@@ -9,8 +9,6 @@
         <path
             android:pathData="M1 16.5H9.75M1 1.5H21H1ZM1 9H21H1Z"
             android:strokeWidth="2"
-            android:strokeCap="round"
-            android:strokeJoin="round"
             android:strokeColor="#000000"
             />
 </vector>

@@ -7,4 +7,5 @@ object Versions {
     const val junit = "4.13.2"
     const val testExt = "1.1.5"
     const val espresso = "3.5.1"
+    const val navigation = "2.5.2"
 }

@@ -18,7 +18,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="24dp">
+            android:layout_marginHorizontal="@dimen/margin_all_app">
 
             <ImageView
                 android:id="@+id/menu_icon"
@@ -59,10 +59,10 @@
         android:id="@+id/banner_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
+        android:layout_marginHorizontal="@dimen/margin_all_app"
         android:layout_marginTop="24dp"
-        android:text="Here's to the Marvel Heroes"
-        android:textSize="14sp"
+        android:text="@string/banner_text"
+        android:textSize="@dimen/banner_text_size"
         android:textColor="@color/primary_grey"
         android:fontFamily="@font/font_gilroy_semibold"
         app:layout_constraintStart_toStartOf="parent"
@@ -72,12 +72,12 @@
         android:id="@+id/banner_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
+        android:layout_marginHorizontal="@dimen/margin_all_app"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/font_gilroy_heavy"
-        android:text="Choose your character"
+        android:text="@string/banner_title"
         android:textColor="@color/primary_black"
-        android:textSize="32sp"
+        android:textSize="@dimen/banner_title_size"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/banner_text" />
 
@@ -85,7 +85,7 @@
         android:id="@+id/layoutCategories"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
+        android:layout_marginHorizontal="@dimen/margin_all_app"
         android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -93,9 +93,8 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/categoryHeroCard"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_weight="1"
+            android:layout_width="@dimen/category_width"
+            android:layout_height="@dimen/category_height"
             app:cardCornerRadius="100dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -109,8 +108,8 @@
 
             <ImageView
                 android:id="@+id/categoryHeroIcon"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="@dimen/category_icon_width"
+                android:layout_height="@dimen/category_icon_height"
                 android:layout_gravity="center"
                 android:src="@drawable/icon_hero" />
 
@@ -118,9 +117,8 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/categoryVillainCard"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_weight="1"
+            android:layout_width="@dimen/category_width"
+            android:layout_height="@dimen/category_height"
             app:cardCornerRadius="100dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/categoryAntiheroCard"
@@ -135,8 +133,8 @@
 
             <ImageView
                 android:id="@+id/categoryVillainIcon"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="@dimen/category_icon_width"
+                android:layout_height="@dimen/category_icon_height"
                 android:layout_gravity="center"
                 android:src="@drawable/icon_villain" />
 
@@ -144,9 +142,8 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/categoryAntiheroCard"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_weight="1"
+            android:layout_width="@dimen/category_width"
+            android:layout_height="@dimen/category_height"
             app:cardCornerRadius="100dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -161,8 +158,8 @@
 
             <ImageView
                 android:id="@+id/categoryAntiheroIcon"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="@dimen/category_icon_width"
+                android:layout_height="@dimen/category_icon_height"
                 android:layout_gravity="center"
                 android:src="@drawable/icon_antihero" />
 
@@ -170,9 +167,8 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/categoryAlienCard"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_weight="1"
+            android:layout_width="@dimen/category_width"
+            android:layout_height="@dimen/category_height"
             app:cardCornerRadius="100dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/categoryHumanCard"
@@ -187,8 +183,8 @@
 
             <ImageView
                 android:id="@+id/categoryAlienIcon"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="@dimen/category_icon_width"
+                android:layout_height="@dimen/category_icon_height"
                 android:layout_gravity="center"
                 android:src="@drawable/icon_alien" />
 
@@ -196,9 +192,8 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/categoryHumanCard"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_weight="1"
+            android:layout_width="@dimen/category_width"
+            android:layout_height="@dimen/category_height"
             app:cardCornerRadius="100dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -212,13 +207,52 @@
 
             <ImageView
                 android:id="@+id/categoryHumanIcon"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="@dimen/category_icon_width"
+                android:layout_height="@dimen/category_icon_height"
                 android:layout_gravity="center"
                 android:src="@drawable/icon_human" />
 
         </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/heroes_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_all_app"
+        android:layout_marginTop="48dp"
+        android:fontFamily="@font/font_gilroy_bold"
+        android:text="@string/heroes_title"
+        android:textColor="@color/primary_red"
+        android:textSize="@dimen/heroes_title_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutCategories" />
+
+    <TextView
+        android:id="@+id/heroes_see_all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="@dimen/margin_all_app"
+        android:fontFamily="@font/font_gilroy_medium"
+        android:text="@string/heroes_see_all"
+        android:textColor="@color/primary_grey"
+        android:textSize="@dimen/see_all_text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutCategories" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvHeroes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_all_app"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/heroes_title"
+        tools:listitem="@layout/recycler_card_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

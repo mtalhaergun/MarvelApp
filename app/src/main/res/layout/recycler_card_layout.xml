@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/card_corner_radius"
+        app:strokeWidth="0dp"
+        android:layout_marginEnd="@dimen/card_margin">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/card_image"
+                android:layout_width="@dimen/card_image_width"
+                android:layout_height="@dimen/card_image_height"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_launcher_background"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/card_text_margin"
+                android:layout_marginBottom="2dp"
+                android:fontFamily="@font/font_gilroy_medium"
+                android:text="Name"
+                android:textColor="@color/primary_white"
+                android:textSize="@dimen/name_size"
+                app:layout_constraintBottom_toTopOf="@+id/hero_name"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/hero_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/card_text_margin"
+                android:layout_marginBottom="@dimen/card_text_margin"
+                android:fontFamily="@font/font_gilroy_medium"
+                android:text="Hero Name"
+                android:textColor="@color/primary_white"
+                android:textSize="@dimen/hero_name_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</layout>

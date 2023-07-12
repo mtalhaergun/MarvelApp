@@ -7,6 +7,10 @@ object Libs {
         const val core = "androidx.core:core-ktx:" + Versions.coreKtx
         const val appCompat = "androidx.appcompat:appcompat:" + Versions.appCompat
         const val constraintLayout = "androidx.constraintlayout:constraintlayout:" + Versions.constraint
+        const val navigationUI = "androidx.navigation:navigation-ui-ktx:" + Versions.navigation
+        const val navigation = "androidx.navigation:navigation-fragment-ktx:" + Versions.navigation
+        const val safeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:" + Versions.navigation
+
     }
 
     object Google{
