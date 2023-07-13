@@ -63,4 +63,13 @@ dependencies {
     testImplementation Libs.Test.junit
     androidTestImplementation Libs.Test.testExt
     androidTestImplementation Libs.Test.espresso
+
+    implementation Libs.Network.retrofit
+    implementation Libs.Network.gsonConverter
+    implementation Libs.Network.moshiConverter
+    implementation Libs.Network.moshi
+    kapt Libs.Network.codegen
+    implementation Libs.Network.okhttp
+    implementation Libs.Network.interceptor
+
 }

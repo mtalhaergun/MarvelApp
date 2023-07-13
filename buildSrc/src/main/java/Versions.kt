@@ -8,4 +8,7 @@ object Versions {
     const val testExt = "1.1.5"
     const val espresso = "3.5.1"
     const val navigation = "2.5.2"
+    const val retrofit = "2.9.0"
+    const val moshi = "1.14.0"
+    const val ok_http = "4.10.0"
 }
