@@ -11,4 +11,7 @@ object Versions {
     const val retrofit = "2.9.0"
     const val moshi = "1.14.0"
     const val ok_http = "4.10.0"
+    const val hilt = "2.44"
+    const val hiltCompiler = "2.44"
+    const val logger = "2.2.0"
 }

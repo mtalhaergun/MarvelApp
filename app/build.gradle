@@ -71,5 +71,8 @@ dependencies {
     kapt Libs.Network.codegen
     implementation Libs.Network.okhttp
     implementation Libs.Network.interceptor
+    implementation Libs.Network.logger
 
+    implementation Libs.Hilt.android
+    kapt Libs.Hilt.compiler
 }

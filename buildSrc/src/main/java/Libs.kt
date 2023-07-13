@@ -31,5 +31,12 @@ object Libs {
         const val interceptor = "com.squareup.okhttp3:logging-interceptor:" + Versions.ok_http
         const val moshi = "com.squareup.moshi:moshi-kotlin:" + Versions.moshi
         const val codegen = "com.squareup.moshi:moshi-kotlin-codegen:" + Versions.moshi
+        const val logger = "com.orhanobut:logger:" + Versions.logger
+    }
+
+    object Hilt {
+        const val android = "com.google.dagger:hilt-android:" + Versions.hilt
+        const val compiler = "com.google.dagger:hilt-android-compiler:" + Versions.hiltCompiler
+        const val plugin = "com.google.dagger:hilt-android-gradle-plugin:" + Versions.hilt
     }
 }
