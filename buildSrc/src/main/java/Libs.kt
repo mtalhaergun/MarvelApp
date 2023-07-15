@@ -10,11 +10,16 @@ object Libs {
         const val navigationUI = "androidx.navigation:navigation-ui-ktx:" + Versions.navigation
         const val navigation = "androidx.navigation:navigation-fragment-ktx:" + Versions.navigation
         const val safeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:" + Versions.navigation
-
+        const val swipeRefresh = "androidx.swiperefreshlayout:swiperefreshlayout:" + Versions.swipeRefresh
+        const val livedata = "androidx.lifecycle:lifecycle-livedata-ktx:" + Versions.livedata
+        const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:" + Versions.runtime
+        const val extensions = "androidx.lifecycle:lifecycle-extensions:" + Versions.extensions
+        const val viewModelLifeCycle = "androidx.lifecycle:lifecycle-viewmodel-ktx:" + Versions.viewModel
     }
 
     object Google{
         const val material = "com.google.android.material:material:" + Versions.material
+        const val gson = "com.google.code.gson:gson:" + Versions.gson
     }
 
     object Test{
@@ -38,5 +43,19 @@ object Libs {
         const val android = "com.google.dagger:hilt-android:" + Versions.hilt
         const val compiler = "com.google.dagger:hilt-android-compiler:" + Versions.hiltCompiler
         const val plugin = "com.google.dagger:hilt-android-gradle-plugin:" + Versions.hilt
+    }
+
+    object Coroutines {
+        const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:" + Versions.coroutines
+        const val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:" + Versions.coroutinesCore
+    }
+
+    object Glide {
+        const val glide = "com.github.bumptech.glide:glide:" + Versions.glide
+        const val compiler = "com.github.bumptech.glide:compiler:" + Versions.glide
+    }
+
+    object Coil {
+        const val coil = "io.coil-kt:coil:" + Versions.coil
     }
 }

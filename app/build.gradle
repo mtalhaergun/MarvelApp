@@ -5,6 +5,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -56,9 +58,15 @@ dependencies {
     implementation Libs.AndroidX.constraintLayout
 
     implementation Libs.Google.material
+    implementation Libs.Google.gson
 
     implementation Libs.AndroidX.navigation
     implementation Libs.AndroidX.navigationUI
+
+    implementation Libs.AndroidX.extensions
+    implementation Libs.AndroidX.runtime
+    implementation Libs.AndroidX.livedata
+    implementation Libs.AndroidX.viewModelLifeCycle
 
     testImplementation Libs.Test.junit
     androidTestImplementation Libs.Test.testExt
@@ -75,4 +83,15 @@ dependencies {
 
     implementation Libs.Hilt.android
     kapt Libs.Hilt.compiler
+
+    implementation Libs.Glide.glide
+    annotationProcessor Libs.Glide.compiler
+
+    implementation Libs.Coil.coil
+    implementation Libs.AndroidX.swipeRefresh
+
+    implementation Libs.Coroutines.coroutines
+    implementation Libs.Coroutines.coroutinesCore
+
+
 }

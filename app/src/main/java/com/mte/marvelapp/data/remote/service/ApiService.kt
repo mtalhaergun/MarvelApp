@@ -8,8 +8,8 @@ import retrofit2.http.Query
 interface ApiService {
     @GET("characters")
     suspend fun fetchCharacters(
-        @Query("ts") ts: Int,
-        @Query("apikey") apiKey: String,
+        @Query("ts") ts: String,
+        @Query("apikey") apikey: String,
         @Query("hash") hash : String
     ) : CharacterResponse
 

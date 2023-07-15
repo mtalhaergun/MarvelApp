@@ -253,6 +253,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/heroes_title"
-        tools:listitem="@layout/recycler_card_layout" />
+        tools:listitem="@layout/recycler_heroes_layout" />
+
+    <ProgressBar
+        android:id="@+id/pbHeroes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/rvHeroes"
+        android:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
