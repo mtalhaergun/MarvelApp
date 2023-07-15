@@ -24,4 +24,5 @@ object Versions {
     const val coroutines = "1.6.4"
     const val coroutinesCore = "1.3.9"
     const val gson = "2.10.1"
+    const val dataStore = "1.0.0-alpha01"
 }

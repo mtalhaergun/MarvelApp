@@ -93,5 +93,7 @@ dependencies {
     implementation Libs.Coroutines.coroutines
     implementation Libs.Coroutines.coroutinesCore
 
+    implementation Libs.AndroidX.dataStore
+    implementation Libs.AndroidX.dataStoreCore
 
 }

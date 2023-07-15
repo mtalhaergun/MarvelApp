@@ -12,17 +12,11 @@ import com.mte.marvelapp.databinding.RecyclerHeroesLayoutBinding
 class CharacterAdapter (private val characterClickListener: CharacterClickListener) : RecyclerView.Adapter<CharacterAdapter.CharacterViewHolder>() {
 
     private val diffUtil = object : DiffUtil.ItemCallback<Character>() {
-        override fun areItemsTheSame(
-            oldItem: Character,
-            newItem: Character
-        ): Boolean {
+        override fun areItemsTheSame(oldItem: Character, newItem: Character): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(
-            oldItem: Character,
-            newItem: Character
-        ): Boolean {
+        override fun areContentsTheSame(oldItem: Character, newItem: Character): Boolean {
             return oldItem == newItem
         }
     }
@@ -33,8 +27,9 @@ class CharacterAdapter (private val characterClickListener: CharacterClickListen
         set(value) = diffList.submitList(value)
 
     class CharacterViewHolder (private val binding : RecyclerHeroesLayoutBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(character: Character){
+        fun bind(character: Character,characterClickListener: CharacterClickListener){
             binding.heroes = character
+            binding.clickListener = characterClickListener
             binding.executePendingBindings()
         }
     }
@@ -45,7 +40,7 @@ class CharacterAdapter (private val characterClickListener: CharacterClickListen
     }
 
     override fun onBindViewHolder(holder: CharacterViewHolder, position: Int) {
-        holder.bind(characters[position])
+        holder.bind(characters[position],characterClickListener)
     }
 
     override fun getItemCount(): Int {

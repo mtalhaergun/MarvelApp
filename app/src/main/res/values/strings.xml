@@ -4,5 +4,6 @@
     <string name="banner_text">Here\'s to the Marvel Heroes</string>
     <string name="banner_title">Choose your character</string>
     <string name="heroes_title">Heroes</string>
-    <string name="heroes_see_all">See all</string>
+    <string name="see_all">See all</string>
+    <string name="series_title">Series</string>
 </resources>

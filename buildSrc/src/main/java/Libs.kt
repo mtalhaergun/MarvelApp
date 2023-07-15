@@ -15,6 +15,8 @@ object Libs {
         const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:" + Versions.runtime
         const val extensions = "androidx.lifecycle:lifecycle-extensions:" + Versions.extensions
         const val viewModelLifeCycle = "androidx.lifecycle:lifecycle-viewmodel-ktx:" + Versions.viewModel
+        const val dataStore = "androidx.datastore:datastore-preferences:" + Versions.dataStore
+        const val dataStoreCore = "androidx.datastore:datastore-core:" + Versions.dataStore
     }
 
     object Google{
@@ -58,4 +60,5 @@ object Libs {
     object Coil {
         const val coil = "io.coil-kt:coil:" + Versions.coil
     }
+
 }

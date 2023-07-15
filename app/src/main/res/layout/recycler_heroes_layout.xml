@@ -8,6 +8,9 @@
         <variable
             name="heroes"
             type="com.mte.marvelapp.data.remote.model.character.Character" />
+        <variable
+            name="clickListener"
+            type="com.mte.marvelapp.ui.home.adapter.listener.CharacterClickListener" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -15,7 +18,8 @@
         android:layout_height="@dimen/card_image_height"
         app:cardCornerRadius="@dimen/card_corner_radius"
         app:strokeWidth="0dp"
-        android:layout_marginEnd="@dimen/card_margin">
+        android:layout_marginEnd="@dimen/card_margin"
+        android:onClick="@{() -> clickListener.onCharacterClick(heroes)}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -26,7 +30,7 @@
                 android:id="@+id/card_image"
                 android:layout_width="@dimen/card_image_width"
                 android:layout_height="@dimen/card_image_height"
-                downloadImage="@{heroes.thumbnail.path + `/portrait_xlarge` + `.` + heroes.thumbnail.extension}"
+                loadImage="@{heroes.thumbnail.path + `/portrait_xlarge` + `.` + heroes.thumbnail.extension}"
                 android:scaleType="fitXY"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
