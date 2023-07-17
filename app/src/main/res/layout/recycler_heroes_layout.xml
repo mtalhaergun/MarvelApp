@@ -38,6 +38,18 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:srcCompat="@tools:sample/avatars"/>
 
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/cover_image"
+                android:layout_width="@dimen/card_image_width"
+                android:layout_height="115dp"
+                android:src="@drawable/gradient_black"
+                android:scaleType="fitXY"
+                android:alpha="1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
 
 
             <TextView
@@ -51,6 +63,7 @@
                 android:text="@{heroes.name}"
                 android:textColor="@color/primary_white"
                 android:textSize="@dimen/hero_name_size"
+                android:maxLines="@integer/max_lines"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/card_image"
                 app:layout_constraintStart_toStartOf="parent" />

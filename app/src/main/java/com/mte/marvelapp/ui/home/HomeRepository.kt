@@ -16,5 +16,15 @@ class HomeRepository @Inject constructor(private val apiService: ApiService) : B
         apiService.fetchSeries("1",API_KEY,HASH)
     }
 
+    suspend fun fetchComics() = safeApiRequest {
+        apiService.fetchComics("1", API_KEY, HASH)
+    }
 
+    suspend fun fetchStories() = safeApiRequest {
+        apiService.fetchStories("1", API_KEY, HASH)
+    }
+
+    suspend fun fetchEvents() = safeApiRequest {
+        apiService.fetchEvents("1", API_KEY, HASH)
+    }
 }

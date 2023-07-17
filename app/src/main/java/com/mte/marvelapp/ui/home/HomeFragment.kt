@@ -15,14 +15,26 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.mte.marvelapp.data.remote.model.character.Character
+import com.mte.marvelapp.data.remote.model.comic.Comic
+import com.mte.marvelapp.data.remote.model.event.Events
 import com.mte.marvelapp.data.remote.model.series.Series
+import com.mte.marvelapp.data.remote.model.stories.Stories
 import com.mte.marvelapp.databinding.FragmentHomeBinding
 import com.mte.marvelapp.ui.home.adapter.CharacterAdapter
+import com.mte.marvelapp.ui.home.adapter.ComicsAdapter
+import com.mte.marvelapp.ui.home.adapter.EventsAdapter
 import com.mte.marvelapp.ui.home.adapter.SeriesAdapter
+import com.mte.marvelapp.ui.home.adapter.StoriesAdapter
 import com.mte.marvelapp.ui.home.adapter.listener.CharacterClickListener
+import com.mte.marvelapp.ui.home.adapter.listener.ComicClickListener
+import com.mte.marvelapp.ui.home.adapter.listener.EventsClickListener
 import com.mte.marvelapp.ui.home.adapter.listener.SeriesClickListener
+import com.mte.marvelapp.ui.home.adapter.listener.StoriesClickListener
 import com.mte.marvelapp.ui.home.uistate.CharacterUiState
+import com.mte.marvelapp.ui.home.uistate.ComicsUiState
+import com.mte.marvelapp.ui.home.uistate.EventsUiState
 import com.mte.marvelapp.ui.home.uistate.SeriesUiState
+import com.mte.marvelapp.ui.home.uistate.StoriesUiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 
@@ -38,6 +50,9 @@ class HomeFragment : Fragment() {
 
     private lateinit var characterAdapter: CharacterAdapter
     private lateinit var seriesAdapter: SeriesAdapter
+    private lateinit var comicsAdapter: ComicsAdapter
+    private lateinit var storiesAdapter: StoriesAdapter
+    private lateinit var eventsAdapter : EventsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,7 +112,63 @@ class HomeFragment : Fragment() {
 
                 }
             }
+        })
 
+        viewModel.comicsUiState.observe(viewLifecycleOwner, Observer { state ->
+            when(state){
+                is ComicsUiState.Loading -> {
+                    pbComics.visibility = View.VISIBLE
+                    rvComics.visibility = View.GONE
+                }
+                is ComicsUiState.Success -> {
+                    state.data?.let {
+                        pbComics.visibility = View.GONE
+                        comicsAdapter.comics = state.data
+                        rvComics.visibility = View.VISIBLE
+                    }
+                }
+                is ComicsUiState.Error -> {
+
+                }
+            }
+        })
+
+        viewModel.storiesUiState.observe(viewLifecycleOwner, Observer { state ->
+            when(state){
+                is StoriesUiState.Loading -> {
+                    pbStories.visibility = View.VISIBLE
+                    rvStories.visibility = View.GONE
+                }
+                is StoriesUiState.Success -> {
+                    state.data?.let {
+                        pbStories.visibility = View.GONE
+                        storiesAdapter.stories = state.data
+                        rvStories.visibility = View.VISIBLE
+                    }
+                }
+                is StoriesUiState.Error -> {
+
+                }
+            }
+        })
+
+        viewModel.eventsUiState.observe(viewLifecycleOwner, Observer { state ->
+            when(state){
+                is EventsUiState.Loading -> {
+                    pbEvents.visibility = View.VISIBLE
+                    rvEvents.visibility = View.GONE
+                }
+                is EventsUiState.Success -> {
+                    state.data?.let {
+                        pbEvents.visibility = View.GONE
+                        eventsAdapter.events = state.data
+                        rvEvents.visibility = View.VISIBLE
+                    }
+                }
+                is EventsUiState.Error -> {
+
+                }
+            }
         })
     }
 
@@ -116,13 +187,43 @@ class HomeFragment : Fragment() {
             }
         })
 
+        comicsAdapter = ComicsAdapter(object : ComicClickListener{
+            override fun onComicClick(comic: Comic) {
+                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment()
+                findNavController().navigate(action)
+            }
+
+        })
+
+        storiesAdapter = StoriesAdapter(object : StoriesClickListener{
+            override fun onStoriesClick(stories: Stories) {
+                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment()
+                findNavController().navigate(action)
+            }
+
+        })
+
+        eventsAdapter = EventsAdapter(object : EventsClickListener{
+            override fun onEventsClick(events: Events) {
+                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment()
+                findNavController().navigate(action)
+            }
+
+        })
+
         rvHeroes.adapter = characterAdapter
         rvSeries.adapter = seriesAdapter
+        rvComics.adapter = comicsAdapter
+        rvStories.adapter = storiesAdapter
+        rvEvents.adapter = eventsAdapter
     }
 
     private fun sendApiRequests() = with(viewModel){
         fetchCharacters()
         fetchSeries()
+        fetchComics()
+        fetchStories()
+        fetchEvents()
     }
 
 

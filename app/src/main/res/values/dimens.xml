@@ -16,4 +16,6 @@
     <dimen name="card_image_width">140dp</dimen>
     <dimen name="card_image_height">230dp</dimen>
     <dimen name="card_margin">16dp</dimen>
+    <dimen name="detail_title_size">32sp</dimen>
+    <dimen name="detail_description_size">14sp</dimen>
 </resources>
