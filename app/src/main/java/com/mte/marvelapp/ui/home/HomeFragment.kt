@@ -35,6 +35,7 @@ import com.mte.marvelapp.ui.home.uistate.ComicsUiState
 import com.mte.marvelapp.ui.home.uistate.EventsUiState
 import com.mte.marvelapp.ui.home.uistate.SeriesUiState
 import com.mte.marvelapp.ui.home.uistate.StoriesUiState
+import com.mte.marvelapp.utils.extensions.safeNavigate
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 
@@ -175,38 +176,34 @@ class HomeFragment : Fragment() {
     private fun setupRecyclerViews() = with(binding){
         characterAdapter = CharacterAdapter(object : CharacterClickListener{
             override fun onCharacterClick(character: Character) {
-                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment()
-                findNavController().navigate(action)
+                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment(character.id.toString())
+                findNavController().safeNavigate(action)
             }
         })
 
         seriesAdapter = SeriesAdapter(object : SeriesClickListener{
             override fun onSeriesClick(series: Series) {
-                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment()
-                findNavController().navigate(action)
+
             }
         })
 
         comicsAdapter = ComicsAdapter(object : ComicClickListener{
             override fun onComicClick(comic: Comic) {
-                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment()
-                findNavController().navigate(action)
+
             }
 
         })
 
         storiesAdapter = StoriesAdapter(object : StoriesClickListener{
             override fun onStoriesClick(stories: Stories) {
-                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment()
-                findNavController().navigate(action)
+
             }
 
         })
 
         eventsAdapter = EventsAdapter(object : EventsClickListener{
             override fun onEventsClick(events: Events) {
-                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment()
-                findNavController().navigate(action)
+
             }
 
         })
