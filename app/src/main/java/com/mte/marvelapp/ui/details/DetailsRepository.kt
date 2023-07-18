@@ -28,6 +28,10 @@ class DetailsRepository @Inject constructor(private val apiService: ApiService) 
         apiService.fetchEventDetail(id,"1", API_KEY, HASH)
     }
 
+    suspend fun fetchCreatorDetail(id : String) = safeApiRequest {
+        apiService.fetchCreatorDetail(id,"1", API_KEY, HASH)
+    }
+
     suspend fun fetchCharactersSeries(id : String) = safeApiRequest {
         apiService.fetchCharactersSeries(id,"1", API_KEY, HASH)
     }
@@ -36,9 +40,9 @@ class DetailsRepository @Inject constructor(private val apiService: ApiService) 
         apiService.fetchSeriesStories(id,"1", API_KEY, HASH)
     }
 
-//    suspend fun fetchComicsCreators(id : String) = safeApiRequest {
-//        apiService.fetchComicsCreators(id,"1", API_KEY, HASH)
-//    }
+    suspend fun fetchComicsCreators(id : String) = safeApiRequest {
+        apiService.fetchComicsCreators(id,"1", API_KEY, HASH)
+    }
 
     suspend fun fetchStoriesComics(id : String) = safeApiRequest {
         apiService.fetchStoriesComics(id,"1", API_KEY, HASH)
@@ -46,6 +50,10 @@ class DetailsRepository @Inject constructor(private val apiService: ApiService) 
 
     suspend fun fetchEventsCharacters(id : String) = safeApiRequest {
         apiService.fetchEventsCharacters(id,"1", API_KEY, HASH)
+    }
+
+    suspend fun fetchCreatorsComics(id : String) = safeApiRequest {
+        apiService.fetchCreatorsComics(id,"1", API_KEY, HASH)
     }
 
 }

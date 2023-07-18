@@ -6,12 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mte.marvelapp.data.remote.model.character.CharacterResponse
 import com.mte.marvelapp.data.remote.model.comic.ComicResponse
+import com.mte.marvelapp.data.remote.model.creator.CreatorResponse
 import com.mte.marvelapp.data.remote.model.event.EventsResponse
 import com.mte.marvelapp.data.remote.model.series.SeriesResponse
 import com.mte.marvelapp.data.remote.model.stories.StoriesResponse
 import com.mte.marvelapp.data.remote.service.NetworkResult
 import com.mte.marvelapp.ui.home.uistate.CharacterUiState
 import com.mte.marvelapp.ui.home.uistate.ComicsUiState
+import com.mte.marvelapp.ui.home.uistate.CreatorsUiState
 import com.mte.marvelapp.ui.home.uistate.EventsUiState
 import com.mte.marvelapp.ui.home.uistate.SeriesUiState
 import com.mte.marvelapp.ui.home.uistate.StoriesUiState
@@ -37,11 +39,15 @@ class DetailsViewModel @Inject constructor(private val repository : DetailsRepos
     private val _eventsUiState = MutableLiveData<EventsUiState>()
     val eventsUiState: LiveData<EventsUiState> = _eventsUiState
 
+    private val _creatorsUiState = MutableLiveData<CreatorsUiState>()
+    val creatorsUiState: LiveData<CreatorsUiState> = _creatorsUiState
+
     val characterResponse : MutableLiveData<CharacterResponse?> = MutableLiveData()
     val seriesResponse : MutableLiveData<SeriesResponse?> = MutableLiveData()
     val comicResponse : MutableLiveData<ComicResponse?> = MutableLiveData()
     val storiesResponse : MutableLiveData<StoriesResponse?> = MutableLiveData()
     val eventResponse : MutableLiveData<EventsResponse?> = MutableLiveData()
+    val creatorResponse : MutableLiveData<CreatorResponse?> = MutableLiveData()
 
     fun fetchCharacterDetail(id : String) = viewModelScope.launch {
         val request = repository.fetchCharacterDetail(id)
@@ -103,6 +109,18 @@ class DetailsViewModel @Inject constructor(private val repository : DetailsRepos
         }
     }
 
+    fun fetchCreatorDetail(id : String) = viewModelScope.launch {
+        val request = repository.fetchCreatorDetail(id)
+        when(request){
+            is NetworkResult.Success -> {
+                creatorResponse.value = request.data
+            }
+            is NetworkResult.Error -> {
+
+            }
+        }
+    }
+
     fun fetchCharactersSeries(id : String) = viewModelScope.launch {
         _seriesUiState.value = SeriesUiState.Loading
 
@@ -132,17 +150,17 @@ class DetailsViewModel @Inject constructor(private val repository : DetailsRepos
     }
 
     fun fetchComicsCreators(id : String) = viewModelScope.launch {
-//        _seriesUiState.value = SeriesUiState.Loading
-//
-//        val request = repository.fetchCharactersSeries(id)
-//        when(request){
-//            is NetworkResult.Success -> {
-//                _seriesUiState.value = SeriesUiState.Success(request.data?.data?.series)
-//            }
-//            is NetworkResult.Error -> {
-//                _seriesUiState.value = SeriesUiState.Error(request.message)
-//            }
-//        }
+        _creatorsUiState.value = CreatorsUiState.Loading
+
+        val request = repository.fetchComicsCreators(id)
+        when(request){
+            is NetworkResult.Success -> {
+                _creatorsUiState.value = CreatorsUiState.Success(request.data?.data?.creators)
+            }
+            is NetworkResult.Error -> {
+                _creatorsUiState.value = CreatorsUiState.Error(request.message)
+            }
+        }
     }
 
     fun fetchStoriesComics(id : String) = viewModelScope.launch {
@@ -169,6 +187,20 @@ class DetailsViewModel @Inject constructor(private val repository : DetailsRepos
             }
             is NetworkResult.Error -> {
                 _characterUiState.value = CharacterUiState.Error(request.message)
+            }
+        }
+    }
+
+    fun fetchCreatorsComics(id : String) = viewModelScope.launch {
+        _comicsUiState.value = ComicsUiState.Loading
+
+        val request = repository.fetchCreatorsComics(id)
+        when(request){
+            is NetworkResult.Success -> {
+                _comicsUiState.value = ComicsUiState.Success(request.data?.data?.comics)
+            }
+            is NetworkResult.Error -> {
+                _comicsUiState.value = ComicsUiState.Error(request.message)
             }
         }
     }

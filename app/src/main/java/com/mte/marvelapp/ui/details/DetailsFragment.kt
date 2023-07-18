@@ -28,6 +28,7 @@ import com.mte.marvelapp.ui.details.adapter.listener.DetailsRecyclerClickListene
 import com.mte.marvelapp.ui.home.HomeFragmentDirections
 import com.mte.marvelapp.ui.home.uistate.CharacterUiState
 import com.mte.marvelapp.ui.home.uistate.ComicsUiState
+import com.mte.marvelapp.ui.home.uistate.CreatorsUiState
 import com.mte.marvelapp.ui.home.uistate.EventsUiState
 import com.mte.marvelapp.ui.home.uistate.SeriesUiState
 import com.mte.marvelapp.ui.home.uistate.StoriesUiState
@@ -62,17 +63,17 @@ class DetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        changeToolbarColor()
         setupRecyclerView()
         sendApiRequests()
         observeEvents()
-        changeToolbarColor()
     }
 
     private fun setupRecyclerView() = with(binding) {
         detailsAdapter = DetailsAdapter(object : DetailsRecyclerClickListener{
             override fun onDetailsRecyclerClick(detail: DetailModel) {
-                val action = DetailsFragmentDirections.actionDetailsFragmentSelf(detail.id.toString(),detail.category)
-                findNavController().navigate(action)
+                    val action = DetailsFragmentDirections.actionDetailsFragmentSelf(detail.id.toString(),detail.category)
+                    findNavController().navigate(action)
             }
         })
 
@@ -142,6 +143,19 @@ class DetailsFragment : Fragment() {
                     detailTitle.text = this.title
                     detailDescription.text = this.description
                     rvTitle.text = "Characters"
+                }
+            }
+        })
+
+        viewModel.creatorResponse.observe(viewLifecycleOwner, Observer {model ->
+            if (model != null) {
+                with(model.data.creators[0]){
+                    var imageUrl = this.thumbnail.path + "/portrait_uncanny." + this.thumbnail.extension
+                    glideWithListener(detailImage,imageUrl)
+
+                    detailTitle.text = this.fullName
+                    detailDescription.text = ""
+                    rvTitle.text = "Comics"
                 }
             }
         })
@@ -266,6 +280,30 @@ class DetailsFragment : Fragment() {
             }
         })
 
+        viewModel.creatorsUiState.observe(viewLifecycleOwner, Observer { state ->
+            when(state){
+                is CreatorsUiState.Loading -> {
+                    pbRecycler.visibility = View.VISIBLE
+                    rvDetail.visibility = View.GONE
+                }
+                is CreatorsUiState.Success -> {
+                    state.data?.let {
+                        val detailList : MutableList<DetailModel> = mutableListOf()
+                        for(detail in state.data){
+                            val model = DetailModel(detail.id,detail.fullName,detail.thumbnail.path + "/portrait_xlarge." + detail.thumbnail.extension,"creators")
+                            detailList.add(model)
+                        }
+                        pbRecycler.visibility = View.GONE
+                        detailsAdapter.listDetail = detailList
+                        rvDetail.visibility = View.VISIBLE
+                    }
+                }
+                is CreatorsUiState.Error -> {
+
+                }
+            }
+        })
+
 
         binding.iconBack.setOnClickListener {
             findNavController().navigateUp()
@@ -284,6 +322,7 @@ class DetailsFragment : Fragment() {
             }
             else if (selectedCategory == "comics"){
                 fetchComicDetail(id)
+                fetchComicsCreators(id)
             }
             else if (selectedCategory == "stories"){
                 fetchStoriesDetail(id)
@@ -292,6 +331,9 @@ class DetailsFragment : Fragment() {
             else if (selectedCategory == "events"){
                 fetchEventDetail(id)
                 fetchEventsCharacters(id)
+            }else if (selectedCategory == "creators"){
+                fetchCreatorDetail(id)
+                fetchCreatorsComics(id)
             }else{
 
             }

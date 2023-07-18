@@ -2,6 +2,7 @@ package com.mte.marvelapp.data.remote.service
 
 import com.mte.marvelapp.data.remote.model.character.CharacterResponse
 import com.mte.marvelapp.data.remote.model.comic.ComicResponse
+import com.mte.marvelapp.data.remote.model.creator.CreatorResponse
 import com.mte.marvelapp.data.remote.model.event.EventsResponse
 import com.mte.marvelapp.data.remote.model.series.SeriesResponse
 import com.mte.marvelapp.data.remote.model.stories.StoriesResponse
@@ -86,6 +87,14 @@ interface ApiService {
         @Query("hash") hash : String
     ) : EventsResponse
 
+    @GET("creators/{id}")
+    suspend fun fetchCreatorDetail(
+        @Path("id") id : String,
+        @Query("ts") ts: String,
+        @Query("apikey") apikey: String,
+        @Query("hash") hash : String
+    ) : CreatorResponse
+
     @GET("characters/{id}/series")
     suspend fun fetchCharactersSeries(
         @Path("id") id : String,
@@ -102,13 +111,13 @@ interface ApiService {
         @Query("hash") hash : String
     ) : StoriesResponse
 
-//    @GET("comics/{id}/creators")
-//    suspend fun fetchComicsCreators(
-//        @Path("id") id : String,
-//        @Query("ts") ts: String,
-//        @Query("apikey") apikey: String,
-//        @Query("hash") hash : String
-//    ) :
+    @GET("comics/{id}/creators")
+    suspend fun fetchComicsCreators(
+        @Path("id") id : String,
+        @Query("ts") ts: String,
+        @Query("apikey") apikey: String,
+        @Query("hash") hash : String
+    ) : CreatorResponse
 
     @GET("stories/{id}/comics")
     suspend fun fetchStoriesComics(
@@ -125,4 +134,14 @@ interface ApiService {
         @Query("apikey") apikey: String,
         @Query("hash") hash : String
     ) : CharacterResponse
+
+    @GET("creators/{id}/comics")
+    suspend fun fetchCreatorsComics(
+        @Path("id") id : String,
+        @Query("ts") ts: String,
+        @Query("apikey") apikey: String,
+        @Query("hash") hash : String
+    ) : ComicResponse
+
+
 }
