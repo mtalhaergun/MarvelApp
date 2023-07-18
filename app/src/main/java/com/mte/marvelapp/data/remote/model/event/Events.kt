@@ -5,9 +5,12 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class Events(
-//    val characters: Characters,
-//    val comics: Comics,
-//    val creators: Creators,
+    @Json(name = "characters")
+    val characters: Characters,
+    @Json(name = "comics")
+    val comics: Comics,
+    @Json(name = "creators")
+    val creators: Creators,
     val description: String,
 //    val end: String,
     @Json(name = "id")
@@ -16,9 +19,11 @@ data class Events(
 //    val next: Next,
 //    val previous: Previous,
 //    val resourceURI: String,
-//    val series: Series,
+    @Json(name = "series")
+    val series: Series,
 //    val start: String,
-//    val stories: Stories,
+    @Json(name = "stories")
+    val stories: Stories,
     @Json(name = "thumbnail")
     val thumbnail: Thumbnail,
     @Json(name = "title")

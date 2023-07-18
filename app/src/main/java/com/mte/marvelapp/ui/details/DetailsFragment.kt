@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ScrollView
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.viewModels
@@ -91,6 +92,14 @@ class DetailsFragment : Fragment() {
                     detailTitle.text = this.name
                     detailDescription.text = this.description
                     rvTitle.text = "Series"
+                    statsCharacter.visibility = View.GONE
+                    statsSeries.text = this.series.available.toString()
+                    statsComics.text = this.comics.available.toString()
+                    statsStories.text = this.stories.available.toString()
+                    statsEvents.text = this.events.available.toString()
+                    val color = ContextCompat.getColor(requireContext(),R.color.primary_red)
+                    categoryHeroIcon.setColorFilter(color)
+                    statsCharacterName.setTextColor(color)
                 }
             }
         })
@@ -104,6 +113,14 @@ class DetailsFragment : Fragment() {
                     detailTitle.text = this.title
                     detailDescription.text = this.description
                     rvTitle.text = "Stories"
+                    statsSeries.visibility = View.GONE
+                    statsCharacter.text = this.characters.available.toString()
+                    statsComics.text = this.comics.available.toString()
+                    statsStories.text = this.stories.available.toString()
+                    statsEvents.text = this.events.available.toString()
+                    val color = ContextCompat.getColor(requireContext(),R.color.primary_red)
+                    categoryVillainIcon.setColorFilter(color)
+                    statsSeriesName.setTextColor(color)
                 }
             }
         })
@@ -117,6 +134,14 @@ class DetailsFragment : Fragment() {
                     detailTitle.text = this.title
                     detailDescription.text = this.description
                     rvTitle.text = "Creators"
+                    statsComics.visibility = View.GONE
+                    statsCharacter.text = this.characters.available.toString()
+                    statsSeries.text = "1"
+                    statsStories.text = this.stories.available.toString()
+                    statsEvents.text = this.events.available.toString()
+                    val color = ContextCompat.getColor(requireContext(),R.color.primary_red)
+                    categoryAntiheroIcon.setColorFilter(color)
+                    statsComicsName.setTextColor(color)
                 }
             }
         })
@@ -130,6 +155,14 @@ class DetailsFragment : Fragment() {
                     detailTitle.text = this.title
                     detailDescription.text = this.description
                     rvTitle.text = "Comics"
+                    statsStories.visibility = View.GONE
+                    statsCharacter.text = this.characters.available.toString()
+                    statsComics.text = this.comics.available.toString()
+                    statsSeries.text = this.series.available.toString()
+                    statsEvents.text = this.events.available.toString()
+                    val color = ContextCompat.getColor(requireContext(),R.color.primary_red)
+                    categoryAlienIcon.setColorFilter(color)
+                    statsStoriesName.setTextColor(color)
                 }
             }
         })
@@ -143,6 +176,14 @@ class DetailsFragment : Fragment() {
                     detailTitle.text = this.title
                     detailDescription.text = this.description
                     rvTitle.text = "Characters"
+                    statsEvents.visibility = View.GONE
+                    statsCharacter.text = this.characters.available.toString()
+                    statsComics.text = this.comics.available.toString()
+                    statsSeries.text = this.series.available.toString()
+                    statsStories.text = this.stories.available.toString()
+                    val color = ContextCompat.getColor(requireContext(),R.color.primary_red)
+                    categoryHumanIcon.setColorFilter(color)
+                    statsEventsName.setTextColor(color)
                 }
             }
         })
@@ -156,6 +197,11 @@ class DetailsFragment : Fragment() {
                     detailTitle.text = this.fullName
                     detailDescription.text = ""
                     rvTitle.text = "Comics"
+                    statsCharacter.text = "0"
+                    statsEvents.text = this.events.available.toString()
+                    statsComics.text = this.comics.available.toString()
+                    statsSeries.text = this.series.available.toString()
+                    statsStories.text = this.stories.available.toString()
                 }
             }
         })

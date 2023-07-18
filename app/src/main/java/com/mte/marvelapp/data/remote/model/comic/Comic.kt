@@ -5,17 +5,20 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class Comic(
-//    val characters: Characters,
+    @Json(name = "characters")
+    val characters: Characters,
 //    val collectedIssues: List<CollectedIssue>,
 //    val collections: List<Any>,
-//    val creators: Creators,
+    @Json(name = "creators")
+    val creators: Creators,
 //    val dates: List<Date>,
     @Json(name = "description")
     val description: String?,
 //    val diamondCode: String,
 //    val digitalId: Int,
 //    val ean: String,
-//    val events: Events,
+    @Json(name = "events")
+    val events: Events,
 //    val format: String,
     @Json(name = "id")
     val id: Int,
@@ -27,8 +30,10 @@ data class Comic(
 //    val pageCount: Int,
 //    val prices: List<Price>,
 //    val resourceURI: String,
-//    val series: Series,
-//    val stories: Stories,
+    @Json(name = "series")
+    val series: Series,
+    @Json(name = "stories")
+    val stories: Stories,
 //    val textObjects: List<TextObject>,
     @Json(name = "thumbnail")
     val thumbnail: Thumbnail,

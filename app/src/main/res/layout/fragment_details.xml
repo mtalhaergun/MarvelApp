@@ -90,7 +90,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layoutCategories"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="70dp"
                 android:layout_marginHorizontal="@dimen/margin_all_app"
                 android:layout_marginTop="48dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -103,10 +103,35 @@
                     android:layout_width="@dimen/category_icon_width"
                     android:layout_height="@dimen/category_icon_height"
                     android:layout_gravity="center"
+                    android:layout_marginStart="16dp"
                     android:src="@drawable/icon_hero"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/statsCharacter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_gilroy_heavy"
+                    android:text="10"
+                    android:textColor="@color/primary_white"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="@+id/categoryHeroIcon"
+                    app:layout_constraintStart_toStartOf="@+id/categoryHeroIcon"
+                    app:layout_constraintTop_toBottomOf="@+id/categoryHeroIcon" />
+
+                <TextView
+                    android:id="@+id/statsCharacter_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_gilroy_heavy"
+                    android:text="Characters"
+                    android:textColor="@color/primary_white"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/categoryHeroIcon"
+                    app:layout_constraintStart_toStartOf="@+id/categoryHeroIcon"
+                    />
 
 
                 <ImageView
@@ -115,11 +140,33 @@
                     android:layout_height="@dimen/category_icon_height"
                     android:layout_gravity="center"
                     android:src="@drawable/icon_villain"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/categoryAntiheroIcon"
                     app:layout_constraintStart_toEndOf="@+id/categoryHeroIcon"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <TextView
+                    android:id="@+id/statsSeries"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_gilroy_heavy"
+                    android:text="10"
+                    android:textColor="@color/primary_white"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="@+id/categoryVillainIcon"
+                    app:layout_constraintStart_toStartOf="@+id/categoryVillainIcon"
+                    app:layout_constraintTop_toBottomOf="@+id/categoryVillainIcon" />
+
+                <TextView
+                    android:id="@+id/statsSeries_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_gilroy_heavy"
+                    android:text="Series"
+                    android:textColor="@color/primary_white"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/categoryVillainIcon"
+                    app:layout_constraintStart_toStartOf="@+id/categoryVillainIcon" />
 
                 <ImageView
                     android:id="@+id/categoryAntiheroIcon"
@@ -127,10 +174,33 @@
                     android:layout_height="@dimen/category_icon_height"
                     android:layout_gravity="center"
                     android:src="@drawable/icon_antihero"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/statsComics"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_gilroy_heavy"
+                    android:text="10"
+                    android:textColor="@color/primary_white"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="@+id/categoryAntiheroIcon"
+                    app:layout_constraintStart_toStartOf="@+id/categoryAntiheroIcon"
+                    app:layout_constraintTop_toBottomOf="@+id/categoryAntiheroIcon" />
+
+                <TextView
+                    android:id="@+id/statsComics_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_gilroy_heavy"
+                    android:text="Comics"
+                    android:textColor="@color/primary_white"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
 
                 <ImageView
@@ -139,20 +209,67 @@
                     android:layout_height="@dimen/category_icon_height"
                     android:layout_gravity="center"
                     android:src="@drawable/icon_alien"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/categoryHumanIcon"
                     app:layout_constraintStart_toEndOf="@+id/categoryAntiheroIcon"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/statsStories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_gilroy_heavy"
+                    android:text="10"
+                    android:textColor="@color/primary_white"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="@+id/categoryAlienIcon"
+                    app:layout_constraintStart_toStartOf="@+id/categoryAlienIcon"
+                    app:layout_constraintTop_toBottomOf="@+id/categoryAlienIcon" />
+
+                <TextView
+                    android:id="@+id/statsStories_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_gilroy_heavy"
+                    android:text="Stories"
+                    android:textColor="@color/primary_white"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/categoryAlienIcon"
+                    app:layout_constraintStart_toStartOf="@+id/categoryAlienIcon" />
 
                 <ImageView
                     android:id="@+id/categoryHumanIcon"
                     android:layout_width="@dimen/category_icon_width"
                     android:layout_height="@dimen/category_icon_height"
                     android:layout_gravity="center"
+                    android:layout_marginEnd="16dp"
                     android:src="@drawable/icon_human"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/statsEvents"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_gilroy_heavy"
+                    android:text="10"
+                    android:textColor="@color/primary_white"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="@+id/categoryHumanIcon"
+                    app:layout_constraintStart_toStartOf="@+id/categoryHumanIcon"
+                    app:layout_constraintTop_toBottomOf="@+id/categoryHumanIcon" />
+
+                <TextView
+                    android:id="@+id/statsEvents_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_gilroy_heavy"
+                    android:text="Events"
+                    android:textColor="@color/primary_white"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/categoryHumanIcon"
+                    app:layout_constraintStart_toStartOf="@+id/categoryHumanIcon" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
