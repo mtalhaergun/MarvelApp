@@ -54,6 +54,38 @@ interface ApiService {
         @Query("hash") hash : String
     ) : CharacterResponse
 
+    @GET("series/{id}")
+    suspend fun fetchSeriesDetail(
+        @Path("id") id : String,
+        @Query("ts") ts: String,
+        @Query("apikey") apikey: String,
+        @Query("hash") hash : String
+    ) : SeriesResponse
+
+    @GET("comics/{id}")
+    suspend fun fetchComicDetail(
+        @Path("id") id : String,
+        @Query("ts") ts: String,
+        @Query("apikey") apikey: String,
+        @Query("hash") hash : String
+    ) : ComicResponse
+
+    @GET("stories/{id}")
+    suspend fun fetchStoriesDetail(
+        @Path("id") id : String,
+        @Query("ts") ts: String,
+        @Query("apikey") apikey: String,
+        @Query("hash") hash : String
+    ) : StoriesResponse
+
+    @GET("events/{id}")
+    suspend fun fetchEventDetail(
+        @Path("id") id : String,
+        @Query("ts") ts: String,
+        @Query("apikey") apikey: String,
+        @Query("hash") hash : String
+    ) : EventsResponse
+
     @GET("characters/{id}/series")
     suspend fun fetchCharactersSeries(
         @Path("id") id : String,
@@ -61,4 +93,36 @@ interface ApiService {
         @Query("apikey") apikey: String,
         @Query("hash") hash : String
     ) : SeriesResponse
+
+    @GET("series/{id}/stories")
+    suspend fun fetchSeriesStories(
+        @Path("id") id : String,
+        @Query("ts") ts: String,
+        @Query("apikey") apikey: String,
+        @Query("hash") hash : String
+    ) : StoriesResponse
+
+//    @GET("comics/{id}/creators")
+//    suspend fun fetchComicsCreators(
+//        @Path("id") id : String,
+//        @Query("ts") ts: String,
+//        @Query("apikey") apikey: String,
+//        @Query("hash") hash : String
+//    ) :
+
+    @GET("stories/{id}/comics")
+    suspend fun fetchStoriesComics(
+        @Path("id") id : String,
+        @Query("ts") ts: String,
+        @Query("apikey") apikey: String,
+        @Query("hash") hash : String
+    ) : ComicResponse
+
+    @GET("events/{id}/characters")
+    suspend fun fetchEventsCharacters(
+        @Path("id") id : String,
+        @Query("ts") ts: String,
+        @Query("apikey") apikey: String,
+        @Query("hash") hash : String
+    ) : CharacterResponse
 }

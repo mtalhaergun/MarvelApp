@@ -54,7 +54,7 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/hero_image"
+                android:id="@+id/detail_image"
                 android:layout_width="match_parent"
                 android:layout_height="600dp"
                 android:scaleType="centerCrop"
@@ -74,17 +74,18 @@
                 app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
-                android:id="@+id/hero_name"
+                android:id="@+id/detail_title"
                 android:layout_width="160dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_all_app"
                 android:layout_marginTop="352dp"
                 android:fontFamily="@font/font_gilroy_heavy"
-                android:text="HERO NAME"
+                android:text="TITLE"
                 android:textColor="@color/primary_white"
                 android:textSize="@dimen/detail_title_size"
+                android:maxLines="@integer/max_lines"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/hero_image" />
+                app:layout_constraintTop_toTopOf="@+id/detail_image" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layoutCategories"
@@ -94,7 +95,7 @@
                 android:layout_marginTop="48dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/hero_name">
+                app:layout_constraintTop_toBottomOf="@+id/detail_title">
 
 
                 <ImageView
@@ -166,7 +167,7 @@
                 android:text="Em Forest Hills, Queens, Nova York, o estudante de ensino médio, Peter Parker, é um cientista orfão que vive com seu tio Ben e tia May. Ele é mordido por uma aranha radioativa em uma exposição científica e adquire a agilidade e a força proporcional de um aracnídeo. Junto com a super força, Parker ganha a capacidade de andar nas paredes e tetos. Através de sua habilidade nativa para a ciência, ele desenvolve um aparelho que o permitir lançar teias artificiais. Inicialmente buscando capitalizar suas novas habilidades, Parker cria um traje e, como Homem Aranha, torna-se uma estrela de televisão."
                 android:textColor="@color/primary_white"
                 android:textSize="@dimen/detail_description_size"
-                app:layout_constraintEnd_toStartOf="@+id/hero_image"
+                app:layout_constraintEnd_toStartOf="@+id/detail_image"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layoutCategories" />
 
@@ -177,7 +178,7 @@
                 android:layout_marginStart="@dimen/margin_all_app"
                 android:layout_marginTop="32dp"
                 android:fontFamily="@font/font_gilroy_bold"
-                android:text="@string/series_title"
+                android:text="Category"
                 android:textColor="@color/primary_white"
                 android:textSize="@dimen/heroes_title_size"
                 app:layout_constraintStart_toStartOf="parent"

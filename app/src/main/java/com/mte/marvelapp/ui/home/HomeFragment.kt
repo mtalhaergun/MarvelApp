@@ -176,34 +176,38 @@ class HomeFragment : Fragment() {
     private fun setupRecyclerViews() = with(binding){
         characterAdapter = CharacterAdapter(object : CharacterClickListener{
             override fun onCharacterClick(character: Character) {
-                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment(character.id.toString())
+                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment(character.id.toString(),"characters")
                 findNavController().safeNavigate(action)
             }
         })
 
         seriesAdapter = SeriesAdapter(object : SeriesClickListener{
             override fun onSeriesClick(series: Series) {
-
+                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment(series.id.toString(),"series")
+                findNavController().safeNavigate(action)
             }
         })
 
         comicsAdapter = ComicsAdapter(object : ComicClickListener{
             override fun onComicClick(comic: Comic) {
-
+                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment(comic.id.toString(),"comics")
+                findNavController().safeNavigate(action)
             }
 
         })
 
         storiesAdapter = StoriesAdapter(object : StoriesClickListener{
             override fun onStoriesClick(stories: Stories) {
-
+                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment(stories.id.toString(),"stories")
+                findNavController().safeNavigate(action)
             }
 
         })
 
         eventsAdapter = EventsAdapter(object : EventsClickListener{
             override fun onEventsClick(events: Events) {
-
+                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment(events.id.toString(),"events")
+                findNavController().safeNavigate(action)
             }
 
         })

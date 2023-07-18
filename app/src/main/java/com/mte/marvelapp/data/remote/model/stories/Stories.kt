@@ -8,7 +8,7 @@ data class Stories(
 //    val characters: Characters,
 //    val comics: Comics,
 //    val creators: Creators,
-//    val description: String,
+    val description: String,
 //    val events: Events,
     @Json(name = "id")
     val id: Int,

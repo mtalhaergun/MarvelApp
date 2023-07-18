@@ -26,5 +26,9 @@
             android:name="id"
             app:argType="string"
             app:nullable="true" />
+        <argument
+            android:name="category"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 </navigation>

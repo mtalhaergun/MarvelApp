@@ -8,7 +8,7 @@ data class Events(
 //    val characters: Characters,
 //    val comics: Comics,
 //    val creators: Creators,
-//    val description: String,
+    val description: String,
 //    val end: String,
     @Json(name = "id")
     val id: Int,
