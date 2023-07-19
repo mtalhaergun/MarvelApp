@@ -6,11 +6,11 @@
 
     <data>
         <variable
-            name="detail"
-            type="com.mte.marvelapp.data.remote.model.detail.DetailModel" />
+            name="creators"
+            type="com.mte.marvelapp.data.remote.model.creator.Creator" />
         <variable
             name="clickListener"
-            type="com.mte.marvelapp.ui.details.adapter.listener.DetailsRecyclerClickListener" />
+            type="com.mte.marvelapp.ui.home.adapter.listener.CreatorsClickListener" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -19,7 +19,7 @@
         app:cardCornerRadius="@dimen/card_corner_radius"
         app:strokeWidth="0dp"
         android:layout_marginEnd="@dimen/card_margin"
-        android:onClick="@{() -> clickListener.onDetailsRecyclerClick(detail)}">
+        android:onClick="@{() -> clickListener.onCreatorsClick(creators)}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -27,10 +27,10 @@
             >
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/detail_card_image"
+                android:id="@+id/card_image"
                 android:layout_width="@dimen/card_image_width"
                 android:layout_height="@dimen/card_image_height"
-                loadImage="@{detail.url}"
+                loadImage="@{creators.thumbnail.path + `/portrait_xlarge` + `.` + creators.thumbnail.extension}"
                 android:scaleType="fitXY"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -51,19 +51,19 @@
                 />
 
             <TextView
-                android:id="@+id/detail_card_name"
+                android:id="@+id/creators_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="@dimen/card_text_margin"
                 android:fontFamily="@font/font_gilroy_medium"
-                android:text="@{detail.title}"
+                android:text="@{creators.fullName}"
                 android:textColor="@color/primary_white"
                 android:textSize="@dimen/hero_name_size"
                 android:maxLines="@integer/max_lines"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/detail_card_image"
+                app:layout_constraintEnd_toStartOf="@+id/card_image"
                 app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,6 +17,7 @@ object Libs {
         const val viewModelLifeCycle = "androidx.lifecycle:lifecycle-viewmodel-ktx:" + Versions.viewModel
         const val dataStore = "androidx.datastore:datastore-preferences:" + Versions.dataStore
         const val dataStoreCore = "androidx.datastore:datastore-core:" + Versions.dataStore
+        const val paging = "androidx.paging:paging-runtime-ktx:" + Versions.paging
     }
 
     object Google{

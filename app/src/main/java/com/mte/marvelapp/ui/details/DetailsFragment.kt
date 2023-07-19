@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.ScrollView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.core.view.ViewCompat
@@ -22,18 +21,31 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.mte.marvelapp.R
-import com.mte.marvelapp.data.remote.model.detail.DetailModel
+import com.mte.marvelapp.data.remote.model.character.Character
+import com.mte.marvelapp.data.remote.model.comic.Comic
+import com.mte.marvelapp.data.remote.model.creator.Creator
+import com.mte.marvelapp.data.remote.model.event.Events
+import com.mte.marvelapp.data.remote.model.series.Series
+import com.mte.marvelapp.data.remote.model.stories.Stories
 import com.mte.marvelapp.databinding.FragmentDetailsBinding
-import com.mte.marvelapp.ui.details.adapter.DetailsAdapter
-import com.mte.marvelapp.ui.details.adapter.listener.DetailsRecyclerClickListener
-import com.mte.marvelapp.ui.home.HomeFragmentDirections
+import com.mte.marvelapp.ui.home.adapter.CharacterAdapter
+import com.mte.marvelapp.ui.home.adapter.ComicsAdapter
+import com.mte.marvelapp.ui.home.adapter.CreatorsAdapter
+import com.mte.marvelapp.ui.home.adapter.EventsAdapter
+import com.mte.marvelapp.ui.home.adapter.SeriesAdapter
+import com.mte.marvelapp.ui.home.adapter.StoriesAdapter
+import com.mte.marvelapp.ui.home.adapter.listener.CharacterClickListener
+import com.mte.marvelapp.ui.home.adapter.listener.ComicClickListener
+import com.mte.marvelapp.ui.home.adapter.listener.CreatorsClickListener
+import com.mte.marvelapp.ui.home.adapter.listener.EventsClickListener
+import com.mte.marvelapp.ui.home.adapter.listener.SeriesClickListener
+import com.mte.marvelapp.ui.home.adapter.listener.StoriesClickListener
 import com.mte.marvelapp.ui.home.uistate.CharacterUiState
 import com.mte.marvelapp.ui.home.uistate.ComicsUiState
 import com.mte.marvelapp.ui.home.uistate.CreatorsUiState
 import com.mte.marvelapp.ui.home.uistate.EventsUiState
 import com.mte.marvelapp.ui.home.uistate.SeriesUiState
 import com.mte.marvelapp.ui.home.uistate.StoriesUiState
-import com.mte.marvelapp.utils.extensions.safeNavigate
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -46,7 +58,12 @@ class DetailsFragment : Fragment() {
 
     private val args : DetailsFragmentArgs by navArgs()
 
-    private lateinit var detailsAdapter: DetailsAdapter
+    private lateinit var characterAdapter: CharacterAdapter
+    private lateinit var seriesAdapter: SeriesAdapter
+    private lateinit var comicsAdapter: ComicsAdapter
+    private lateinit var storiesAdapter: StoriesAdapter
+    private lateinit var eventsAdapter : EventsAdapter
+    private lateinit var creatorsAdapter: CreatorsAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,14 +88,48 @@ class DetailsFragment : Fragment() {
     }
 
     private fun setupRecyclerView() = with(binding) {
-        detailsAdapter = DetailsAdapter(object : DetailsRecyclerClickListener{
-            override fun onDetailsRecyclerClick(detail: DetailModel) {
-                    val action = DetailsFragmentDirections.actionDetailsFragmentSelf(detail.id.toString(),detail.category)
-                    findNavController().navigate(action)
+        characterAdapter = CharacterAdapter(object : CharacterClickListener{
+            override fun onCharacterClick(character: Character) {
+                val action = DetailsFragmentDirections.actionDetailsFragmentSelf(character.id.toString(),"characters")
+                findNavController().navigate(action)
             }
         })
 
-        rvDetail.adapter = detailsAdapter
+        seriesAdapter = SeriesAdapter(object : SeriesClickListener{
+            override fun onSeriesClick(series: Series) {
+                val action = DetailsFragmentDirections.actionDetailsFragmentSelf(series.id.toString(),"series")
+                findNavController().navigate(action)
+            }
+        })
+
+        comicsAdapter = ComicsAdapter(object : ComicClickListener{
+            override fun onComicClick(comic: Comic) {
+                val action = DetailsFragmentDirections.actionDetailsFragmentSelf(comic.id.toString(),"comics")
+                findNavController().navigate(action)
+            }
+        })
+
+        storiesAdapter = StoriesAdapter(object : StoriesClickListener{
+            override fun onStoriesClick(stories: Stories) {
+                val action = DetailsFragmentDirections.actionDetailsFragmentSelf(stories.id.toString(),"stories")
+                findNavController().navigate(action)
+            }
+        })
+
+        eventsAdapter = EventsAdapter(object : EventsClickListener{
+            override fun onEventsClick(events: Events) {
+                val action = DetailsFragmentDirections.actionDetailsFragmentSelf(events.id.toString(),"events")
+                findNavController().navigate(action)
+            }
+        })
+
+        creatorsAdapter = CreatorsAdapter(object : CreatorsClickListener{
+            override fun onCreatorsClick(creators: Creator) {
+                val action = DetailsFragmentDirections.actionDetailsFragmentSelf(creators.id.toString(),"creators")
+                findNavController().navigate(action)
+            }
+        })
+
     }
 
     private fun observeEvents() = with(binding){
@@ -214,13 +265,8 @@ class DetailsFragment : Fragment() {
                 }
                 is CharacterUiState.Success -> {
                     state.data?.let {
-                        val detailList : MutableList<DetailModel> = mutableListOf()
-                        for(detail in state.data){
-                            val model = DetailModel(detail.id,detail.name,detail.thumbnail.path + "/portrait_xlarge." + detail.thumbnail.extension,"characters")
-                            detailList.add(model)
-                        }
                         pbRecycler.visibility = View.GONE
-                        detailsAdapter.listDetail = detailList
+                        characterAdapter.characters = state.data
                         rvDetail.visibility = View.VISIBLE
                     }
                 }
@@ -238,13 +284,8 @@ class DetailsFragment : Fragment() {
                 }
                 is SeriesUiState.Success -> {
                     state.data?.let {
-                        val detailList : MutableList<DetailModel> = mutableListOf()
-                        for(detail in state.data){
-                            val model = DetailModel(detail.id,detail.title,detail.thumbnail.path + "/portrait_xlarge." + detail.thumbnail.extension,"series")
-                            detailList.add(model)
-                        }
                         pbRecycler.visibility = View.GONE
-                        detailsAdapter.listDetail = detailList
+                        seriesAdapter.series = state.data
                         rvDetail.visibility = View.VISIBLE
                     }
                 }
@@ -262,13 +303,8 @@ class DetailsFragment : Fragment() {
                 }
                 is ComicsUiState.Success -> {
                     state.data?.let {
-                        val detailList : MutableList<DetailModel> = mutableListOf()
-                        for(detail in state.data){
-                            val model = DetailModel(detail.id,detail.title,detail.thumbnail.path + "/portrait_xlarge." + detail.thumbnail.extension,"comics")
-                            detailList.add(model)
-                        }
                         pbRecycler.visibility = View.GONE
-                        detailsAdapter.listDetail = detailList
+                        comicsAdapter.comics = state.data
                         rvDetail.visibility = View.VISIBLE
                     }
                 }
@@ -286,13 +322,8 @@ class DetailsFragment : Fragment() {
                 }
                 is StoriesUiState.Success -> {
                     state.data?.let {
-                        val detailList : MutableList<DetailModel> = mutableListOf()
-                        for(detail in state.data){
-                            val model = DetailModel(detail.id,detail.title,detail.thumbnail?.path + "/portrait_xlarge." + detail.thumbnail?.extension,"stories")
-                            detailList.add(model)
-                        }
                         pbRecycler.visibility = View.GONE
-                        detailsAdapter.listDetail = detailList
+                        storiesAdapter.stories = state.data
                         rvDetail.visibility = View.VISIBLE
                     }
                 }
@@ -310,13 +341,8 @@ class DetailsFragment : Fragment() {
                 }
                 is EventsUiState.Success -> {
                     state.data?.let {
-                        val detailList : MutableList<DetailModel> = mutableListOf()
-                        for(detail in state.data){
-                            val model = DetailModel(detail.id,detail.title,detail.thumbnail.path + "/portrait_xlarge." + detail.thumbnail.extension,"events")
-                            detailList.add(model)
-                        }
                         pbRecycler.visibility = View.GONE
-                        detailsAdapter.listDetail = detailList
+                        eventsAdapter.events = state.data
                         rvDetail.visibility = View.VISIBLE
                     }
                 }
@@ -334,13 +360,8 @@ class DetailsFragment : Fragment() {
                 }
                 is CreatorsUiState.Success -> {
                     state.data?.let {
-                        val detailList : MutableList<DetailModel> = mutableListOf()
-                        for(detail in state.data){
-                            val model = DetailModel(detail.id,detail.fullName,detail.thumbnail.path + "/portrait_xlarge." + detail.thumbnail.extension,"creators")
-                            detailList.add(model)
-                        }
                         pbRecycler.visibility = View.GONE
-                        detailsAdapter.listDetail = detailList
+                        creatorsAdapter.creators = state.data
                         rvDetail.visibility = View.VISIBLE
                     }
                 }
@@ -360,24 +381,30 @@ class DetailsFragment : Fragment() {
         args.id?.let {id ->
             var selectedCategory = args.category
             if(selectedCategory == "characters"){
+                binding.rvDetail.adapter = seriesAdapter
                 fetchCharacterDetail(id)
                 fetchCharactersSeries(id)
             }else if (selectedCategory == "series"){
+                binding.rvDetail.adapter = storiesAdapter
                 fetchSeriesDetail(id)
                 fetchSeriesStories(id)
             }
             else if (selectedCategory == "comics"){
+                binding.rvDetail.adapter = creatorsAdapter
                 fetchComicDetail(id)
                 fetchComicsCreators(id)
             }
             else if (selectedCategory == "stories"){
+                binding.rvDetail.adapter = comicsAdapter
                 fetchStoriesDetail(id)
                 fetchStoriesComics(id)
             }
             else if (selectedCategory == "events"){
+                binding.rvDetail.adapter = characterAdapter
                 fetchEventDetail(id)
                 fetchEventsCharacters(id)
             }else if (selectedCategory == "creators"){
+                binding.rvDetail.adapter = comicsAdapter
                 fetchCreatorDetail(id)
                 fetchCreatorsComics(id)
             }else{

@@ -25,4 +25,5 @@ object Versions {
     const val coroutinesCore = "1.3.9"
     const val gson = "2.10.1"
     const val dataStore = "1.0.0-alpha01"
+    const val paging = "3.1.1"
 }

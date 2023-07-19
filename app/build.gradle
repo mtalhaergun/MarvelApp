@@ -96,4 +96,6 @@ dependencies {
     implementation Libs.AndroidX.dataStore
     implementation Libs.AndroidX.dataStoreCore
 
+    implementation Libs.AndroidX.paging
+
 }
