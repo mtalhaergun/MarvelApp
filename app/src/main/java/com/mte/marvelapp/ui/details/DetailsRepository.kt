@@ -32,28 +32,28 @@ class DetailsRepository @Inject constructor(private val apiService: ApiService) 
         apiService.fetchCreatorDetail(id,"1", API_KEY, HASH)
     }
 
-    suspend fun fetchCharactersSeries(id : String) = safeApiRequest {
-        apiService.fetchCharactersSeries(id,"1", API_KEY, HASH)
+    suspend fun fetchCharactersSeries(id : String, offset : Int) = safeApiRequest {
+        apiService.fetchCharactersSeries(id,offset,"1", API_KEY, HASH)
     }
 
-    suspend fun fetchSeriesStories(id : String) = safeApiRequest {
-        apiService.fetchSeriesStories(id,"1", API_KEY, HASH)
+    suspend fun fetchSeriesStories(id : String, offset : Int) = safeApiRequest {
+        apiService.fetchSeriesStories(id,offset,"1", API_KEY, HASH)
     }
 
-    suspend fun fetchComicsCreators(id : String) = safeApiRequest {
-        apiService.fetchComicsCreators(id,"1", API_KEY, HASH)
+    suspend fun fetchComicsCreators(id : String, offset : Int) = safeApiRequest {
+        apiService.fetchComicsCreators(id,offset,"1", API_KEY, HASH)
     }
 
-    suspend fun fetchStoriesComics(id : String) = safeApiRequest {
-        apiService.fetchStoriesComics(id,"1", API_KEY, HASH)
+    suspend fun fetchStoriesComics(id : String, offset : Int) = safeApiRequest {
+        apiService.fetchStoriesComics(id,offset,"1", API_KEY, HASH)
     }
 
-    suspend fun fetchEventsCharacters(id : String) = safeApiRequest {
-        apiService.fetchEventsCharacters(id,"1", API_KEY, HASH)
+    suspend fun fetchEventsCharacters(id : String, offset : Int) = safeApiRequest {
+        apiService.fetchEventsCharacters(id,offset,"1", API_KEY, HASH)
     }
 
-    suspend fun fetchCreatorsComics(id : String) = safeApiRequest {
-        apiService.fetchCreatorsComics(id,"1", API_KEY, HASH)
+    suspend fun fetchCreatorsEvents(id : String, offset : Int) = safeApiRequest {
+        apiService.fetchCreatorsEvents(id,offset,"1", API_KEY, HASH)
     }
 
 }

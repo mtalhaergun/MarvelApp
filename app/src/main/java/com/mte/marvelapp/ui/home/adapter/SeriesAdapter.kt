@@ -2,30 +2,27 @@ package com.mte.marvelapp.ui.home.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mte.marvelapp.data.remote.model.series.Series
 import com.mte.marvelapp.databinding.RecyclerSeriesLayoutBinding
 import com.mte.marvelapp.ui.home.adapter.listener.SeriesClickListener
 
-class SeriesAdapter(private val seriesClickListener: SeriesClickListener) : RecyclerView.Adapter<SeriesAdapter.SeriesViewHolder>() {
+class SeriesAdapter(private val seriesClickListener: SeriesClickListener) : PagingDataAdapter<Series, SeriesAdapter.SeriesViewHolder>(diffUtil) {
 
-    private val diffUtil = object : DiffUtil.ItemCallback<Series>(){
-        override fun areItemsTheSame(oldItem: Series, newItem: Series): Boolean {
-            return oldItem == newItem
+    companion object{
+        private val diffUtil = object : DiffUtil.ItemCallback<Series>(){
+            override fun areItemsTheSame(oldItem: Series, newItem: Series): Boolean {
+                return oldItem == newItem
+            }
+
+            override fun areContentsTheSame(oldItem: Series, newItem: Series): Boolean {
+                return oldItem == newItem
+            }
+
         }
-
-        override fun areContentsTheSame(oldItem: Series, newItem: Series): Boolean {
-            return oldItem == newItem
-        }
-
     }
-
-    private val diffList = AsyncListDiffer(this,diffUtil)
-    var series : List<Series>
-        get() = diffList.currentList
-        set(value) = diffList.submitList(value)
 
     class SeriesViewHolder (private val binding : RecyclerSeriesLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(series : Series, seriesClickListener: SeriesClickListener){
@@ -41,10 +38,10 @@ class SeriesAdapter(private val seriesClickListener: SeriesClickListener) : Recy
     }
 
     override fun onBindViewHolder(holder: SeriesViewHolder, position: Int) {
-        holder.bind(series[position],seriesClickListener)
+        val currentItem = getItem(position)
+        if (currentItem != null) {
+            holder.bind(currentItem,seriesClickListener)
+        }
     }
 
-    override fun getItemCount(): Int {
-        return series.size
-    }
 }

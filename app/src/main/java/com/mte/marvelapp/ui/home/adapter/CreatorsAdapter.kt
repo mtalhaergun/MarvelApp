@@ -2,32 +2,27 @@ package com.mte.marvelapp.ui.home.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mte.marvelapp.data.remote.model.creator.Creator
 import com.mte.marvelapp.databinding.RecyclerCreatorsLayoutBinding
-import com.mte.marvelapp.databinding.RecyclerStoriesLayoutBinding
 import com.mte.marvelapp.ui.home.adapter.listener.CreatorsClickListener
 
-class CreatorsAdapter  (private val creatorsClickListener: CreatorsClickListener) : RecyclerView.Adapter<CreatorsAdapter.CreatorsViewHolder>() {
+class CreatorsAdapter  (private val creatorsClickListener: CreatorsClickListener) : PagingDataAdapter<Creator, CreatorsAdapter.CreatorsViewHolder>(diffUtil) {
 
-    private val diffUtil = object : DiffUtil.ItemCallback<Creator>(){
-        override fun areItemsTheSame(oldItem: Creator, newItem: Creator): Boolean {
-            return oldItem == newItem
+    companion object{
+        private val diffUtil = object : DiffUtil.ItemCallback<Creator>(){
+            override fun areItemsTheSame(oldItem: Creator, newItem: Creator): Boolean {
+                return oldItem == newItem
+            }
+
+            override fun areContentsTheSame(oldItem: Creator, newItem: Creator): Boolean {
+                return oldItem == newItem
+            }
+
         }
-
-        override fun areContentsTheSame(oldItem: Creator, newItem: Creator): Boolean {
-            return oldItem == newItem
-        }
-
     }
-
-    private val diffList = AsyncListDiffer(this,diffUtil)
-    var creators : List<Creator>
-        get() = diffList.currentList
-        set(value) = diffList.submitList(value)
-
 
     class CreatorsViewHolder (private val binding : RecyclerCreatorsLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind (creators: Creator, creatorsClickListener: CreatorsClickListener){
@@ -43,11 +38,10 @@ class CreatorsAdapter  (private val creatorsClickListener: CreatorsClickListener
     }
 
     override fun onBindViewHolder(holder: CreatorsViewHolder, position: Int) {
-        holder.bind(creators[position],creatorsClickListener)
-    }
-
-    override fun getItemCount(): Int {
-        return creators.size
+        val currentItem = getItem(position)
+        if (currentItem != null) {
+            holder.bind(currentItem,creatorsClickListener)
+        }
     }
 
 }

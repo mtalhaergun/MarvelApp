@@ -13,6 +13,7 @@ import androidx.core.graphics.ColorUtils
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -47,6 +48,8 @@ import com.mte.marvelapp.ui.home.uistate.EventsUiState
 import com.mte.marvelapp.ui.home.uistate.SeriesUiState
 import com.mte.marvelapp.ui.home.uistate.StoriesUiState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DetailsFragment : Fragment() {
@@ -247,7 +250,7 @@ class DetailsFragment : Fragment() {
 
                     detailTitle.text = this.fullName
                     detailDescription.text = ""
-                    rvTitle.text = "Comics"
+                    rvTitle.text = "Events"
                     statsCharacter.text = "0"
                     statsEvents.text = this.events.available.toString()
                     statsComics.text = this.comics.available.toString()
@@ -257,6 +260,14 @@ class DetailsFragment : Fragment() {
             }
         })
 
+        lifecycleScope.launch{
+            viewModel.characters.collectLatest { characters ->
+                if (characters != null) {
+                    characterAdapter.submitData(characters)
+                }
+            }
+        }
+
         viewModel.characterUiState.observe(viewLifecycleOwner, Observer { state ->
             when(state){
                 is CharacterUiState.Loading -> {
@@ -264,17 +275,23 @@ class DetailsFragment : Fragment() {
                     rvDetail.visibility = View.GONE
                 }
                 is CharacterUiState.Success -> {
-                    state.data?.let {
-                        pbRecycler.visibility = View.GONE
-                        characterAdapter.characters = state.data
-                        rvDetail.visibility = View.VISIBLE
-                    }
+                    pbRecycler.visibility = View.GONE
+                    rvDetail.visibility = View.VISIBLE
+
                 }
                 is CharacterUiState.Error -> {
 
                 }
             }
         })
+
+        lifecycleScope.launch{
+            viewModel.series.collectLatest { series ->
+                if (series != null) {
+                    seriesAdapter.submitData(series)
+                }
+            }
+        }
 
         viewModel.seriesUiState.observe(viewLifecycleOwner, Observer { state ->
             when(state){
@@ -283,17 +300,24 @@ class DetailsFragment : Fragment() {
                     rvDetail.visibility = View.GONE
                 }
                 is SeriesUiState.Success -> {
-                    state.data?.let {
-                        pbRecycler.visibility = View.GONE
-                        seriesAdapter.series = state.data
-                        rvDetail.visibility = View.VISIBLE
-                    }
+
+                    pbRecycler.visibility = View.GONE
+                    rvDetail.visibility = View.VISIBLE
+
                 }
                 is SeriesUiState.Error -> {
 
                 }
             }
         })
+
+        lifecycleScope.launch{
+            viewModel.comics.collectLatest { comics ->
+                if (comics != null) {
+                    comicsAdapter.submitData(comics)
+                }
+            }
+        }
 
         viewModel.comicsUiState.observe(viewLifecycleOwner, Observer { state ->
             when(state){
@@ -302,17 +326,22 @@ class DetailsFragment : Fragment() {
                     rvDetail.visibility = View.GONE
                 }
                 is ComicsUiState.Success -> {
-                    state.data?.let {
                         pbRecycler.visibility = View.GONE
-                        comicsAdapter.comics = state.data
                         rvDetail.visibility = View.VISIBLE
-                    }
                 }
                 is ComicsUiState.Error -> {
 
                 }
             }
         })
+
+        lifecycleScope.launch{
+            viewModel.stories.collectLatest { stories ->
+                if (stories != null) {
+                    storiesAdapter.submitData(stories)
+                }
+            }
+        }
 
         viewModel.storiesUiState.observe(viewLifecycleOwner, Observer { state ->
             when(state){
@@ -321,17 +350,22 @@ class DetailsFragment : Fragment() {
                     rvDetail.visibility = View.GONE
                 }
                 is StoriesUiState.Success -> {
-                    state.data?.let {
                         pbRecycler.visibility = View.GONE
-                        storiesAdapter.stories = state.data
                         rvDetail.visibility = View.VISIBLE
-                    }
                 }
                 is StoriesUiState.Error -> {
 
                 }
             }
         })
+
+        lifecycleScope.launch{
+            viewModel.events.collectLatest { events ->
+                if (events != null) {
+                    eventsAdapter.submitData(events)
+                }
+            }
+        }
 
         viewModel.eventsUiState.observe(viewLifecycleOwner, Observer { state ->
             when(state){
@@ -340,17 +374,22 @@ class DetailsFragment : Fragment() {
                     rvDetail.visibility = View.GONE
                 }
                 is EventsUiState.Success -> {
-                    state.data?.let {
                         pbRecycler.visibility = View.GONE
-                        eventsAdapter.events = state.data
                         rvDetail.visibility = View.VISIBLE
-                    }
                 }
                 is EventsUiState.Error -> {
 
                 }
             }
         })
+
+        lifecycleScope.launch{
+            viewModel.creators.collectLatest { creators ->
+                if (creators != null) {
+                    creatorsAdapter.submitData(creators)
+                }
+            }
+        }
 
         viewModel.creatorsUiState.observe(viewLifecycleOwner, Observer { state ->
             when(state){
@@ -359,11 +398,8 @@ class DetailsFragment : Fragment() {
                     rvDetail.visibility = View.GONE
                 }
                 is CreatorsUiState.Success -> {
-                    state.data?.let {
                         pbRecycler.visibility = View.GONE
-                        creatorsAdapter.creators = state.data
                         rvDetail.visibility = View.VISIBLE
-                    }
                 }
                 is CreatorsUiState.Error -> {
 
@@ -381,32 +417,32 @@ class DetailsFragment : Fragment() {
         args.id?.let {id ->
             var selectedCategory = args.category
             if(selectedCategory == "characters"){
-                binding.rvDetail.adapter = seriesAdapter
                 fetchCharacterDetail(id)
                 fetchCharactersSeries(id)
+                binding.rvDetail.adapter = seriesAdapter
             }else if (selectedCategory == "series"){
-                binding.rvDetail.adapter = storiesAdapter
                 fetchSeriesDetail(id)
                 fetchSeriesStories(id)
+                binding.rvDetail.adapter = storiesAdapter
             }
             else if (selectedCategory == "comics"){
-                binding.rvDetail.adapter = creatorsAdapter
                 fetchComicDetail(id)
                 fetchComicsCreators(id)
+                binding.rvDetail.adapter = creatorsAdapter
             }
             else if (selectedCategory == "stories"){
-                binding.rvDetail.adapter = comicsAdapter
                 fetchStoriesDetail(id)
                 fetchStoriesComics(id)
+                binding.rvDetail.adapter = comicsAdapter
             }
             else if (selectedCategory == "events"){
-                binding.rvDetail.adapter = characterAdapter
                 fetchEventDetail(id)
                 fetchEventsCharacters(id)
+                binding.rvDetail.adapter = characterAdapter
             }else if (selectedCategory == "creators"){
-                binding.rvDetail.adapter = comicsAdapter
                 fetchCreatorDetail(id)
-                fetchCreatorsComics(id)
+                fetchCreatorsEvents(id)
+                binding.rvDetail.adapter = eventsAdapter
             }else{
 
             }

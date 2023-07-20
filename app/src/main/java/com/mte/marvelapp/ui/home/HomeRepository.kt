@@ -8,23 +8,23 @@ import javax.inject.Inject
 
 class HomeRepository @Inject constructor(private val apiService: ApiService) : BaseRepository() {
 
-    suspend fun fetchCharacters() = safeApiRequest {
-        apiService.fetchCharacters("1",API_KEY,HASH)
+    suspend fun fetchCharacters(offset : Int) = safeApiRequest {
+        apiService.fetchCharacters(offset,"1",API_KEY,HASH)
     }
 
-    suspend fun fetchSeries() = safeApiRequest {
-        apiService.fetchSeries("1",API_KEY,HASH)
+    suspend fun fetchSeries(offset : Int) = safeApiRequest {
+        apiService.fetchSeries(offset,"1",API_KEY,HASH)
     }
 
-    suspend fun fetchComics() = safeApiRequest {
-        apiService.fetchComics("1", API_KEY, HASH)
+    suspend fun fetchComics(offset : Int) = safeApiRequest {
+        apiService.fetchComics(offset,"1", API_KEY, HASH)
     }
 
-    suspend fun fetchStories() = safeApiRequest {
-        apiService.fetchStories("1", API_KEY, HASH)
+    suspend fun fetchStories(offset : Int) = safeApiRequest {
+        apiService.fetchStories(offset,"1", API_KEY, HASH)
     }
 
-    suspend fun fetchEvents() = safeApiRequest {
-        apiService.fetchEvents("1", API_KEY, HASH)
+    suspend fun fetchEvents(offset : Int) = safeApiRequest {
+        apiService.fetchEvents(offset,"1", API_KEY, HASH)
     }
 }

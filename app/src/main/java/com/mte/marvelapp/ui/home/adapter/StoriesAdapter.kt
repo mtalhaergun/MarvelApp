@@ -2,31 +2,27 @@ package com.mte.marvelapp.ui.home.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mte.marvelapp.data.remote.model.stories.Stories
 import com.mte.marvelapp.databinding.RecyclerStoriesLayoutBinding
 import com.mte.marvelapp.ui.home.adapter.listener.StoriesClickListener
 
-class StoriesAdapter (private val storiesClickListener: StoriesClickListener) : RecyclerView.Adapter<StoriesAdapter.StoriesViewHolder>() {
+class StoriesAdapter (private val storiesClickListener: StoriesClickListener) : PagingDataAdapter<Stories, StoriesAdapter.StoriesViewHolder>(diffUtil){
 
-    private val diffUtil = object : DiffUtil.ItemCallback<Stories>(){
-        override fun areItemsTheSame(oldItem: Stories, newItem: Stories): Boolean {
-            return oldItem == newItem
+    companion object{
+        private val diffUtil = object : DiffUtil.ItemCallback<Stories>(){
+            override fun areItemsTheSame(oldItem: Stories, newItem: Stories): Boolean {
+                return oldItem == newItem
+            }
+
+            override fun areContentsTheSame(oldItem: Stories, newItem: Stories): Boolean {
+                return oldItem == newItem
+            }
+
         }
-
-        override fun areContentsTheSame(oldItem: Stories, newItem: Stories): Boolean {
-            return oldItem == newItem
-        }
-
     }
-
-    private val diffList = AsyncListDiffer(this,diffUtil)
-    var stories : List<Stories>
-        get() = diffList.currentList
-        set(value) = diffList.submitList(value)
-
 
     class StoriesViewHolder (private val binding : RecyclerStoriesLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind (stories: Stories,storiesClickListener: StoriesClickListener){
@@ -42,11 +38,10 @@ class StoriesAdapter (private val storiesClickListener: StoriesClickListener) : 
     }
 
     override fun onBindViewHolder(holder: StoriesViewHolder, position: Int) {
-        holder.bind(stories[position],storiesClickListener)
-    }
-
-    override fun getItemCount(): Int {
-        return stories.size
+        val currentItem = getItem(position)
+        if (currentItem != null) {
+            holder.bind(currentItem,storiesClickListener)
+        }
     }
 
 }

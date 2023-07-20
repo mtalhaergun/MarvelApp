@@ -2,7 +2,7 @@ package com.mte.marvelapp.ui.home.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mte.marvelapp.data.remote.model.event.Events
@@ -10,23 +10,20 @@ import com.mte.marvelapp.databinding.RecyclerEventsLayoutBinding
 import com.mte.marvelapp.ui.home.adapter.listener.EventsClickListener
 
 
-class EventsAdapter (private val eventsClickListener : EventsClickListener) : RecyclerView.Adapter<EventsAdapter.EventsViewHolder>() {
+class EventsAdapter (private val eventsClickListener : EventsClickListener) : PagingDataAdapter<Events, EventsAdapter.EventsViewHolder>(diffUtil) {
 
-    private val diffUtil = object : DiffUtil.ItemCallback<Events>(){
-        override fun areItemsTheSame(oldItem: Events, newItem: Events): Boolean {
-            return oldItem == newItem
+    companion object{
+        private val diffUtil = object : DiffUtil.ItemCallback<Events>(){
+            override fun areItemsTheSame(oldItem: Events, newItem: Events): Boolean {
+                return oldItem == newItem
+            }
+
+            override fun areContentsTheSame(oldItem: Events, newItem: Events): Boolean {
+                return oldItem == newItem
+            }
+
         }
-
-        override fun areContentsTheSame(oldItem: Events, newItem: Events): Boolean {
-            return oldItem == newItem
-        }
-
     }
-
-    private val diffList = AsyncListDiffer(this,diffUtil)
-    var events : List<Events>
-        get() = diffList.currentList
-        set(value) = diffList.submitList(value)
 
     class EventsViewHolder (private val binding : RecyclerEventsLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind (events: Events, eventsClickListener: EventsClickListener){
@@ -42,9 +39,10 @@ class EventsAdapter (private val eventsClickListener : EventsClickListener) : Re
     }
 
     override fun onBindViewHolder(holder: EventsViewHolder, position: Int) {
-        holder.bind(events[position],eventsClickListener)
+        val currentItem = getItem(position)
+        if (currentItem != null) {
+            holder.bind(currentItem,eventsClickListener)
+        }
     }
-    override fun getItemCount(): Int {
-        return events.size
-    }
+
 }

@@ -14,6 +14,7 @@ import retrofit2.http.Query
 interface ApiService {
     @GET("characters")
     suspend fun fetchCharacters(
+        @Query("offset") offset : Int,
         @Query("ts") ts: String,
         @Query("apikey") apikey: String,
         @Query("hash") hash : String
@@ -21,6 +22,7 @@ interface ApiService {
 
     @GET("series")
     suspend fun fetchSeries(
+        @Query("offset") offset: Int,
         @Query("ts") ts: String,
         @Query("apikey") apikey: String,
         @Query("hash") hash : String
@@ -28,6 +30,7 @@ interface ApiService {
 
     @GET("comics")
     suspend fun fetchComics(
+        @Query("offset") offset : Int,
         @Query("ts") ts: String,
         @Query("apikey") apikey: String,
         @Query("hash") hash : String
@@ -35,6 +38,7 @@ interface ApiService {
 
     @GET("stories")
     suspend fun fetchStories(
+        @Query("offset") offset : Int,
         @Query("ts") ts: String,
         @Query("apikey") apikey: String,
         @Query("hash") hash : String
@@ -42,6 +46,7 @@ interface ApiService {
 
     @GET("events")
     suspend fun fetchEvents(
+        @Query("offset") offset : Int,
         @Query("ts") ts: String,
         @Query("apikey") apikey: String,
         @Query("hash") hash : String
@@ -98,6 +103,7 @@ interface ApiService {
     @GET("characters/{id}/series")
     suspend fun fetchCharactersSeries(
         @Path("id") id : String,
+        @Query("offset") offset: Int,
         @Query("ts") ts: String,
         @Query("apikey") apikey: String,
         @Query("hash") hash : String
@@ -106,6 +112,7 @@ interface ApiService {
     @GET("series/{id}/stories")
     suspend fun fetchSeriesStories(
         @Path("id") id : String,
+        @Query("offset") offset: Int,
         @Query("ts") ts: String,
         @Query("apikey") apikey: String,
         @Query("hash") hash : String
@@ -114,6 +121,7 @@ interface ApiService {
     @GET("comics/{id}/creators")
     suspend fun fetchComicsCreators(
         @Path("id") id : String,
+        @Query("offset") offset: Int,
         @Query("ts") ts: String,
         @Query("apikey") apikey: String,
         @Query("hash") hash : String
@@ -122,6 +130,7 @@ interface ApiService {
     @GET("stories/{id}/comics")
     suspend fun fetchStoriesComics(
         @Path("id") id : String,
+        @Query("offset") offset: Int,
         @Query("ts") ts: String,
         @Query("apikey") apikey: String,
         @Query("hash") hash : String
@@ -130,18 +139,20 @@ interface ApiService {
     @GET("events/{id}/characters")
     suspend fun fetchEventsCharacters(
         @Path("id") id : String,
+        @Query("offset") offset: Int,
         @Query("ts") ts: String,
         @Query("apikey") apikey: String,
         @Query("hash") hash : String
     ) : CharacterResponse
 
-    @GET("creators/{id}/comics")
-    suspend fun fetchCreatorsComics(
+    @GET("creators/{id}/events")
+    suspend fun fetchCreatorsEvents(
         @Path("id") id : String,
+        @Query("offset") offset: Int,
         @Query("ts") ts: String,
         @Query("apikey") apikey: String,
         @Query("hash") hash : String
-    ) : ComicResponse
+    ) : EventsResponse
 
 
 }
