@@ -9,6 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ConcatAdapter
+import com.mte.marvelapp.R
 import com.mte.marvelapp.data.remote.model.character.Character
 import com.mte.marvelapp.data.remote.model.comic.Comic
 import com.mte.marvelapp.data.remote.model.event.Events
@@ -18,6 +20,7 @@ import com.mte.marvelapp.databinding.FragmentHomeBinding
 import com.mte.marvelapp.ui.home.adapter.CharacterAdapter
 import com.mte.marvelapp.ui.home.adapter.ComicsAdapter
 import com.mte.marvelapp.ui.home.adapter.EventsAdapter
+import com.mte.marvelapp.ui.home.adapter.HeaderAdapter
 import com.mte.marvelapp.ui.home.adapter.SeriesAdapter
 import com.mte.marvelapp.ui.home.adapter.StoriesAdapter
 import com.mte.marvelapp.ui.home.adapter.listener.CharacterClickListener
@@ -44,11 +47,17 @@ class HomeFragment : Fragment() {
 
     private val viewModel : HomeViewModel by viewModels()
 
+    private lateinit var concatAdapter: ConcatAdapter
     private lateinit var characterAdapter: CharacterAdapter
     private lateinit var seriesAdapter: SeriesAdapter
     private lateinit var comicsAdapter: ComicsAdapter
     private lateinit var storiesAdapter: StoriesAdapter
     private lateinit var eventsAdapter : EventsAdapter
+    private val headerCharacterAdapter by lazy { HeaderAdapter(getString(R.string.heroes_title))}
+    private val headerSeriesAdapter by lazy { HeaderAdapter(getString(R.string.series_title))}
+    private val headerComicsAdapter by lazy { HeaderAdapter(getString(R.string.comics_title))}
+    private val headerStoriesAdapter by lazy { HeaderAdapter(getString(R.string.stories_title))}
+    private val headerEventsAdapter by lazy { HeaderAdapter(getString(R.string.events_title))}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -234,6 +243,21 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupRecyclerViews() = with(binding){
+
+//        concatAdapter = ConcatAdapter(
+//            headerCharacterAdapter,
+//            characterAdapter,
+//            headerSeriesAdapter,
+//            seriesAdapter,
+//            headerComicsAdapter,
+//            comicsAdapter,
+//            headerStoriesAdapter,
+//            storiesAdapter,
+//            headerEventsAdapter,
+//            eventsAdapter
+//        )
+//
+//        rvCategories.adapter = concatAdapter
 
         rvHeroes.adapter = characterAdapter
         rvSeries.adapter = seriesAdapter
