@@ -1,6 +1,7 @@
 package com.mte.marvelapp.ui.home
 
 import android.os.Bundle
+import android.os.Parcelable
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,11 +19,16 @@ import com.mte.marvelapp.data.remote.model.series.Series
 import com.mte.marvelapp.data.remote.model.stories.Stories
 import com.mte.marvelapp.databinding.FragmentHomeBinding
 import com.mte.marvelapp.ui.home.adapter.CharacterAdapter
+import com.mte.marvelapp.ui.home.adapter.CharacterRecyclerAdapter
 import com.mte.marvelapp.ui.home.adapter.ComicsAdapter
+import com.mte.marvelapp.ui.home.adapter.ComicsRecyclerAdapter
 import com.mte.marvelapp.ui.home.adapter.EventsAdapter
+import com.mte.marvelapp.ui.home.adapter.EventsRecyclerAdapter
 import com.mte.marvelapp.ui.home.adapter.HeaderAdapter
 import com.mte.marvelapp.ui.home.adapter.SeriesAdapter
+import com.mte.marvelapp.ui.home.adapter.SeriesRecyclerAdapter
 import com.mte.marvelapp.ui.home.adapter.StoriesAdapter
+import com.mte.marvelapp.ui.home.adapter.StoriesRecyclerAdapter
 import com.mte.marvelapp.ui.home.adapter.listener.CharacterClickListener
 import com.mte.marvelapp.ui.home.adapter.listener.ComicClickListener
 import com.mte.marvelapp.ui.home.adapter.listener.EventsClickListener
@@ -47,19 +53,25 @@ class HomeFragment : Fragment() {
 
     private val viewModel : HomeViewModel by viewModels()
 
-    private lateinit var concatAdapter: ConcatAdapter
     private lateinit var characterAdapter: CharacterAdapter
     private lateinit var seriesAdapter: SeriesAdapter
     private lateinit var comicsAdapter: ComicsAdapter
     private lateinit var storiesAdapter: StoriesAdapter
     private lateinit var eventsAdapter : EventsAdapter
-    private val headerCharacterAdapter by lazy { HeaderAdapter(getString(R.string.heroes_title))}
-    private val headerSeriesAdapter by lazy { HeaderAdapter(getString(R.string.series_title))}
-    private val headerComicsAdapter by lazy { HeaderAdapter(getString(R.string.comics_title))}
-    private val headerStoriesAdapter by lazy { HeaderAdapter(getString(R.string.stories_title))}
-    private val headerEventsAdapter by lazy { HeaderAdapter(getString(R.string.events_title))}
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+//    private lateinit var concatAdapter: ConcatAdapter
+//    private lateinit var characterRecyclerAdapter: CharacterRecyclerAdapter
+//    private lateinit var seriesRecyclerAdapter: SeriesRecyclerAdapter
+//    private lateinit var comicsRecyclerAdapter: ComicsRecyclerAdapter
+//    private lateinit var storiesRecyclerAdapter: StoriesRecyclerAdapter
+//    private lateinit var eventsRecyclerAdapter : EventsRecyclerAdapter
+//    private val headerCharacterAdapter by lazy { HeaderAdapter(getString(R.string.heroes_title))}
+//    private val headerSeriesAdapter by lazy { HeaderAdapter(getString(R.string.series_title))}
+//    private val headerComicsAdapter by lazy { HeaderAdapter(getString(R.string.comics_title))}
+//    private val headerStoriesAdapter by lazy { HeaderAdapter(getString(R.string.stories_title))}
+//    private val headerEventsAdapter by lazy { HeaderAdapter(getString(R.string.events_title))}
+
+        override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupAdapters()
     }
@@ -92,12 +104,12 @@ class HomeFragment : Fragment() {
         viewModel.characterUiState.observe(viewLifecycleOwner, Observer { state ->
             when(state){
                 is CharacterUiState.Loading -> {
-                    pbHeroes.visibility = View.VISIBLE
-                    rvHeroes.visibility = View.GONE
+//                    pbHeroes.visibility = View.VISIBLE
+//                    rvHeroes.visibility = View.GONE
                 }
                 is CharacterUiState.Success -> {
-                    pbHeroes.visibility = View.GONE
-                    rvHeroes.visibility = View.VISIBLE
+//                    pbHeroes.visibility = View.GONE
+//                    rvHeroes.visibility = View.VISIBLE
                 }
                 is CharacterUiState.Error -> {
 
@@ -116,12 +128,12 @@ class HomeFragment : Fragment() {
         viewModel.seriesUiState.observe(viewLifecycleOwner, Observer { state ->
             when(state){
                 is SeriesUiState.Loading -> {
-                    pbSeries.visibility = View.VISIBLE
-                    rvSeries.visibility = View.GONE
+//                    pbSeries.visibility = View.VISIBLE
+//                    rvSeries.visibility = View.GONE
                 }
                 is SeriesUiState.Success -> {
-                    pbSeries.visibility = View.GONE
-                    rvSeries.visibility = View.VISIBLE
+//                    pbSeries.visibility = View.GONE
+//                    rvSeries.visibility = View.VISIBLE
                 }
                 is SeriesUiState.Error -> {
 
@@ -140,12 +152,12 @@ class HomeFragment : Fragment() {
         viewModel.comicsUiState.observe(viewLifecycleOwner, Observer { state ->
             when(state){
                 is ComicsUiState.Loading -> {
-                    pbComics.visibility = View.VISIBLE
-                    rvComics.visibility = View.GONE
+//                    pbComics.visibility = View.VISIBLE
+//                    rvComics.visibility = View.GONE
                 }
                 is ComicsUiState.Success -> {
-                    pbComics.visibility = View.GONE
-                    rvComics.visibility = View.VISIBLE
+//                    pbComics.visibility = View.GONE
+//                    rvComics.visibility = View.VISIBLE
                 }
                 is ComicsUiState.Error -> {
 
@@ -164,12 +176,12 @@ class HomeFragment : Fragment() {
         viewModel.storiesUiState.observe(viewLifecycleOwner, Observer { state ->
             when(state){
                 is StoriesUiState.Loading -> {
-                    pbStories.visibility = View.VISIBLE
-                    rvStories.visibility = View.GONE
+//                    pbStories.visibility = View.VISIBLE
+//                    rvStories.visibility = View.GONE
                 }
                 is StoriesUiState.Success -> {
-                    pbStories.visibility = View.GONE
-                    rvStories.visibility = View.VISIBLE
+//                    pbStories.visibility = View.GONE
+//                    rvStories.visibility = View.VISIBLE
                 }
                 is StoriesUiState.Error -> {
 
@@ -188,12 +200,12 @@ class HomeFragment : Fragment() {
         viewModel.eventsUiState.observe(viewLifecycleOwner, Observer { state ->
             when(state){
                 is EventsUiState.Loading -> {
-                    pbEvents.visibility = View.VISIBLE
-                    rvEvents.visibility = View.GONE
+//                    pbEvents.visibility = View.VISIBLE
+//                    rvEvents.visibility = View.GONE
                 }
                 is EventsUiState.Success -> {
-                    pbEvents.visibility = View.GONE
-                    rvEvents.visibility = View.VISIBLE
+//                    pbEvents.visibility = View.GONE
+//                    rvEvents.visibility = View.VISIBLE
                 }
                 is EventsUiState.Error -> {
 
@@ -222,7 +234,6 @@ class HomeFragment : Fragment() {
                 val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment(comic.id.toString(),"comics")
                 findNavController().safeNavigate(action)
             }
-
         })
 
         storiesAdapter = StoriesAdapter(object : StoriesClickListener{
@@ -230,7 +241,6 @@ class HomeFragment : Fragment() {
                 val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment(stories.id.toString(),"stories")
                 findNavController().safeNavigate(action)
             }
-
         })
 
         eventsAdapter = EventsAdapter(object : EventsClickListener{
@@ -238,25 +248,35 @@ class HomeFragment : Fragment() {
                 val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment(events.id.toString(),"events")
                 findNavController().safeNavigate(action)
             }
-
         })
+
+//        characterRecyclerAdapter = CharacterRecyclerAdapter(characterAdapter)
+//
+//        seriesRecyclerAdapter = SeriesRecyclerAdapter(seriesAdapter)
+//
+//        comicsRecyclerAdapter = ComicsRecyclerAdapter(comicsAdapter)
+//
+//        storiesRecyclerAdapter = StoriesRecyclerAdapter(storiesAdapter)
+//
+//        eventsRecyclerAdapter = EventsRecyclerAdapter(eventsAdapter)
+//
+//        concatAdapter = ConcatAdapter(
+//            headerCharacterAdapter,
+//            characterRecyclerAdapter,
+//            headerSeriesAdapter,
+//            seriesRecyclerAdapter,
+//            headerComicsAdapter,
+//            comicsRecyclerAdapter,
+//            headerStoriesAdapter,
+//            storiesRecyclerAdapter,
+//            headerEventsAdapter,
+//            eventsRecyclerAdapter
+//        )
+
     }
 
     private fun setupRecyclerViews() = with(binding){
 
-//        concatAdapter = ConcatAdapter(
-//            headerCharacterAdapter,
-//            characterAdapter,
-//            headerSeriesAdapter,
-//            seriesAdapter,
-//            headerComicsAdapter,
-//            comicsAdapter,
-//            headerStoriesAdapter,
-//            storiesAdapter,
-//            headerEventsAdapter,
-//            eventsAdapter
-//        )
-//
 //        rvCategories.adapter = concatAdapter
 
         rvHeroes.adapter = characterAdapter
@@ -277,7 +297,6 @@ class HomeFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-
     }
 
     override fun onDestroyView() {
