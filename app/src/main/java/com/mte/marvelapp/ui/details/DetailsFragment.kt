@@ -3,12 +3,16 @@ package com.mte.marvelapp.ui.details
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.ColorUtils
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.viewModels
@@ -151,9 +155,21 @@ class DetailsFragment : Fragment() {
                     statsComics.text = this.comics.available.toString()
                     statsStories.text = this.stories.available.toString()
                     statsEvents.text = this.events.available.toString()
+
                     val color = ContextCompat.getColor(requireContext(),R.color.primary_red)
                     categoryHeroIcon.setColorFilter(color)
                     statsCharacterName.setTextColor(color)
+
+                    val textListSeries = createStatsBar(1)
+                    seriesStatsCount.text = spanTextColors(textListSeries[0],textListSeries[1])
+                    val textListComics = createStatsBar(this.comics.available)
+                    comicsStatsCount.text = spanTextColors(textListComics[0],textListComics[1])
+                    val textListStories = createStatsBar(this.stories.available)
+                    storiesStatsCount.text = spanTextColors(textListStories[0],textListStories[1])
+                    val textListEvents = createStatsBar(this.events.available)
+                    eventsStatsCount.text = spanTextColors(textListEvents[0],textListEvents[1])
+
+                    characterStatsBar.visibility = View.GONE
                 }
             }
         })
@@ -172,9 +188,21 @@ class DetailsFragment : Fragment() {
                     statsComics.text = this.comics.available.toString()
                     statsStories.text = this.stories.available.toString()
                     statsEvents.text = this.events.available.toString()
+
                     val color = ContextCompat.getColor(requireContext(),R.color.primary_red)
                     categoryVillainIcon.setColorFilter(color)
                     statsSeriesName.setTextColor(color)
+
+                    val textListCharacters = createStatsBar(this.characters.available)
+                    characterStatsCount.text = spanTextColors(textListCharacters[0],textListCharacters[1])
+                    val textListComics = createStatsBar(this.comics.available)
+                    comicsStatsCount.text = spanTextColors(textListComics[0],textListComics[1])
+                    val textListStories = createStatsBar(this.stories.available)
+                    storiesStatsCount.text = spanTextColors(textListStories[0],textListStories[1])
+                    val textListEvents = createStatsBar(this.events.available)
+                    eventsStatsCount.text = spanTextColors(textListEvents[0],textListEvents[1])
+
+                    seriesStatsBar.visibility = View.GONE
                 }
             }
         })
@@ -193,9 +221,21 @@ class DetailsFragment : Fragment() {
                     statsSeries.text = "1"
                     statsStories.text = this.stories.available.toString()
                     statsEvents.text = this.events.available.toString()
+
                     val color = ContextCompat.getColor(requireContext(),R.color.primary_red)
                     categoryAntiheroIcon.setColorFilter(color)
                     statsComicsName.setTextColor(color)
+
+                    val textListCharacters = createStatsBar(this.characters.available)
+                    characterStatsCount.text = spanTextColors(textListCharacters[0],textListCharacters[1])
+                    val textListSeries = createStatsBar(1)
+                    seriesStatsCount.text = spanTextColors(textListSeries[0],textListSeries[1])
+                    val textListStories = createStatsBar(this.stories.available)
+                    storiesStatsCount.text = spanTextColors(textListStories[0],textListStories[1])
+                    val textListEvents = createStatsBar(this.events.available)
+                    eventsStatsCount.text = spanTextColors(textListEvents[0],textListEvents[1])
+
+                    comicsStatsBar.visibility = View.GONE
                 }
             }
         })
@@ -214,9 +254,21 @@ class DetailsFragment : Fragment() {
                     statsComics.text = this.comics.available.toString()
                     statsSeries.text = this.series.available.toString()
                     statsEvents.text = this.events.available.toString()
+
                     val color = ContextCompat.getColor(requireContext(),R.color.primary_red)
                     categoryAlienIcon.setColorFilter(color)
                     statsStoriesName.setTextColor(color)
+
+                    val textListCharacters = createStatsBar(this.characters.available)
+                    characterStatsCount.text = spanTextColors(textListCharacters[0],textListCharacters[1])
+                    val textListSeries = createStatsBar(this.series.available)
+                    seriesStatsCount.text = spanTextColors(textListSeries[0],textListSeries[1])
+                    val textListComics = createStatsBar(this.comics.available)
+                    comicsStatsCount.text = spanTextColors(textListComics[0],textListComics[1])
+                    val textListEvents = createStatsBar(this.events.available)
+                    eventsStatsCount.text = spanTextColors(textListEvents[0],textListEvents[1])
+
+                    storiesStatsBar.visibility = View.GONE
                 }
             }
         })
@@ -235,9 +287,21 @@ class DetailsFragment : Fragment() {
                     statsComics.text = this.comics.available.toString()
                     statsSeries.text = this.series.available.toString()
                     statsStories.text = this.stories.available.toString()
+
                     val color = ContextCompat.getColor(requireContext(),R.color.primary_red)
                     categoryHumanIcon.setColorFilter(color)
                     statsEventsName.setTextColor(color)
+
+                    val textListCharacters = createStatsBar(this.characters.available)
+                    characterStatsCount.text = spanTextColors(textListCharacters[0],textListCharacters[1])
+                    val textListSeries = createStatsBar(this.series.available)
+                    seriesStatsCount.text = spanTextColors(textListSeries[0],textListSeries[1])
+                    val textListComics = createStatsBar(this.comics.available)
+                    comicsStatsCount.text = spanTextColors(textListComics[0],textListComics[1])
+                    val textListStories = createStatsBar(this.stories.available)
+                    storiesStatsCount.text = spanTextColors(textListStories[0],textListStories[1])
+
+                    eventsStatsBar.visibility = View.GONE
                 }
             }
         })
@@ -256,6 +320,18 @@ class DetailsFragment : Fragment() {
                     statsComics.text = this.comics.available.toString()
                     statsSeries.text = this.series.available.toString()
                     statsStories.text = this.stories.available.toString()
+
+                    val textListCharacters = createStatsBar(0)
+                    characterStatsCount.text = spanTextColors(textListCharacters[0],textListCharacters[1])
+                    val textListSeries = createStatsBar(this.series.available)
+                    seriesStatsCount.text = spanTextColors(textListSeries[0],textListSeries[1])
+                    val textListComics = createStatsBar(this.comics.available)
+                    comicsStatsCount.text = spanTextColors(textListComics[0],textListComics[1])
+                    val textListStories = createStatsBar(this.stories.available)
+                    storiesStatsCount.text = spanTextColors(textListStories[0],textListStories[1])
+                    val textListEvents = createStatsBar(this.events.available)
+                    eventsStatsCount.text = spanTextColors(textListEvents[0],textListEvents[1])
+
                 }
             }
         })
@@ -500,6 +576,53 @@ class DetailsFragment : Fragment() {
             }
 
         }).into(imageView)
+    }
+
+    private fun createStatsBar(stat : Int?) : ArrayList<String>{
+        var textBar : String = ""
+        var textBarEnd : String = ""
+        var textList = arrayListOf<String>()
+        if(stat != null && stat != 0){
+            for(i in 0 until stat/5){
+                textBar += "ı "
+                if(i == 28) break
+            }
+            textBar += "| "
+
+            for(i in 1..30 - textBar.length/2){
+                textBarEnd += "ı "
+            }
+        }else{
+            for(i in 1..30){
+                textBarEnd += "ı "
+            }
+        }
+
+        textList.add(textBar)
+        textList.add(textBarEnd)
+
+        return textList
+    }
+
+    private fun spanTextColors(text1 : String, text2 : String) : SpannableString{
+        val spannableString = text1 + text2
+        val spannableText = SpannableString(text1 + text2)
+
+        spannableText.setSpan(
+            ForegroundColorSpan(Color.WHITE),
+            0,
+            text1.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        spannableText.setSpan(
+            ForegroundColorSpan(Color.GRAY),
+            text1.length,
+            spannableString.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        return spannableText
     }
 
 }
