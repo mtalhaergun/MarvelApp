@@ -160,7 +160,7 @@ class DetailsFragment : Fragment() {
                     categoryHeroIcon.setColorFilter(color)
                     statsCharacterName.setTextColor(color)
 
-                    val textListSeries = createStatsBar(1)
+                    val textListSeries = createStatsBar(this.series.available)
                     seriesStatsCount.text = spanTextColors(textListSeries[0],textListSeries[1])
                     val textListComics = createStatsBar(this.comics.available)
                     comicsStatsCount.text = spanTextColors(textListComics[0],textListComics[1])
