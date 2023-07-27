@@ -154,5 +154,12 @@ interface ApiService {
         @Query("hash") hash : String
     ) : EventsResponse
 
-
+    @GET("characters")
+    suspend fun searchCharacters(
+        @Query("offset") offset : Int,
+        @Query("nameStartsWith") name: String,
+        @Query("ts") ts: String,
+        @Query("apikey") apikey: String,
+        @Query("hash") hash : String
+    ) : CharacterResponse
 }

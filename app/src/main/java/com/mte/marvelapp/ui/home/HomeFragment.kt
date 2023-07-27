@@ -89,6 +89,7 @@ class HomeFragment : Fragment() {
         setupRecyclerViews()
         observeEvents()
         sendApiRequests()
+        listeners()
     }
 
     private fun observeEvents() = with(binding){
@@ -292,6 +293,13 @@ class HomeFragment : Fragment() {
         fetchComics()
         fetchStories()
         fetchEvents()
+    }
+
+    private fun listeners(){
+        binding.heroesSeeAll.setOnClickListener {
+            val action = HomeFragmentDirections.actionHomeFragmentToSeeAllFragment("characters")
+            findNavController().safeNavigate(action)
+        }
     }
 
 

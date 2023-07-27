@@ -7,12 +7,17 @@ import com.mte.marvelapp.data.remote.model.character.Character
 import com.mte.marvelapp.data.remote.model.character.CharacterResponse
 import com.mte.marvelapp.data.remote.service.NetworkResult
 import com.mte.marvelapp.ui.details.DetailsRepository
+import com.mte.marvelapp.ui.seeall.SeeAllRepository
 import com.mte.marvelapp.utils.constants.Constants.PAGE_SIZE
 
-class CharactersPagingSource (private val repositoryHome: HomeRepository?,private val repositoryDetail : DetailsRepository?, private val id : String?) : PagingSource<Int, Character>() {
+class CharactersPagingSource (private val repositoryHome: HomeRepository?,
+                              private val repositoryDetail : DetailsRepository?,
+                              private val repositorySeeAll : SeeAllRepository?,
+                              private val id : String?) : PagingSource<Int, Character>() {
 
-    constructor(repositoryHome: HomeRepository?) : this(repositoryHome,null,null)
-    constructor(repositoryDetail: DetailsRepository?, id : String?) : this(null,repositoryDetail,id)
+    constructor(repositoryHome: HomeRepository?) : this(repositoryHome,null,null,null)
+    constructor(repositoryDetail: DetailsRepository?, id : String?) : this(null,repositoryDetail,null,id)
+    constructor(repositorySeeAll: SeeAllRepository?, id : String?) : this(null,null,repositorySeeAll,id)
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Character> {
         return try {
@@ -21,7 +26,7 @@ class CharactersPagingSource (private val repositoryHome: HomeRepository?,privat
             val offset = page * PAGE_SIZE
 
             val response: NetworkResult<CharacterResponse>? = repositoryHome?.fetchCharacters(offset)
-                ?: repositoryDetail?.fetchEventsCharacters(id.toString(), offset)
+                ?: repositoryDetail?.fetchEventsCharacters(id.toString(), offset) ?: repositorySeeAll?.searchCharacters(id!!,offset)
 
             when (response) {
                 is NetworkResult.Success -> {
