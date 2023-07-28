@@ -24,6 +24,10 @@ import com.mte.marvelapp.ui.home.uistate.CharacterUiState
 import com.mte.marvelapp.utils.extensions.capitalize
 import com.mte.marvelapp.utils.extensions.safeNavigate
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.Locale
@@ -42,6 +46,7 @@ class SeeAllFragment : Fragment() {
 
     var selectedCategory : String? = null
 
+    private var searchJob: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,8 +74,8 @@ class SeeAllFragment : Fragment() {
     private fun setupAdapters(){
         characterAdapter = CharacterAdapter(object : CharacterClickListener {
             override fun onCharacterClick(character: Character) {
-//                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment(character.id.toString(),"characters")
-//                findNavController().safeNavigate(action)
+                val action = SeeAllFragmentDirections.actionSeeAllFragmentToDetailsFragment(character.id.toString(),selectedCategory)
+                findNavController().safeNavigate(action)
             }
         })
     }
@@ -105,14 +110,18 @@ class SeeAllFragment : Fragment() {
 
             override fun onQueryTextChange(query: String?): Boolean {
                 if(query != null && query != ""){
-                    if (selectedCategory == "characters") {
-                        viewModel.searchCharacters(query)
-                    } else if (selectedCategory == "series") {
+                    searchJob?.cancel()
+                    searchJob = lifecycleScope.launch(Dispatchers.Main) {
+                        delay(500)
+                        if (selectedCategory == "characters") {
+                            viewModel.searchCharacters(query)
+                        } else if (selectedCategory == "series") {
 
-                    } else if (selectedCategory == "comics") {
+                        } else if (selectedCategory == "comics") {
 
-                    } else if (selectedCategory == "events") {
+                        } else if (selectedCategory == "events") {
 
+                        }
                     }
                 }else{
                     if (selectedCategory == "characters") {
