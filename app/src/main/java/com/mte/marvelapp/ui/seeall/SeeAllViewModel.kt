@@ -37,7 +37,6 @@ class SeeAllViewModel @Inject constructor(private val repository: SeeAllReposito
         _characterUiState.value = CharacterUiState.Loading
 
         try {
-//            if(charactersSearchPagingData == null){
                 charactersSearchPagingData = Pager(
                     PagingConfig(
                     pageSize = Constants.PAGE_SIZE,
@@ -48,9 +47,6 @@ class SeeAllViewModel @Inject constructor(private val repository: SeeAllReposito
                 }.flow.cachedIn(viewModelScope).first()
 
                 _characters.value = charactersSearchPagingData
-//            }else{
-//                _characters.value = charactersSearchPagingData
-//            }
 
             _characterUiState.value = CharacterUiState.Success(emptyList<Character>())
         } catch (e: Exception) {

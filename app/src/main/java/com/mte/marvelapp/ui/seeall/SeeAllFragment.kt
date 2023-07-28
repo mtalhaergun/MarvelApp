@@ -1,5 +1,6 @@
 package com.mte.marvelapp.ui.seeall
 
+import android.graphics.Rect
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.PagingData
+import androidx.recyclerview.widget.RecyclerView
 import com.mte.marvelapp.R
 import com.mte.marvelapp.data.remote.model.character.Character
 import com.mte.marvelapp.databinding.FragmentSeeAllBinding
@@ -19,6 +21,7 @@ import com.mte.marvelapp.ui.home.HomeFragmentDirections
 import com.mte.marvelapp.ui.home.adapter.CharacterAdapter
 import com.mte.marvelapp.ui.home.adapter.listener.CharacterClickListener
 import com.mte.marvelapp.ui.home.uistate.CharacterUiState
+import com.mte.marvelapp.utils.extensions.capitalize
 import com.mte.marvelapp.utils.extensions.safeNavigate
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -42,6 +45,7 @@ class SeeAllFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        selectedCategory = args.category
         setupAdapters()
     }
 
@@ -55,10 +59,11 @@ class SeeAllFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        selectedCategory = args.category
         setupRecyclerViews()
-        viewModel.fetchCharacters()
+        sendApiRequests()
         observeEvents()
+        setItemDecoration()
+        setTitle()
     }
 
     private fun setupAdapters(){
@@ -93,24 +98,6 @@ class SeeAllFragment : Fragment() {
             }
         }
 
-        viewModel.characterUiState.observe(viewLifecycleOwner, Observer { state ->
-            when (state) {
-                is CharacterUiState.Loading -> {
-//                    pbHeroes.visibility = View.VISIBLE
-//                    rvHeroes.visibility = View.GONE
-                }
-
-                is CharacterUiState.Success -> {
-//                    pbHeroes.visibility = View.GONE
-//                    rvHeroes.visibility = View.VISIBLE
-                }
-
-                is CharacterUiState.Error -> {
-
-                }
-            }
-        })
-
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
@@ -142,5 +129,43 @@ class SeeAllFragment : Fragment() {
             }
 
         })
+    }
+
+    private fun sendApiRequests(){
+        if(selectedCategory == "characters"){
+            viewModel.fetchCharacters()
+        }else if (selectedCategory == "series"){
+
+        }
+        else if (selectedCategory == "comics"){
+
+        }
+        else if (selectedCategory == "events"){
+
+        }
+
+    }
+
+    inner class GridSpacingItemDecoration(private val spanCount: Int, private val spacing: Int) : RecyclerView.ItemDecoration() {
+        override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+            val position = parent.getChildAdapterPosition(view)
+            val column = position % spanCount
+
+            outRect.left = spacing - column * spacing / spanCount
+            outRect.right = (column + 1) * spacing / spanCount
+
+            if (position >= spanCount) {
+                outRect.top = spacing
+            }
+        }
+    }
+
+    private fun setItemDecoration(){
+        val spacing = resources.getDimensionPixelSize(R.dimen.recycler_item_spacing)
+        binding.rvSeeAll.addItemDecoration(GridSpacingItemDecoration(2, spacing))
+    }
+
+    private fun setTitle(){
+        binding.titleName = selectedCategory?.capitalize()
     }
 }
