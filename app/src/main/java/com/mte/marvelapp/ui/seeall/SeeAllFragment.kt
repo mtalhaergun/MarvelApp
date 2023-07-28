@@ -129,6 +129,10 @@ class SeeAllFragment : Fragment() {
             }
 
         })
+
+        binding.iconBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
     private fun sendApiRequests(){

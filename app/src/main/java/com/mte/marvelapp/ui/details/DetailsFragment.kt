@@ -147,6 +147,7 @@ class DetailsFragment : Fragment() {
                     var imageUrl = this.thumbnail.path + "/portrait_uncanny." + this.thumbnail.extension
                     glideWithListener(detailImage,imageUrl)
 
+                    detailId.text = this.id.toString()
                     detailTitle.text = this.name
                     detailDescription.text = this.description
                     rvTitle.text = "Series"
@@ -180,6 +181,7 @@ class DetailsFragment : Fragment() {
                     var imageUrl = this.thumbnail.path + "/portrait_uncanny." + this.thumbnail.extension
                     glideWithListener(detailImage,imageUrl)
 
+                    detailId.text = this.id.toString()
                     detailTitle.text = this.title
                     detailDescription.text = this.description
                     rvTitle.text = "Stories"
@@ -213,6 +215,7 @@ class DetailsFragment : Fragment() {
                     var imageUrl = this.thumbnail.path + "/portrait_uncanny." + this.thumbnail.extension
                     glideWithListener(detailImage,imageUrl)
 
+                    detailId.text = this.id.toString()
                     detailTitle.text = this.title
                     detailDescription.text = this.description
                     rvTitle.text = "Creators"
@@ -246,6 +249,7 @@ class DetailsFragment : Fragment() {
                     var imageUrl = this.thumbnail?.path + "/portrait_uncanny." + this.thumbnail?.extension
                     glideWithListener(detailImage,imageUrl)
 
+                    detailId.text = this.id.toString()
                     detailTitle.text = this.title
                     detailDescription.text = this.description
                     rvTitle.text = "Comics"
@@ -279,6 +283,7 @@ class DetailsFragment : Fragment() {
                     var imageUrl = this.thumbnail.path + "/portrait_uncanny." + this.thumbnail.extension
                     glideWithListener(detailImage,imageUrl)
 
+                    detailId.text = this.id.toString()
                     detailTitle.text = this.title
                     detailDescription.text = this.description
                     rvTitle.text = "Characters"
@@ -312,6 +317,7 @@ class DetailsFragment : Fragment() {
                     var imageUrl = this.thumbnail.path + "/portrait_uncanny." + this.thumbnail.extension
                     glideWithListener(detailImage,imageUrl)
 
+                    detailId.text = this.id.toString()
                     detailTitle.text = this.fullName
                     detailDescription.text = ""
                     rvTitle.text = "Events"

@@ -76,6 +76,21 @@
                 app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
+                android:id="@+id/detail_id"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_all_app"
+                android:layout_marginBottom="4dp"
+                android:alpha="0.75"
+                android:fontFamily="@font/font_gilroy_medium"
+                android:text="id"
+                android:textColor="@color/primary_white"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@id/detail_title"
+
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
                 android:id="@+id/detail_title"
                 android:layout_width="160dp"
                 android:layout_height="wrap_content"

@@ -50,16 +50,29 @@
                 app:layout_constraintStart_toStartOf="parent"
                 />
 
-
+            <TextView
+                android:id="@+id/series_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="4dp"
+                android:fontFamily="@font/font_gilroy_medium"
+                android:text="@{String.valueOf(series.id)}"
+                android:textColor="@color/primary_white"
+                android:textSize="@dimen/id_size"
+                android:alpha="0.75"
+                app:layout_constraintBottom_toTopOf="@id/series_name"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
-                android:id="@+id/hero_name"
+                android:id="@+id/series_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="@dimen/card_text_margin"
-                android:fontFamily="@font/font_gilroy_medium"
+                android:fontFamily="@font/font_gilroy_heavy"
                 android:text="@{series.title}"
                 android:textColor="@color/primary_white"
                 android:textSize="@dimen/hero_name_size"

@@ -9,7 +9,7 @@
     <dimen name="category_icon_height">32dp</dimen>
     <dimen name="see_all_text_size">14sp</dimen>
     <dimen name="heroes_title_size">18sp</dimen>
-    <dimen name="name_size">10sp</dimen>
+    <dimen name="id_size">10sp</dimen>
     <dimen name="hero_name_size">20sp</dimen>
     <dimen name="card_text_margin">12dp</dimen>
     <dimen name="card_corner_radius">16dp</dimen>
