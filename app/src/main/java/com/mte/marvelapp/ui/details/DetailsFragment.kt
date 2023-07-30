@@ -533,29 +533,11 @@ class DetailsFragment : Fragment() {
 
     private fun changeToolbarColor(){
 
-        val endColor = Color.BLACK
-        val startColor = ColorUtils.setAlphaComponent(endColor, 0)
-
-        ViewCompat.setOnApplyWindowInsetsListener(binding.scrollView) { _, insets ->
-            val scrollRange = binding.scrollView.getChildAt(0).measuredHeight - binding.scrollView.measuredHeight
-            val scrollOffset = binding.scrollView.scrollY
-
-            val progress = scrollOffset.toFloat() / scrollRange.toFloat()
-            val color = ColorUtils.blendARGB(startColor, endColor, progress)
-
-            binding.toolbar.setBackgroundColor(color)
-
-            insets
-        }
-
         binding.scrollView.viewTreeObserver.addOnScrollChangedListener {
-            val scrollRange = binding.scrollView.getChildAt(0).measuredHeight - binding.scrollView.measuredHeight
-            val scrollOffset = binding.scrollView.scrollY
-
-            val progress = scrollOffset.toFloat() / scrollRange.toFloat()
-            val color = ColorUtils.blendARGB(startColor, endColor, progress)
-
-            binding.toolbar.setBackgroundColor(color)
+            val scrollY = binding.scrollView.scrollY
+            val alpha = (scrollY / 500f).coerceIn(0f, 1f)
+            val alphaInt = (alpha * 255).toInt()
+            binding.toolbar.setBackgroundColor(android.graphics.Color.argb(alphaInt, 0, 0, 0))
         }
     }
 
