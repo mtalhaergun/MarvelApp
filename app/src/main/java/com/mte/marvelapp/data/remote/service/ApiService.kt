@@ -162,4 +162,31 @@ interface ApiService {
         @Query("apikey") apikey: String,
         @Query("hash") hash : String
     ) : CharacterResponse
+
+    @GET("series")
+    suspend fun searchSeries(
+        @Query("offset") offset : Int,
+        @Query("titleStartsWith") title: String,
+        @Query("ts") ts: String,
+        @Query("apikey") apikey: String,
+        @Query("hash") hash : String
+    ) : SeriesResponse
+
+    @GET("comics")
+    suspend fun searchComics(
+        @Query("offset") offset : Int,
+        @Query("titleStartsWith") title: String,
+        @Query("ts") ts: String,
+        @Query("apikey") apikey: String,
+        @Query("hash") hash : String
+    ) : ComicResponse
+
+    @GET("events")
+    suspend fun searchEvents(
+        @Query("offset") offset : Int,
+        @Query("nameStartsWith") name: String,
+        @Query("ts") ts: String,
+        @Query("apikey") apikey: String,
+        @Query("hash") hash : String
+    ) : EventsResponse
 }

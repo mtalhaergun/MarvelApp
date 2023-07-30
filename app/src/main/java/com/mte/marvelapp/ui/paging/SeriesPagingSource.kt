@@ -2,17 +2,23 @@ package com.mte.marvelapp.ui.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.mte.marvelapp.data.remote.model.character.Character
 import com.mte.marvelapp.data.remote.model.series.Series
 import com.mte.marvelapp.data.remote.model.series.SeriesResponse
 import com.mte.marvelapp.ui.home.HomeRepository
 import com.mte.marvelapp.data.remote.service.NetworkResult
 import com.mte.marvelapp.ui.details.DetailsRepository
+import com.mte.marvelapp.ui.seeall.SeeAllRepository
 import com.mte.marvelapp.utils.constants.Constants.PAGE_SIZE
 
-class SeriesPagingSource (private val repositoryHome: HomeRepository?,private val repositoryDetail : DetailsRepository?, private val id : String?) : PagingSource<Int, Series>() {
+class SeriesPagingSource (private val repositoryHome: HomeRepository?,
+                          private val repositoryDetail : DetailsRepository?,
+                          private val repositorySeeAll : SeeAllRepository?,
+                          private val id : String?) : PagingSource<Int, Series>() {
 
-    constructor(repositoryHome: HomeRepository?) : this(repositoryHome,null,null)
-    constructor(repositoryDetail: DetailsRepository?, id : String?) : this(null,repositoryDetail,id)
+    constructor(repositoryHome: HomeRepository?) : this(repositoryHome,null,null,null)
+    constructor(repositoryDetail: DetailsRepository?, id : String?) : this(null,repositoryDetail,null,id)
+    constructor(repositorySeeAll: SeeAllRepository?, id : String?) : this(null,null,repositorySeeAll,id)
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Series> {
         return try {
@@ -21,7 +27,7 @@ class SeriesPagingSource (private val repositoryHome: HomeRepository?,private va
             val offset = page * PAGE_SIZE
 
             val response: NetworkResult<SeriesResponse>? = repositoryHome?.fetchSeries(offset)
-                ?: repositoryDetail?.fetchCharactersSeries(id.toString(), offset)
+                ?: repositoryDetail?.fetchCharactersSeries(id.toString(), offset) ?: repositorySeeAll?.searchSeries(id!!,offset)
 
             when (response) {
                 is NetworkResult.Success -> {

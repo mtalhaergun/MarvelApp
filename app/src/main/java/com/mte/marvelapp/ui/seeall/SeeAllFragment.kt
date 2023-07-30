@@ -16,10 +16,20 @@ import androidx.paging.PagingData
 import androidx.recyclerview.widget.RecyclerView
 import com.mte.marvelapp.R
 import com.mte.marvelapp.data.remote.model.character.Character
+import com.mte.marvelapp.data.remote.model.comic.Comic
+import com.mte.marvelapp.data.remote.model.event.Events
+import com.mte.marvelapp.data.remote.model.series.Series
 import com.mte.marvelapp.databinding.FragmentSeeAllBinding
 import com.mte.marvelapp.ui.home.HomeFragmentDirections
 import com.mte.marvelapp.ui.home.adapter.CharacterAdapter
+import com.mte.marvelapp.ui.home.adapter.ComicsAdapter
+import com.mte.marvelapp.ui.home.adapter.EventsAdapter
+import com.mte.marvelapp.ui.home.adapter.SeriesAdapter
+import com.mte.marvelapp.ui.home.adapter.StoriesAdapter
 import com.mte.marvelapp.ui.home.adapter.listener.CharacterClickListener
+import com.mte.marvelapp.ui.home.adapter.listener.ComicClickListener
+import com.mte.marvelapp.ui.home.adapter.listener.EventsClickListener
+import com.mte.marvelapp.ui.home.adapter.listener.SeriesClickListener
 import com.mte.marvelapp.ui.home.uistate.CharacterUiState
 import com.mte.marvelapp.utils.extensions.capitalize
 import com.mte.marvelapp.utils.extensions.safeNavigate
@@ -41,12 +51,16 @@ class SeeAllFragment : Fragment() {
     private val viewModel : SeeAllViewModel by viewModels()
 
     private lateinit var characterAdapter: CharacterAdapter
+    private lateinit var seriesAdapter: SeriesAdapter
+    private lateinit var comicsAdapter: ComicsAdapter
+    private lateinit var eventsAdapter : EventsAdapter
 
     private val args : SeeAllFragmentArgs by navArgs()
 
     var selectedCategory : String? = null
-
     private var searchJob: Job? = null
+    var apiRequestOnce = false
+    var tempSearchQuery : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,7 +79,10 @@ class SeeAllFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerViews()
-        sendApiRequests()
+        if(!apiRequestOnce) {
+            sendApiRequests()
+            apiRequestOnce = true
+        }
         observeEvents()
         setItemDecoration()
         setTitle()
@@ -78,17 +95,38 @@ class SeeAllFragment : Fragment() {
                 findNavController().safeNavigate(action)
             }
         })
+
+        seriesAdapter = SeriesAdapter(object : SeriesClickListener {
+            override fun onSeriesClick(series: Series) {
+                val action = SeeAllFragmentDirections.actionSeeAllFragmentToDetailsFragment(series.id.toString(),selectedCategory)
+                findNavController().safeNavigate(action)
+            }
+        })
+
+        comicsAdapter = ComicsAdapter(object : ComicClickListener {
+            override fun onComicClick(comic: Comic) {
+                val action = SeeAllFragmentDirections.actionSeeAllFragmentToDetailsFragment(comic.id.toString(),selectedCategory)
+                findNavController().safeNavigate(action)
+            }
+        })
+
+        eventsAdapter = EventsAdapter(object : EventsClickListener {
+            override fun onEventsClick(events: Events) {
+                val action = SeeAllFragmentDirections.actionSeeAllFragmentToDetailsFragment(events.id.toString(),selectedCategory)
+                findNavController().safeNavigate(action)
+            }
+        })
     }
 
     private fun setupRecyclerViews() = with(binding) {
         if (selectedCategory == "characters") {
             binding.rvSeeAll.adapter = characterAdapter
         } else if (selectedCategory == "series") {
-
+            binding.rvSeeAll.adapter = seriesAdapter
         } else if (selectedCategory == "comics") {
-
+            binding.rvSeeAll.adapter = comicsAdapter
         } else if (selectedCategory == "events") {
-
+            binding.rvSeeAll.adapter = eventsAdapter
         }
     }
 
@@ -103,37 +141,64 @@ class SeeAllFragment : Fragment() {
             }
         }
 
+        lifecycleScope.launch {
+            viewModel.series.collectLatest { series ->
+                if (series != null) {
+                    seriesAdapter.submitData(series)
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            viewModel.comics.collectLatest { comics ->
+                if (comics != null) {
+                    comicsAdapter.submitData(comics)
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            viewModel.events.collectLatest { events ->
+                if (events != null) {
+                    eventsAdapter.submitData(events)
+                }
+            }
+        }
+
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
 
             override fun onQueryTextChange(query: String?): Boolean {
+                searchJob?.cancel()
                 if(query != null && query != ""){
-                    searchJob?.cancel()
-                    searchJob = lifecycleScope.launch(Dispatchers.Main) {
-                        delay(500)
-                        if (selectedCategory == "characters") {
-                            viewModel.searchCharacters(query)
-                        } else if (selectedCategory == "series") {
-
-                        } else if (selectedCategory == "comics") {
-
-                        } else if (selectedCategory == "events") {
-
+                    if(tempSearchQuery != query){
+                        searchJob = lifecycleScope.launch(Dispatchers.Main) {
+                            delay(500)
+                            if (selectedCategory == "characters") {
+                                viewModel.searchCharacters(query)
+                            } else if (selectedCategory == "series") {
+                                viewModel.searchSeries(query)
+                            } else if (selectedCategory == "comics") {
+                                viewModel.searchComics(query)
+                            } else if (selectedCategory == "events") {
+                                viewModel.searchEvents(query)
+                            }
                         }
                     }
                 }else{
                     if (selectedCategory == "characters") {
                         viewModel.fetchCharacters()
                     } else if (selectedCategory == "series") {
-
+                        viewModel.fetchSeries()
                     } else if (selectedCategory == "comics") {
-
+                        viewModel.fetchComics()
                     } else if (selectedCategory == "events") {
-
+                        viewModel.fetchEvents()
                     }
                 }
+                tempSearchQuery = query
                 return true
             }
 
@@ -148,13 +213,13 @@ class SeeAllFragment : Fragment() {
         if(selectedCategory == "characters"){
             viewModel.fetchCharacters()
         }else if (selectedCategory == "series"){
-
+            viewModel.fetchSeries()
         }
         else if (selectedCategory == "comics"){
-
+            viewModel.fetchComics()
         }
         else if (selectedCategory == "events"){
-
+            viewModel.fetchEvents()
         }
 
     }

@@ -300,6 +300,21 @@ class HomeFragment : Fragment() {
             val action = HomeFragmentDirections.actionHomeFragmentToSeeAllFragment("characters")
             findNavController().safeNavigate(action)
         }
+
+        binding.seriesSeeAll.setOnClickListener {
+            val action = HomeFragmentDirections.actionHomeFragmentToSeeAllFragment("series")
+            findNavController().safeNavigate(action)
+        }
+
+        binding.comicsSeeAll.setOnClickListener {
+            val action = HomeFragmentDirections.actionHomeFragmentToSeeAllFragment("comics")
+            findNavController().safeNavigate(action)
+        }
+
+        binding.eventsSeeAll.setOnClickListener {
+            val action = HomeFragmentDirections.actionHomeFragmentToSeeAllFragment("events")
+            findNavController().safeNavigate(action)
+        }
     }
 
 
