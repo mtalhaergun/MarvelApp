@@ -101,4 +101,6 @@ dependencies {
 
     implementation Libs.AndroidX.paging
 
+    implementation Libs.Shimmer.shimmer
+
 }

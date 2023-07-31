@@ -143,6 +143,9 @@ class DetailsFragment : Fragment() {
 
         viewModel.characterResponse.observe(viewLifecycleOwner, Observer {model ->
             if (model != null) {
+                binding.scrollView.visibility = View.VISIBLE
+                binding.detailShimmerInclude.root.visibility = View.GONE
+                binding.detailShimmerInclude.shimmerDetailLayout.stopShimmer()
                 with(model.data.characters[0]){
                     var imageUrl = this.thumbnail.path + "/portrait_uncanny." + this.thumbnail.extension
                     glideWithListener(detailImage,imageUrl)
@@ -172,11 +175,18 @@ class DetailsFragment : Fragment() {
 
                     characterStatsBar.visibility = View.GONE
                 }
+            }else{
+                binding.scrollView.visibility = View.GONE
+                binding.detailShimmerInclude.root.visibility = View.VISIBLE
+                binding.detailShimmerInclude.shimmerDetailLayout.startShimmer()
             }
         })
 
         viewModel.seriesResponse.observe(viewLifecycleOwner, Observer {model ->
             if (model != null) {
+                binding.scrollView.visibility = View.VISIBLE
+                binding.detailShimmerInclude.root.visibility = View.GONE
+                binding.detailShimmerInclude.shimmerDetailLayout.stopShimmer()
                 with(model.data.series[0]){
                     var imageUrl = this.thumbnail.path + "/portrait_uncanny." + this.thumbnail.extension
                     glideWithListener(detailImage,imageUrl)
@@ -206,11 +216,18 @@ class DetailsFragment : Fragment() {
 
                     seriesStatsBar.visibility = View.GONE
                 }
+            }else{
+                binding.scrollView.visibility = View.GONE
+                binding.detailShimmerInclude.root.visibility = View.VISIBLE
+                binding.detailShimmerInclude.shimmerDetailLayout.startShimmer()
             }
         })
 
         viewModel.comicResponse.observe(viewLifecycleOwner, Observer {model ->
             if (model != null) {
+                binding.scrollView.visibility = View.VISIBLE
+                binding.detailShimmerInclude.root.visibility = View.GONE
+                binding.detailShimmerInclude.shimmerDetailLayout.stopShimmer()
                 with(model.data.comics[0]){
                     var imageUrl = this.thumbnail.path + "/portrait_uncanny." + this.thumbnail.extension
                     glideWithListener(detailImage,imageUrl)
@@ -240,11 +257,18 @@ class DetailsFragment : Fragment() {
 
                     comicsStatsBar.visibility = View.GONE
                 }
+            }else{
+                binding.scrollView.visibility = View.GONE
+                binding.detailShimmerInclude.root.visibility = View.VISIBLE
+                binding.detailShimmerInclude.shimmerDetailLayout.startShimmer()
             }
         })
 
         viewModel.storiesResponse.observe(viewLifecycleOwner, Observer {model ->
             if (model != null) {
+                binding.scrollView.visibility = View.VISIBLE
+                binding.detailShimmerInclude.root.visibility = View.GONE
+                binding.detailShimmerInclude.shimmerDetailLayout.stopShimmer()
                 with(model.data.stories[0]){
                     var imageUrl = this.thumbnail?.path + "/portrait_uncanny." + this.thumbnail?.extension
                     glideWithListener(detailImage,imageUrl)
@@ -274,11 +298,18 @@ class DetailsFragment : Fragment() {
 
                     storiesStatsBar.visibility = View.GONE
                 }
+            }else{
+                binding.scrollView.visibility = View.GONE
+                binding.detailShimmerInclude.root.visibility = View.VISIBLE
+                binding.detailShimmerInclude.shimmerDetailLayout.startShimmer()
             }
         })
 
         viewModel.eventResponse.observe(viewLifecycleOwner, Observer {model ->
             if (model != null) {
+                binding.scrollView.visibility = View.VISIBLE
+                binding.detailShimmerInclude.root.visibility = View.GONE
+                binding.detailShimmerInclude.shimmerDetailLayout.stopShimmer()
                 with(model.data.events[0]){
                     var imageUrl = this.thumbnail.path + "/portrait_uncanny." + this.thumbnail.extension
                     glideWithListener(detailImage,imageUrl)
@@ -308,11 +339,18 @@ class DetailsFragment : Fragment() {
 
                     eventsStatsBar.visibility = View.GONE
                 }
+            }else{
+                binding.scrollView.visibility = View.GONE
+                binding.detailShimmerInclude.root.visibility = View.VISIBLE
+                binding.detailShimmerInclude.shimmerDetailLayout.startShimmer()
             }
         })
 
         viewModel.creatorResponse.observe(viewLifecycleOwner, Observer {model ->
             if (model != null) {
+                binding.scrollView.visibility = View.VISIBLE
+                binding.detailShimmerInclude.root.visibility = View.GONE
+                binding.detailShimmerInclude.shimmerDetailLayout.stopShimmer()
                 with(model.data.creators[0]){
                     var imageUrl = this.thumbnail.path + "/portrait_uncanny." + this.thumbnail.extension
                     glideWithListener(detailImage,imageUrl)
@@ -339,6 +377,10 @@ class DetailsFragment : Fragment() {
                     eventsStatsCount.text = spanTextColors(textListEvents[0],textListEvents[1])
 
                 }
+            }else{
+                binding.scrollView.visibility = View.GONE
+                binding.detailShimmerInclude.root.visibility = View.VISIBLE
+                binding.detailShimmerInclude.shimmerDetailLayout.startShimmer()
             }
         })
 

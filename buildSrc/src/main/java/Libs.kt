@@ -62,4 +62,8 @@ object Libs {
         const val coil = "io.coil-kt:coil:" + Versions.coil
     }
 
+    object Shimmer {
+        const val shimmer = "com.facebook.shimmer:shimmer:" + Versions.shimmer
+    }
+
 }

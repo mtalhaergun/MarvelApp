@@ -26,4 +26,5 @@ object Versions {
     const val gson = "2.10.1"
     const val dataStore = "1.0.0-alpha01"
     const val paging = "3.1.1"
+    const val shimmer = "0.5.0"
 }

@@ -101,6 +101,7 @@ class DetailsViewModel @Inject constructor(private val repository : DetailsRepos
     val creatorResponse : MutableLiveData<CreatorResponse?> = MutableLiveData()
 
     fun fetchCharacterDetail(id : String) = viewModelScope.launch {
+        characterResponse.value = null
         val request = repository.fetchCharacterDetail(id)
         when(request){
             is NetworkResult.Success -> {
@@ -113,6 +114,7 @@ class DetailsViewModel @Inject constructor(private val repository : DetailsRepos
     }
 
     fun fetchSeriesDetail(id : String) = viewModelScope.launch {
+        seriesResponse.value = null
         val request = repository.fetchSeriesDetail(id)
         when(request){
             is NetworkResult.Success -> {
@@ -125,6 +127,7 @@ class DetailsViewModel @Inject constructor(private val repository : DetailsRepos
     }
 
     fun fetchComicDetail(id : String) = viewModelScope.launch {
+        comicResponse.value = null
         val request = repository.fetchComicDetail(id)
         when(request){
             is NetworkResult.Success -> {
@@ -137,6 +140,7 @@ class DetailsViewModel @Inject constructor(private val repository : DetailsRepos
     }
 
     fun fetchStoriesDetail(id : String) = viewModelScope.launch {
+        storiesResponse.value = null
         val request = repository.fetchStoriesDetail(id)
         when(request){
             is NetworkResult.Success -> {
@@ -149,6 +153,7 @@ class DetailsViewModel @Inject constructor(private val repository : DetailsRepos
     }
 
     fun fetchEventDetail(id : String) = viewModelScope.launch {
+        eventResponse.value = null
         val request = repository.fetchEventDetail(id)
         when(request){
             is NetworkResult.Success -> {
@@ -161,6 +166,7 @@ class DetailsViewModel @Inject constructor(private val repository : DetailsRepos
     }
 
     fun fetchCreatorDetail(id : String) = viewModelScope.launch {
+        creatorResponse.value = null
         val request = repository.fetchCreatorDetail(id)
         when(request){
             is NetworkResult.Success -> {
