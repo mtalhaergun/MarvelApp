@@ -4,12 +4,18 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mte.marvelapp.databinding.RecyclerListLayoutBinding
+import com.mte.marvelapp.ui.home.adapter.listener.SeeAllClickListener
 
-class CreatorsRecyclerAdapter (private val creatorsAdapter: CreatorsAdapter) : RecyclerView.Adapter<CreatorsRecyclerAdapter.CreatorsRecyclerViewHolder>() {
+class CreatorsRecyclerAdapter (private val creatorsAdapter: CreatorsAdapter,
+                               private val seeAllClickListener: SeeAllClickListener) : RecyclerView.Adapter<CreatorsRecyclerAdapter.CreatorsRecyclerViewHolder>() {
 
     class CreatorsRecyclerViewHolder(private val binding: RecyclerListLayoutBinding,private val creatorsAdapter: CreatorsAdapter) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(){
+        fun bind(seeAllClickListener: SeeAllClickListener){
             binding.rvCategories.adapter = creatorsAdapter
+            binding.categoryTitle.text = "Creators"
+            binding.seeAllTitle.setOnClickListener {
+
+            }
         }
     }
 
@@ -19,8 +25,9 @@ class CreatorsRecyclerAdapter (private val creatorsAdapter: CreatorsAdapter) : R
     }
 
     override fun onBindViewHolder(holder: CreatorsRecyclerViewHolder, position: Int) {
-        holder.bind()
+        holder.bind(seeAllClickListener)
     }
 
     override fun getItemCount(): Int = 1
+
 }

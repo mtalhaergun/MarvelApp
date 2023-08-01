@@ -10,6 +10,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.CombinedLoadStates
+import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.ConcatAdapter
 import com.mte.marvelapp.R
 import com.mte.marvelapp.data.remote.model.character.Character
@@ -32,6 +35,7 @@ import com.mte.marvelapp.ui.home.adapter.StoriesRecyclerAdapter
 import com.mte.marvelapp.ui.home.adapter.listener.CharacterClickListener
 import com.mte.marvelapp.ui.home.adapter.listener.ComicClickListener
 import com.mte.marvelapp.ui.home.adapter.listener.EventsClickListener
+import com.mte.marvelapp.ui.home.adapter.listener.SeeAllClickListener
 import com.mte.marvelapp.ui.home.adapter.listener.SeriesClickListener
 import com.mte.marvelapp.ui.home.adapter.listener.StoriesClickListener
 import com.mte.marvelapp.ui.home.uistate.CharacterUiState
@@ -41,6 +45,10 @@ import com.mte.marvelapp.ui.home.uistate.SeriesUiState
 import com.mte.marvelapp.ui.home.uistate.StoriesUiState
 import com.mte.marvelapp.utils.extensions.safeNavigate
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -59,17 +67,12 @@ class HomeFragment : Fragment() {
     private lateinit var storiesAdapter: StoriesAdapter
     private lateinit var eventsAdapter : EventsAdapter
 
-//    private lateinit var concatAdapter: ConcatAdapter
-//    private lateinit var characterRecyclerAdapter: CharacterRecyclerAdapter
-//    private lateinit var seriesRecyclerAdapter: SeriesRecyclerAdapter
-//    private lateinit var comicsRecyclerAdapter: ComicsRecyclerAdapter
-//    private lateinit var storiesRecyclerAdapter: StoriesRecyclerAdapter
-//    private lateinit var eventsRecyclerAdapter : EventsRecyclerAdapter
-//    private val headerCharacterAdapter by lazy { HeaderAdapter(getString(R.string.heroes_title))}
-//    private val headerSeriesAdapter by lazy { HeaderAdapter(getString(R.string.series_title))}
-//    private val headerComicsAdapter by lazy { HeaderAdapter(getString(R.string.comics_title))}
-//    private val headerStoriesAdapter by lazy { HeaderAdapter(getString(R.string.stories_title))}
-//    private val headerEventsAdapter by lazy { HeaderAdapter(getString(R.string.events_title))}
+    private lateinit var concatAdapter: ConcatAdapter
+    private lateinit var characterRecyclerAdapter: CharacterRecyclerAdapter
+    private lateinit var seriesRecyclerAdapter: SeriesRecyclerAdapter
+    private lateinit var comicsRecyclerAdapter: ComicsRecyclerAdapter
+    private lateinit var storiesRecyclerAdapter: StoriesRecyclerAdapter
+    private lateinit var eventsRecyclerAdapter : EventsRecyclerAdapter
 
         override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,16 +92,21 @@ class HomeFragment : Fragment() {
         setupRecyclerViews()
         observeEvents()
         sendApiRequests()
-        listeners()
     }
 
     private fun observeEvents() = with(binding){
 
-        lifecycleScope.launch{
+        lifecycleScope.launch {
             viewModel.characters.collectLatest { characters ->
                 if (characters != null) {
                     characterAdapter.submitData(characters)
                 }
+            }
+        }
+
+        characterAdapter.addLoadStateListener { combinedLoadStates ->
+            if (combinedLoadStates.refresh is LoadState.NotLoading) {
+                characterRecyclerAdapter.stopShimmer()
             }
         }
 
@@ -126,6 +134,12 @@ class HomeFragment : Fragment() {
             }
         }
 
+        seriesAdapter.addLoadStateListener { combinedLoadStates ->
+            if (combinedLoadStates.refresh is LoadState.NotLoading) {
+                seriesRecyclerAdapter.stopShimmer()
+            }
+        }
+
         viewModel.seriesUiState.observe(viewLifecycleOwner, Observer { state ->
             when(state){
                 is SeriesUiState.Loading -> {
@@ -147,6 +161,12 @@ class HomeFragment : Fragment() {
                 if (comics != null) {
                     comicsAdapter.submitData(comics)
                 }
+            }
+        }
+
+        comicsAdapter.addLoadStateListener { combinedLoadStates ->
+            if (combinedLoadStates.refresh is LoadState.NotLoading) {
+                comicsRecyclerAdapter.stopShimmer()
             }
         }
 
@@ -174,6 +194,12 @@ class HomeFragment : Fragment() {
             }
         }
 
+        storiesAdapter.addLoadStateListener { combinedLoadStates ->
+            if (combinedLoadStates.refresh is LoadState.NotLoading) {
+                storiesRecyclerAdapter.stopShimmer()
+            }
+        }
+
         viewModel.storiesUiState.observe(viewLifecycleOwner, Observer { state ->
             when(state){
                 is StoriesUiState.Loading -> {
@@ -195,6 +221,12 @@ class HomeFragment : Fragment() {
                 if (events != null) {
                     eventsAdapter.submitData(events)
                 }
+            }
+        }
+
+        eventsAdapter.addLoadStateListener { combinedLoadStates ->
+            if (combinedLoadStates.refresh is LoadState.NotLoading) {
+                eventsRecyclerAdapter.stopShimmer()
             }
         }
 
@@ -251,40 +283,59 @@ class HomeFragment : Fragment() {
             }
         })
 
-//        characterRecyclerAdapter = CharacterRecyclerAdapter(characterAdapter)
-//
-//        seriesRecyclerAdapter = SeriesRecyclerAdapter(seriesAdapter)
-//
-//        comicsRecyclerAdapter = ComicsRecyclerAdapter(comicsAdapter)
-//
-//        storiesRecyclerAdapter = StoriesRecyclerAdapter(storiesAdapter)
-//
-//        eventsRecyclerAdapter = EventsRecyclerAdapter(eventsAdapter)
-//
-//        concatAdapter = ConcatAdapter(
-//            headerCharacterAdapter,
-//            characterRecyclerAdapter,
-//            headerSeriesAdapter,
-//            seriesRecyclerAdapter,
-//            headerComicsAdapter,
-//            comicsRecyclerAdapter,
-//            headerStoriesAdapter,
-//            storiesRecyclerAdapter,
-//            headerEventsAdapter,
-//            eventsRecyclerAdapter
-//        )
+        characterRecyclerAdapter = CharacterRecyclerAdapter(characterAdapter, object : SeeAllClickListener{
+            override fun onSeeAllClick(category: String) {
+                val action = HomeFragmentDirections.actionHomeFragmentToSeeAllFragment("characters")
+                findNavController().safeNavigate(action)
+            }
+        })
+
+        seriesRecyclerAdapter = SeriesRecyclerAdapter(seriesAdapter, object : SeeAllClickListener{
+            override fun onSeeAllClick(category: String) {
+                val action = HomeFragmentDirections.actionHomeFragmentToSeeAllFragment("series")
+                findNavController().safeNavigate(action)
+            }
+        })
+
+        comicsRecyclerAdapter = ComicsRecyclerAdapter(comicsAdapter, object : SeeAllClickListener{
+            override fun onSeeAllClick(category: String) {
+                val action = HomeFragmentDirections.actionHomeFragmentToSeeAllFragment("comics")
+                findNavController().safeNavigate(action)
+            }
+        })
+
+        storiesRecyclerAdapter = StoriesRecyclerAdapter(storiesAdapter, object : SeeAllClickListener{
+            override fun onSeeAllClick(category: String) {
+
+            }
+        })
+
+        eventsRecyclerAdapter = EventsRecyclerAdapter(eventsAdapter, object : SeeAllClickListener{
+            override fun onSeeAllClick(category: String) {
+                val action = HomeFragmentDirections.actionHomeFragmentToSeeAllFragment("events")
+                findNavController().safeNavigate(action)
+            }
+        })
+
+        concatAdapter = ConcatAdapter(
+            characterRecyclerAdapter,
+            seriesRecyclerAdapter,
+            comicsRecyclerAdapter,
+            storiesRecyclerAdapter,
+            eventsRecyclerAdapter
+        )
 
     }
 
     private fun setupRecyclerViews() = with(binding){
 
-//        rvCategories.adapter = concatAdapter
+        rvCategories.adapter = concatAdapter
 
-        rvHeroes.adapter = characterAdapter
-        rvSeries.adapter = seriesAdapter
-        rvComics.adapter = comicsAdapter
-        rvStories.adapter = storiesAdapter
-        rvEvents.adapter = eventsAdapter
+//        rvHeroes.adapter = characterAdapter
+//        rvSeries.adapter = seriesAdapter
+//        rvComics.adapter = comicsAdapter
+//        rvStories.adapter = storiesAdapter
+//        rvEvents.adapter = eventsAdapter
     }
 
     private fun sendApiRequests() = with(viewModel){
@@ -294,29 +345,6 @@ class HomeFragment : Fragment() {
         fetchStories()
         fetchEvents()
     }
-
-    private fun listeners(){
-        binding.heroesSeeAll.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToSeeAllFragment("characters")
-            findNavController().safeNavigate(action)
-        }
-
-        binding.seriesSeeAll.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToSeeAllFragment("series")
-            findNavController().safeNavigate(action)
-        }
-
-        binding.comicsSeeAll.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToSeeAllFragment("comics")
-            findNavController().safeNavigate(action)
-        }
-
-        binding.eventsSeeAll.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToSeeAllFragment("events")
-            findNavController().safeNavigate(action)
-        }
-    }
-
 
     override fun onPause() {
         super.onPause()
