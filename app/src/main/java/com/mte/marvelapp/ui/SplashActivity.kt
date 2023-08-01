@@ -1,6 +1,7 @@
 package com.mte.marvelapp.ui
 
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.mte.marvelapp.R
@@ -14,6 +15,8 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        window.statusBarColor = getColor(R.color.primary_red)
 
         navigateToMain()
     }
