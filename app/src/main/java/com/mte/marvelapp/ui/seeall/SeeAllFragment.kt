@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.RecyclerView
 import com.mte.marvelapp.R
@@ -136,32 +137,60 @@ class SeeAllFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.characters.collectLatest { characters ->
                 if (characters != null) {
+                    startShimmer()
                     characterAdapter.submitData(characters)
                 }
+            }
+        }
+
+        characterAdapter.addLoadStateListener { combinedLoadStates ->
+            if (combinedLoadStates.refresh is LoadState.NotLoading) {
+                stopShimmer()
             }
         }
 
         lifecycleScope.launch {
             viewModel.series.collectLatest { series ->
                 if (series != null) {
+                    startShimmer()
                     seriesAdapter.submitData(series)
                 }
+            }
+        }
+
+        seriesAdapter.addLoadStateListener { combinedLoadStates ->
+            if (combinedLoadStates.refresh is LoadState.NotLoading) {
+                stopShimmer()
             }
         }
 
         lifecycleScope.launch {
             viewModel.comics.collectLatest { comics ->
                 if (comics != null) {
+                    startShimmer()
                     comicsAdapter.submitData(comics)
                 }
+            }
+        }
+
+        comicsAdapter.addLoadStateListener { combinedLoadStates ->
+            if (combinedLoadStates.refresh is LoadState.NotLoading) {
+                stopShimmer()
             }
         }
 
         lifecycleScope.launch {
             viewModel.events.collectLatest { events ->
                 if (events != null) {
+                    startShimmer()
                     eventsAdapter.submitData(events)
                 }
+            }
+        }
+
+        eventsAdapter.addLoadStateListener { combinedLoadStates ->
+            if (combinedLoadStates.refresh is LoadState.NotLoading) {
+                stopShimmer()
             }
         }
 
@@ -245,5 +274,17 @@ class SeeAllFragment : Fragment() {
 
     private fun setTitle(){
         binding.titleName = selectedCategory?.capitalize()
+    }
+
+    private fun startShimmer(){
+        binding.rvSeeAll.visibility = View.GONE
+        binding.seeallShimmerInclude.root.visibility = View.VISIBLE
+        binding.seeallShimmerInclude.shimmerSeeallLayout.startShimmer()
+    }
+
+    private fun stopShimmer(){
+        binding.seeallShimmerInclude.root.visibility = View.GONE
+        binding.seeallShimmerInclude.shimmerSeeallLayout.stopShimmer()
+        binding.rvSeeAll.visibility = View.VISIBLE
     }
 }

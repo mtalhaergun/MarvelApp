@@ -73,16 +73,16 @@ class SeeAllViewModel @Inject constructor(private val repository: SeeAllReposito
         _characterUiState.value = CharacterUiState.Loading
 
         try {
-                charactersSearchPagingData = Pager(
-                    PagingConfig(
+            charactersSearchPagingData = Pager(
+                PagingConfig(
                     pageSize = Constants.PAGE_SIZE,
                     prefetchDistance = 1
                 )
-                ) {
-                    CharactersPagingSource(repository,name)
-                }.flow.cachedIn(viewModelScope).first()
+            ) {
+                CharactersPagingSource(repository,name)
+            }.flow.cachedIn(viewModelScope).first()
 
-                _characters.value = charactersSearchPagingData
+            _characters.value = charactersSearchPagingData
 
             _characterUiState.value = CharacterUiState.Success(emptyList<Character>())
         } catch (e: Exception) {
@@ -94,18 +94,14 @@ class SeeAllViewModel @Inject constructor(private val repository: SeeAllReposito
         _characterUiState.value = CharacterUiState.Loading
 
         try {
-            if(charactersPagingData == null){
-                charactersPagingData = Pager(PagingConfig(
-                    pageSize = Constants.PAGE_SIZE,
-                    prefetchDistance = 1
-                )) {
-                    CharactersPagingSource(repositoryHome)
-                }.flow.cachedIn(viewModelScope).first()
+            charactersPagingData = Pager(PagingConfig(
+                pageSize = Constants.PAGE_SIZE,
+                prefetchDistance = 1
+            )) {
+                CharactersPagingSource(repositoryHome)
+            }.flow.cachedIn(viewModelScope).first()
 
-                _characters.value = charactersPagingData
-            }else{
-                _characters.value = charactersPagingData
-            }
+            _characters.value = charactersPagingData
 
             _characterUiState.value = CharacterUiState.Success(emptyList<Character>())
         } catch (e: Exception) {
@@ -138,18 +134,14 @@ class SeeAllViewModel @Inject constructor(private val repository: SeeAllReposito
         _seriesUiState.value = SeriesUiState.Loading
 
         try {
-            if(seriesPagingData == null){
-                seriesPagingData = Pager(PagingConfig(
-                    pageSize = Constants.PAGE_SIZE,
-                    prefetchDistance = 1
-                )) {
-                    SeriesPagingSource(repositoryHome)
-                }.flow.cachedIn(viewModelScope).first()
+            seriesPagingData = Pager(PagingConfig(
+                pageSize = Constants.PAGE_SIZE,
+                prefetchDistance = 1
+            )) {
+                SeriesPagingSource(repositoryHome)
+            }.flow.cachedIn(viewModelScope).first()
 
-                _series.value = seriesPagingData
-            }else{
-                _series.value = seriesPagingData
-            }
+            _series.value = seriesPagingData
 
             _seriesUiState.value = SeriesUiState.Success(emptyList<Series>())
         } catch (e: Exception) {
@@ -182,18 +174,14 @@ class SeeAllViewModel @Inject constructor(private val repository: SeeAllReposito
         _comicsUiState.value = ComicsUiState.Loading
 
         try {
-            if(comicsPagingData == null){
-                comicsPagingData = Pager(PagingConfig(
-                    pageSize = Constants.PAGE_SIZE,
-                    prefetchDistance = 1
-                )) {
-                    ComicsPagingSource(repositoryHome)
-                }.flow.cachedIn(viewModelScope).first()
+            comicsPagingData = Pager(PagingConfig(
+                pageSize = Constants.PAGE_SIZE,
+                prefetchDistance = 1
+            )) {
+                ComicsPagingSource(repositoryHome)
+            }.flow.cachedIn(viewModelScope).first()
 
-                _comics.value = comicsPagingData
-            }else{
-                _comics.value = comicsPagingData
-            }
+            _comics.value = comicsPagingData
 
             _comicsUiState.value = ComicsUiState.Success(emptyList<Comic>())
         } catch (e: Exception) {
@@ -226,18 +214,14 @@ class SeeAllViewModel @Inject constructor(private val repository: SeeAllReposito
         _eventsUiState.value = EventsUiState.Loading
 
         try {
-            if(eventsPagingData == null){
-                eventsPagingData = Pager(PagingConfig(
-                    pageSize = Constants.PAGE_SIZE,
-                    prefetchDistance = 1
-                )) {
-                    EventsPagingSource(repositoryHome)
-                }.flow.cachedIn(viewModelScope).first()
+            eventsPagingData = Pager(PagingConfig(
+                pageSize = Constants.PAGE_SIZE,
+                prefetchDistance = 1
+            )) {
+                EventsPagingSource(repositoryHome)
+            }.flow.cachedIn(viewModelScope).first()
 
-                _events.value = eventsPagingData
-            }else{
-                _events.value = eventsPagingData
-            }
+            _events.value = eventsPagingData
 
             _eventsUiState.value = EventsUiState.Success(emptyList<Events>())
         } catch (e: Exception) {
