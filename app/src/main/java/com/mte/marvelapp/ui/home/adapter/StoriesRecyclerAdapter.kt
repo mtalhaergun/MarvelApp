@@ -43,7 +43,9 @@ class StoriesRecyclerAdapter (private val storiesAdapter: StoriesAdapter,
     override fun getItemCount(): Int = 1
 
     fun stopShimmer(){
-        shimmerVisibility = false
-        notifyDataSetChanged()
+        if(shimmerVisibility){
+            shimmerVisibility = false
+            notifyDataSetChanged()
+        }
     }
 }

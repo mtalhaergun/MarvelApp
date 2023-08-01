@@ -50,12 +50,10 @@ class CharacterRecyclerAdapter (private val characterAdapter: CharacterAdapter,
     override fun getItemCount(): Int = 1
 
     fun stopShimmer(){
-        shimmerVisibility = false
-        notifyDataSetChanged()
+        if(shimmerVisibility){
+            shimmerVisibility = false
+            notifyDataSetChanged()
+        }
     }
 
-    fun startShimmer(){
-        shimmerVisibility = true
-        notifyDataSetChanged()
-    }
 }

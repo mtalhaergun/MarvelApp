@@ -43,7 +43,9 @@ class EventsRecyclerAdapter (private val eventsAdapter: EventsAdapter,
     override fun getItemCount(): Int = 1
 
     fun stopShimmer(){
-        shimmerVisibility = false
-        notifyDataSetChanged()
+        if(shimmerVisibility){
+            shimmerVisibility = false
+            notifyDataSetChanged()
+        }
     }
 }

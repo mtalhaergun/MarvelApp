@@ -43,7 +43,9 @@ class ComicsRecyclerAdapter (private val comicsAdapter: ComicsAdapter,
     override fun getItemCount(): Int = 1
 
     fun stopShimmer(){
-        shimmerVisibility = false
-        notifyDataSetChanged()
+        if(shimmerVisibility){
+            shimmerVisibility = false
+            notifyDataSetChanged()
+        }
     }
 }
