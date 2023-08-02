@@ -45,12 +45,6 @@ import com.mte.marvelapp.ui.home.adapter.listener.CreatorsClickListener
 import com.mte.marvelapp.ui.home.adapter.listener.EventsClickListener
 import com.mte.marvelapp.ui.home.adapter.listener.SeriesClickListener
 import com.mte.marvelapp.ui.home.adapter.listener.StoriesClickListener
-import com.mte.marvelapp.ui.home.uistate.CharacterUiState
-import com.mte.marvelapp.ui.home.uistate.ComicsUiState
-import com.mte.marvelapp.ui.home.uistate.CreatorsUiState
-import com.mte.marvelapp.ui.home.uistate.EventsUiState
-import com.mte.marvelapp.ui.home.uistate.SeriesUiState
-import com.mte.marvelapp.ui.home.uistate.StoriesUiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -392,23 +386,6 @@ class DetailsFragment : Fragment() {
             }
         }
 
-        viewModel.characterUiState.observe(viewLifecycleOwner, Observer { state ->
-            when(state){
-                is CharacterUiState.Loading -> {
-                    pbRecycler.visibility = View.VISIBLE
-                    rvDetail.visibility = View.GONE
-                }
-                is CharacterUiState.Success -> {
-                    pbRecycler.visibility = View.GONE
-                    rvDetail.visibility = View.VISIBLE
-
-                }
-                is CharacterUiState.Error -> {
-
-                }
-            }
-        })
-
         lifecycleScope.launch{
             viewModel.series.collectLatest { series ->
                 if (series != null) {
@@ -416,24 +393,6 @@ class DetailsFragment : Fragment() {
                 }
             }
         }
-
-        viewModel.seriesUiState.observe(viewLifecycleOwner, Observer { state ->
-            when(state){
-                is SeriesUiState.Loading -> {
-                    pbRecycler.visibility = View.VISIBLE
-                    rvDetail.visibility = View.GONE
-                }
-                is SeriesUiState.Success -> {
-
-                    pbRecycler.visibility = View.GONE
-                    rvDetail.visibility = View.VISIBLE
-
-                }
-                is SeriesUiState.Error -> {
-
-                }
-            }
-        })
 
         lifecycleScope.launch{
             viewModel.comics.collectLatest { comics ->
@@ -443,22 +402,6 @@ class DetailsFragment : Fragment() {
             }
         }
 
-        viewModel.comicsUiState.observe(viewLifecycleOwner, Observer { state ->
-            when(state){
-                is ComicsUiState.Loading -> {
-                    pbRecycler.visibility = View.VISIBLE
-                    rvDetail.visibility = View.GONE
-                }
-                is ComicsUiState.Success -> {
-                        pbRecycler.visibility = View.GONE
-                        rvDetail.visibility = View.VISIBLE
-                }
-                is ComicsUiState.Error -> {
-
-                }
-            }
-        })
-
         lifecycleScope.launch{
             viewModel.stories.collectLatest { stories ->
                 if (stories != null) {
@@ -466,22 +409,6 @@ class DetailsFragment : Fragment() {
                 }
             }
         }
-
-        viewModel.storiesUiState.observe(viewLifecycleOwner, Observer { state ->
-            when(state){
-                is StoriesUiState.Loading -> {
-                    pbRecycler.visibility = View.VISIBLE
-                    rvDetail.visibility = View.GONE
-                }
-                is StoriesUiState.Success -> {
-                        pbRecycler.visibility = View.GONE
-                        rvDetail.visibility = View.VISIBLE
-                }
-                is StoriesUiState.Error -> {
-
-                }
-            }
-        })
 
         lifecycleScope.launch{
             viewModel.events.collectLatest { events ->
@@ -491,22 +418,6 @@ class DetailsFragment : Fragment() {
             }
         }
 
-        viewModel.eventsUiState.observe(viewLifecycleOwner, Observer { state ->
-            when(state){
-                is EventsUiState.Loading -> {
-                    pbRecycler.visibility = View.VISIBLE
-                    rvDetail.visibility = View.GONE
-                }
-                is EventsUiState.Success -> {
-                        pbRecycler.visibility = View.GONE
-                        rvDetail.visibility = View.VISIBLE
-                }
-                is EventsUiState.Error -> {
-
-                }
-            }
-        })
-
         lifecycleScope.launch{
             viewModel.creators.collectLatest { creators ->
                 if (creators != null) {
@@ -514,23 +425,6 @@ class DetailsFragment : Fragment() {
                 }
             }
         }
-
-        viewModel.creatorsUiState.observe(viewLifecycleOwner, Observer { state ->
-            when(state){
-                is CreatorsUiState.Loading -> {
-                    pbRecycler.visibility = View.VISIBLE
-                    rvDetail.visibility = View.GONE
-                }
-                is CreatorsUiState.Success -> {
-                        pbRecycler.visibility = View.GONE
-                        rvDetail.visibility = View.VISIBLE
-                }
-                is CreatorsUiState.Error -> {
-
-                }
-            }
-        })
-
 
         binding.iconBack.setOnClickListener {
             findNavController().navigateUp()
@@ -574,7 +468,6 @@ class DetailsFragment : Fragment() {
     }
 
     private fun changeToolbarColor(){
-
         binding.scrollView.viewTreeObserver.addOnScrollChangedListener {
             val scrollY = binding.scrollView.scrollY
             val alpha = (scrollY / 500f).coerceIn(0f, 1f)

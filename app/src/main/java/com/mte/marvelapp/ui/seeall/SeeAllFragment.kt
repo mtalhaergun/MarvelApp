@@ -31,7 +31,6 @@ import com.mte.marvelapp.ui.home.adapter.listener.CharacterClickListener
 import com.mte.marvelapp.ui.home.adapter.listener.ComicClickListener
 import com.mte.marvelapp.ui.home.adapter.listener.EventsClickListener
 import com.mte.marvelapp.ui.home.adapter.listener.SeriesClickListener
-import com.mte.marvelapp.ui.home.uistate.CharacterUiState
 import com.mte.marvelapp.utils.extensions.capitalize
 import com.mte.marvelapp.utils.extensions.safeNavigate
 import dagger.hilt.android.AndroidEntryPoint

@@ -27,7 +27,6 @@ import com.mte.marvelapp.ui.home.adapter.ComicsAdapter
 import com.mte.marvelapp.ui.home.adapter.ComicsRecyclerAdapter
 import com.mte.marvelapp.ui.home.adapter.EventsAdapter
 import com.mte.marvelapp.ui.home.adapter.EventsRecyclerAdapter
-import com.mte.marvelapp.ui.home.adapter.HeaderAdapter
 import com.mte.marvelapp.ui.home.adapter.SeriesAdapter
 import com.mte.marvelapp.ui.home.adapter.SeriesRecyclerAdapter
 import com.mte.marvelapp.ui.home.adapter.StoriesAdapter
@@ -38,18 +37,17 @@ import com.mte.marvelapp.ui.home.adapter.listener.EventsClickListener
 import com.mte.marvelapp.ui.home.adapter.listener.SeeAllClickListener
 import com.mte.marvelapp.ui.home.adapter.listener.SeriesClickListener
 import com.mte.marvelapp.ui.home.adapter.listener.StoriesClickListener
-import com.mte.marvelapp.ui.home.uistate.CharacterUiState
-import com.mte.marvelapp.ui.home.uistate.ComicsUiState
-import com.mte.marvelapp.ui.home.uistate.EventsUiState
-import com.mte.marvelapp.ui.home.uistate.SeriesUiState
-import com.mte.marvelapp.ui.home.uistate.StoriesUiState
+import com.mte.marvelapp.utils.extensions.isInternetConnected
 import com.mte.marvelapp.utils.extensions.safeNavigate
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 
@@ -108,23 +106,10 @@ class HomeFragment : Fragment() {
             if (combinedLoadStates.refresh is LoadState.NotLoading) {
                 characterRecyclerAdapter.stopShimmer()
             }
+//            else if(combinedLoadStates.refresh is LoadState.Error){
+//                apiRequestTimer { viewModel.fetchCharacters() }
+//            }
         }
-
-        viewModel.characterUiState.observe(viewLifecycleOwner, Observer { state ->
-            when(state){
-                is CharacterUiState.Loading -> {
-//                    pbHeroes.visibility = View.VISIBLE
-//                    rvHeroes.visibility = View.GONE
-                }
-                is CharacterUiState.Success -> {
-//                    pbHeroes.visibility = View.GONE
-//                    rvHeroes.visibility = View.VISIBLE
-                }
-                is CharacterUiState.Error -> {
-
-                }
-            }
-        })
 
         lifecycleScope.launch{
             viewModel.series.collectLatest { series ->
@@ -140,22 +125,6 @@ class HomeFragment : Fragment() {
             }
         }
 
-        viewModel.seriesUiState.observe(viewLifecycleOwner, Observer { state ->
-            when(state){
-                is SeriesUiState.Loading -> {
-//                    pbSeries.visibility = View.VISIBLE
-//                    rvSeries.visibility = View.GONE
-                }
-                is SeriesUiState.Success -> {
-//                    pbSeries.visibility = View.GONE
-//                    rvSeries.visibility = View.VISIBLE
-                }
-                is SeriesUiState.Error -> {
-
-                }
-            }
-        })
-
         lifecycleScope.launch{
             viewModel.comics.collectLatest { comics ->
                 if (comics != null) {
@@ -169,22 +138,6 @@ class HomeFragment : Fragment() {
                 comicsRecyclerAdapter.stopShimmer()
             }
         }
-
-        viewModel.comicsUiState.observe(viewLifecycleOwner, Observer { state ->
-            when(state){
-                is ComicsUiState.Loading -> {
-//                    pbComics.visibility = View.VISIBLE
-//                    rvComics.visibility = View.GONE
-                }
-                is ComicsUiState.Success -> {
-//                    pbComics.visibility = View.GONE
-//                    rvComics.visibility = View.VISIBLE
-                }
-                is ComicsUiState.Error -> {
-
-                }
-            }
-        })
 
         lifecycleScope.launch{
             viewModel.stories.collectLatest { stories ->
@@ -200,22 +153,6 @@ class HomeFragment : Fragment() {
             }
         }
 
-        viewModel.storiesUiState.observe(viewLifecycleOwner, Observer { state ->
-            when(state){
-                is StoriesUiState.Loading -> {
-//                    pbStories.visibility = View.VISIBLE
-//                    rvStories.visibility = View.GONE
-                }
-                is StoriesUiState.Success -> {
-//                    pbStories.visibility = View.GONE
-//                    rvStories.visibility = View.VISIBLE
-                }
-                is StoriesUiState.Error -> {
-
-                }
-            }
-        })
-
         lifecycleScope.launch{
             viewModel.events.collectLatest { events ->
                 if (events != null) {
@@ -229,22 +166,6 @@ class HomeFragment : Fragment() {
                 eventsRecyclerAdapter.stopShimmer()
             }
         }
-
-        viewModel.eventsUiState.observe(viewLifecycleOwner, Observer { state ->
-            when(state){
-                is EventsUiState.Loading -> {
-//                    pbEvents.visibility = View.VISIBLE
-//                    rvEvents.visibility = View.GONE
-                }
-                is EventsUiState.Success -> {
-//                    pbEvents.visibility = View.GONE
-//                    rvEvents.visibility = View.VISIBLE
-                }
-                is EventsUiState.Error -> {
-
-                }
-            }
-        })
     }
 
     private fun setupAdapters(){
@@ -344,6 +265,23 @@ class HomeFragment : Fragment() {
         fetchComics()
         fetchStories()
         fetchEvents()
+    }
+
+    private fun apiRequestTimer(fetchCategoryFunction: () -> Unit){
+        val interval = 10000L
+
+        val job = lifecycleScope.launch {
+            while (isActive) {
+                if (!requireContext().isInternetConnected()) {
+                    fetchCategoryFunction()
+                }
+                else{
+                    fetchCategoryFunction()
+                    characterRecyclerAdapter.stopShimmer()
+                }
+                delay(interval)
+            }
+        }
     }
 
     override fun onPause() {
