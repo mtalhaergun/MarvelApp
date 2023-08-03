@@ -1,4 +1,4 @@
-package com.mte.marvelapp.ui.adapter
+package com.mte.marvelapp.ui.adapter.itemadapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

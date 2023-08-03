@@ -8,12 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
-import androidx.paging.PagingData
 import androidx.recyclerview.widget.RecyclerView
 import com.mte.marvelapp.R
 import com.mte.marvelapp.data.remote.model.character.Character
@@ -21,12 +19,10 @@ import com.mte.marvelapp.data.remote.model.comic.Comic
 import com.mte.marvelapp.data.remote.model.event.Events
 import com.mte.marvelapp.data.remote.model.series.Series
 import com.mte.marvelapp.databinding.FragmentSeeAllBinding
-import com.mte.marvelapp.ui.home.HomeFragmentDirections
-import com.mte.marvelapp.ui.adapter.CharacterAdapter
-import com.mte.marvelapp.ui.adapter.ComicsAdapter
-import com.mte.marvelapp.ui.adapter.EventsAdapter
-import com.mte.marvelapp.ui.adapter.SeriesAdapter
-import com.mte.marvelapp.ui.adapter.StoriesAdapter
+import com.mte.marvelapp.ui.adapter.itemadapter.CharacterAdapter
+import com.mte.marvelapp.ui.adapter.itemadapter.ComicsAdapter
+import com.mte.marvelapp.ui.adapter.itemadapter.EventsAdapter
+import com.mte.marvelapp.ui.adapter.itemadapter.SeriesAdapter
 import com.mte.marvelapp.ui.adapter.listener.CharacterClickListener
 import com.mte.marvelapp.ui.adapter.listener.ComicClickListener
 import com.mte.marvelapp.ui.adapter.listener.EventsClickListener
@@ -35,12 +31,10 @@ import com.mte.marvelapp.utils.extensions.capitalize
 import com.mte.marvelapp.utils.extensions.safeNavigate
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.util.Locale
 
 @AndroidEntryPoint
 class SeeAllFragment : Fragment() {

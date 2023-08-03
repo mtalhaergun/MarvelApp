@@ -1,10 +1,11 @@
-package com.mte.marvelapp.ui.adapter
+package com.mte.marvelapp.ui.adapter.listadapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mte.marvelapp.databinding.RecyclerListLayoutBinding
+import com.mte.marvelapp.ui.adapter.itemadapter.ComicsAdapter
 import com.mte.marvelapp.ui.adapter.listener.SeeAllClickListener
 
 class ComicsRecyclerAdapter (private val comicsAdapter: ComicsAdapter,

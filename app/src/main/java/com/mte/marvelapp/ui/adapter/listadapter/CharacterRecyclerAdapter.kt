@@ -1,18 +1,12 @@
-package com.mte.marvelapp.ui.adapter
+package com.mte.marvelapp.ui.adapter.listadapter
 
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.Navigation
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.mte.marvelapp.databinding.RecyclerListLayoutBinding
-import com.mte.marvelapp.ui.home.HomeFragment
-import com.mte.marvelapp.ui.home.HomeFragmentDirections
+import com.mte.marvelapp.ui.adapter.itemadapter.CharacterAdapter
 import com.mte.marvelapp.ui.adapter.listener.SeeAllClickListener
-import com.mte.marvelapp.utils.extensions.safeNavigate
 
 class CharacterRecyclerAdapter (private val characterAdapter: CharacterAdapter,
                                 private val seeAllClickListener: SeeAllClickListener

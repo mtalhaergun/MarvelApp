@@ -60,7 +60,6 @@
             app:destination="@id/detailsFragment"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
-            app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/from_right" />
+            app:popEnterAnim="@anim/from_left" />
     </fragment>
 </navigation>

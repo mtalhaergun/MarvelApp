@@ -1,24 +1,25 @@
-package com.mte.marvelapp.ui.adapter
+package com.mte.marvelapp.ui.adapter.listadapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mte.marvelapp.databinding.RecyclerListLayoutBinding
+import com.mte.marvelapp.ui.adapter.itemadapter.EventsAdapter
 import com.mte.marvelapp.ui.adapter.listener.SeeAllClickListener
 
-class SeriesRecyclerAdapter (private val seriesAdapter: SeriesAdapter,
+class EventsRecyclerAdapter (private val eventsAdapter: EventsAdapter,
                              private val seeAllClickListener: SeeAllClickListener
-) : RecyclerView.Adapter<SeriesRecyclerAdapter.SeriesRecyclerViewHolder>() {
+) : RecyclerView.Adapter<EventsRecyclerAdapter.EventsRecyclerViewHolder>() {
 
     private var shimmerVisibility = true
 
-    class SeriesRecyclerViewHolder(private val binding: RecyclerListLayoutBinding,private val seriesAdapter: SeriesAdapter) : RecyclerView.ViewHolder(binding.root) {
+    class EventsRecyclerViewHolder(private val binding: RecyclerListLayoutBinding,private val eventsAdapter: EventsAdapter) : RecyclerView.ViewHolder(binding.root) {
         fun bind(seeAllClickListener: SeeAllClickListener, shimmerVisibility : Boolean){
-            binding.rvCategories.adapter = seriesAdapter
-            binding.categoryTitle.text = "Series"
+            binding.rvCategories.adapter = eventsAdapter
+            binding.categoryTitle.text = "Events"
             binding.seeAllTitle.setOnClickListener {
-                seeAllClickListener.onSeeAllClick("series")
+                seeAllClickListener.onSeeAllClick("events")
             }
             if(shimmerVisibility){
                 binding.recyclerListLayout.visibility = View.GONE
@@ -32,12 +33,12 @@ class SeriesRecyclerAdapter (private val seriesAdapter: SeriesAdapter,
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SeriesRecyclerViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventsRecyclerViewHolder {
         val binding = RecyclerListLayoutBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-        return SeriesRecyclerViewHolder(binding,seriesAdapter)
+        return EventsRecyclerViewHolder(binding,eventsAdapter)
     }
 
-    override fun onBindViewHolder(holder: SeriesRecyclerViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: EventsRecyclerViewHolder, position: Int) {
         holder.bind(seeAllClickListener,shimmerVisibility)
     }
 

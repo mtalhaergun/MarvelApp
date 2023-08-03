@@ -12,9 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
-import androidx.core.graphics.ColorUtils
-import androidx.core.view.ViewCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -33,12 +30,12 @@ import com.mte.marvelapp.data.remote.model.event.Events
 import com.mte.marvelapp.data.remote.model.series.Series
 import com.mte.marvelapp.data.remote.model.stories.Stories
 import com.mte.marvelapp.databinding.FragmentDetailsBinding
-import com.mte.marvelapp.ui.adapter.CharacterAdapter
-import com.mte.marvelapp.ui.adapter.ComicsAdapter
-import com.mte.marvelapp.ui.adapter.CreatorsAdapter
-import com.mte.marvelapp.ui.adapter.EventsAdapter
-import com.mte.marvelapp.ui.adapter.SeriesAdapter
-import com.mte.marvelapp.ui.adapter.StoriesAdapter
+import com.mte.marvelapp.ui.adapter.itemadapter.CharacterAdapter
+import com.mte.marvelapp.ui.adapter.itemadapter.ComicsAdapter
+import com.mte.marvelapp.ui.adapter.itemadapter.CreatorsAdapter
+import com.mte.marvelapp.ui.adapter.itemadapter.EventsAdapter
+import com.mte.marvelapp.ui.adapter.itemadapter.SeriesAdapter
+import com.mte.marvelapp.ui.adapter.itemadapter.StoriesAdapter
 import com.mte.marvelapp.ui.adapter.listener.CharacterClickListener
 import com.mte.marvelapp.ui.adapter.listener.ComicClickListener
 import com.mte.marvelapp.ui.adapter.listener.CreatorsClickListener
@@ -439,7 +436,7 @@ class DetailsFragment : Fragment() {
         }
 
         binding.iconBack.setOnClickListener {
-            findNavController().navigateUp()
+            findNavController().popBackStack()
         }
     }
 
