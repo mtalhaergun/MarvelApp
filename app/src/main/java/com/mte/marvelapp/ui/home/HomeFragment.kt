@@ -96,9 +96,9 @@ class HomeFragment : Fragment() {
             if (combinedLoadStates.refresh is LoadState.NotLoading) {
                 characterRecyclerAdapter.stopShimmer()
             }
-//            else if(combinedLoadStates.refresh is LoadState.Error){
-//                apiRequestTimer { viewModel.fetchCharacters() }
-//            }
+            else if(combinedLoadStates.refresh is LoadState.Error){
+                apiRequestTimer({characterRecyclerAdapter.stopShimmer()},{viewModel.fetchCharacters()})
+            }
         }
 
         lifecycleScope.launch{
@@ -112,6 +112,9 @@ class HomeFragment : Fragment() {
         seriesAdapter.addLoadStateListener { combinedLoadStates ->
             if (combinedLoadStates.refresh is LoadState.NotLoading) {
                 seriesRecyclerAdapter.stopShimmer()
+            }
+            else if(combinedLoadStates.refresh is LoadState.Error){
+                apiRequestTimer({seriesRecyclerAdapter.stopShimmer()},{viewModel.fetchSeries()})
             }
         }
 
@@ -127,6 +130,9 @@ class HomeFragment : Fragment() {
             if (combinedLoadStates.refresh is LoadState.NotLoading) {
                 comicsRecyclerAdapter.stopShimmer()
             }
+            else if(combinedLoadStates.refresh is LoadState.Error){
+                apiRequestTimer({comicsRecyclerAdapter.stopShimmer()},{viewModel.fetchComics()})
+            }
         }
 
         lifecycleScope.launch{
@@ -141,6 +147,9 @@ class HomeFragment : Fragment() {
             if (combinedLoadStates.refresh is LoadState.NotLoading) {
                 storiesRecyclerAdapter.stopShimmer()
             }
+            else if(combinedLoadStates.refresh is LoadState.Error){
+                apiRequestTimer({storiesRecyclerAdapter.stopShimmer()},{viewModel.fetchStories()})
+            }
         }
 
         lifecycleScope.launch{
@@ -154,6 +163,9 @@ class HomeFragment : Fragment() {
         eventsAdapter.addLoadStateListener { combinedLoadStates ->
             if (combinedLoadStates.refresh is LoadState.NotLoading) {
                 eventsRecyclerAdapter.stopShimmer()
+            }
+            else if(combinedLoadStates.refresh is LoadState.Error){
+                apiRequestTimer({eventsRecyclerAdapter.stopShimmer()},{viewModel.fetchEvents()})
             }
         }
     }
@@ -219,7 +231,7 @@ class HomeFragment : Fragment() {
         storiesRecyclerAdapter = StoriesRecyclerAdapter(storiesAdapter, object :
             SeeAllClickListener {
             override fun onSeeAllClick(category: String) {
-
+                // API'da Stories için search query'si olmadığından See All sayfası yapılamıyor
             }
         })
 
@@ -241,14 +253,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupRecyclerViews() = with(binding){
-
         rvCategories.adapter = concatAdapter
-
-//        rvHeroes.adapter = characterAdapter
-//        rvSeries.adapter = seriesAdapter
-//        rvComics.adapter = comicsAdapter
-//        rvStories.adapter = storiesAdapter
-//        rvEvents.adapter = eventsAdapter
     }
 
     private fun sendApiRequests() = with(viewModel){
@@ -259,20 +264,18 @@ class HomeFragment : Fragment() {
         fetchEvents()
     }
 
-    private fun apiRequestTimer(fetchCategoryFunction: () -> Unit){
+    private fun apiRequestTimer(stopShimmer : () -> Unit, fetchCategoryFunction: () -> Unit){
         val interval = 10000L
 
         val job = lifecycleScope.launch {
             while (isActive) {
-                if (!requireContext().isInternetConnected()) {
-                    fetchCategoryFunction()
-                }
-                else{
-                    fetchCategoryFunction()
-                    characterRecyclerAdapter.stopShimmer()
+                if (requireContext().isInternetConnected()) {
+                    stopShimmer()
+                    break
                 }
                 delay(interval)
             }
+            fetchCategoryFunction()
         }
     }
 

@@ -55,62 +55,52 @@ class HomeViewModel @Inject constructor(private val repository : HomeRepository)
     private var eventsPagingData : PagingData<Events>? = null
 
     fun fetchCharacters() = viewModelScope.launch {
-        if(charactersPagingData == null){
             charactersPagingData = Pager(PagingConfig(
                 pageSize = PAGE_SIZE,
-                prefetchDistance = 1
+                prefetchDistance = 3
             )) {
                 CharactersPagingSource(repository)
             }.flow.cachedIn(viewModelScope).first()
-        }
         _characters.value = charactersPagingData
     }
 
     fun fetchSeries() = viewModelScope.launch {
-        if(seriesPagingData == null){
             seriesPagingData = Pager(PagingConfig(
                 pageSize = PAGE_SIZE,
                 prefetchDistance = 1
             )) {
                 SeriesPagingSource(repository)
             }.flow.cachedIn(viewModelScope).first()
-        }
         _series.value = seriesPagingData
     }
 
     fun fetchComics() = viewModelScope.launch {
-        if(comicsPagingData == null){
             comicsPagingData = Pager(PagingConfig(
                 pageSize = PAGE_SIZE,
                 prefetchDistance = 1
             )) {
                 ComicsPagingSource(repository)
             }.flow.cachedIn(viewModelScope).first()
-        }
         _comics.value = comicsPagingData
     }
 
     fun fetchStories() = viewModelScope.launch {
-        if(storiesPagingData == null){
             storiesPagingData = Pager(PagingConfig(
                 pageSize = PAGE_SIZE,
                 prefetchDistance = 1
             )) {
                 StoriesPagingSource(repository)
             }.flow.cachedIn(viewModelScope).first()
-        }
         _stories.value = storiesPagingData
     }
 
     fun fetchEvents() = viewModelScope.launch {
-        if(eventsPagingData == null){
             eventsPagingData = Pager(PagingConfig(
                 pageSize = PAGE_SIZE,
                 prefetchDistance = 1
             )) {
                 EventsPagingSource(repository)
             }.flow.cachedIn(viewModelScope).first()
-        }
         _events.value = eventsPagingData
     }
 

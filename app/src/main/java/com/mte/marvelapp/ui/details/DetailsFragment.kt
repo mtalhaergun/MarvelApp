@@ -42,8 +42,11 @@ import com.mte.marvelapp.ui.adapter.listener.CreatorsClickListener
 import com.mte.marvelapp.ui.adapter.listener.EventsClickListener
 import com.mte.marvelapp.ui.adapter.listener.SeriesClickListener
 import com.mte.marvelapp.ui.adapter.listener.StoriesClickListener
+import com.mte.marvelapp.utils.extensions.isInternetConnected
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -441,38 +444,45 @@ class DetailsFragment : Fragment() {
     }
 
     private fun sendApiRequests() = with(viewModel){
-        args.id?.let {id ->
-            var selectedCategory = args.category
-            if(selectedCategory == "characters"){
-                fetchCharacterDetail(id)
-                fetchCharactersSeries(id)
-                binding.rvDetail.adapter = seriesAdapter
-            }else if (selectedCategory == "series"){
-                fetchSeriesDetail(id)
-                fetchSeriesStories(id)
-                binding.rvDetail.adapter = storiesAdapter
-            }
-            else if (selectedCategory == "comics"){
-                fetchComicDetail(id)
-                fetchComicsCreators(id)
-                binding.rvDetail.adapter = creatorsAdapter
-            }
-            else if (selectedCategory == "stories"){
-                fetchStoriesDetail(id)
-                fetchStoriesComics(id)
-                binding.rvDetail.adapter = comicsAdapter
-            }
-            else if (selectedCategory == "events"){
-                fetchEventDetail(id)
-                fetchEventsCharacters(id)
-                binding.rvDetail.adapter = characterAdapter
-            }else if (selectedCategory == "creators"){
-                fetchCreatorDetail(id)
-                fetchCreatorsEvents(id)
-                binding.rvDetail.adapter = eventsAdapter
-            }else{
+        if(requireContext().isInternetConnected()){
+            args.id?.let {id ->
+                var selectedCategory = args.category
+                if(selectedCategory == "characters"){
+                    fetchCharacterDetail(id)
+                    fetchCharactersSeries(id)
+                    binding.rvDetail.adapter = seriesAdapter
+                }else if (selectedCategory == "series"){
+                    fetchSeriesDetail(id)
+                    fetchSeriesStories(id)
+                    binding.rvDetail.adapter = storiesAdapter
+                }
+                else if (selectedCategory == "comics"){
+                    fetchComicDetail(id)
+                    fetchComicsCreators(id)
+                    binding.rvDetail.adapter = creatorsAdapter
+                }
+                else if (selectedCategory == "stories"){
+                    fetchStoriesDetail(id)
+                    fetchStoriesComics(id)
+                    binding.rvDetail.adapter = comicsAdapter
+                }
+                else if (selectedCategory == "events"){
+                    fetchEventDetail(id)
+                    fetchEventsCharacters(id)
+                    binding.rvDetail.adapter = characterAdapter
+                }else if (selectedCategory == "creators"){
+                    fetchCreatorDetail(id)
+                    fetchCreatorsEvents(id)
+                    binding.rvDetail.adapter = eventsAdapter
+                }else{
 
+                }
             }
+        }else{
+            binding.scrollView.visibility = View.GONE
+            binding.detailShimmerInclude.root.visibility = View.VISIBLE
+            binding.detailShimmerInclude.shimmerDetailLayout.startShimmer()
+            apiRequestTimer()
         }
     }
 
@@ -557,4 +567,20 @@ class DetailsFragment : Fragment() {
         return spannableText
     }
 
+    private fun apiRequestTimer(){
+        val interval = 3000L
+
+        val job = lifecycleScope.launch {
+            while (isActive) {
+                if (requireContext().isInternetConnected()) {
+                    binding.scrollView.visibility = View.VISIBLE
+                    binding.detailShimmerInclude.root.visibility = View.GONE
+                    binding.detailShimmerInclude.shimmerDetailLayout.stopShimmer()
+                    break
+                }
+                delay(interval)
+            }
+            sendApiRequests()
+        }
+    }
 }
