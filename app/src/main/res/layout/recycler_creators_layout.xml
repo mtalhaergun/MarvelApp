@@ -77,6 +77,7 @@
                 android:textColor="@color/primary_white"
                 android:textSize="@dimen/hero_name_size"
                 android:maxLines="@integer/max_lines"
+                android:ellipsize="end"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/card_image"
                 app:layout_constraintStart_toStartOf="parent" />

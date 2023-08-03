@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -279,8 +281,15 @@ class HomeFragment : Fragment() {
         }
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onResume() {
+        super.onResume()
+        activity?.let {
+            activity?.let {
+                WindowCompat.setDecorFitsSystemWindows(it.window, false)
+                val insetsController = WindowInsetsControllerCompat(it.window, it.window.decorView)
+                insetsController.isAppearanceLightStatusBars = true
+            }
+        }
     }
 
     override fun onDestroyView() {

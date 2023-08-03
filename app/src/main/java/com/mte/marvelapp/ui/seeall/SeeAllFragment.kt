@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -28,12 +30,14 @@ import com.mte.marvelapp.ui.adapter.listener.ComicClickListener
 import com.mte.marvelapp.ui.adapter.listener.EventsClickListener
 import com.mte.marvelapp.ui.adapter.listener.SeriesClickListener
 import com.mte.marvelapp.utils.extensions.capitalize
+import com.mte.marvelapp.utils.extensions.isInternetConnected
 import com.mte.marvelapp.utils.extensions.safeNavigate
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -126,11 +130,10 @@ class SeeAllFragment : Fragment() {
 
 
     private fun observeEvents() = with(binding) {
-
+        startShimmer()
         lifecycleScope.launch {
             viewModel.characters.collectLatest { characters ->
                 if (characters != null) {
-                    startShimmer()
                     characterAdapter.submitData(characters)
                 }
             }
@@ -145,7 +148,6 @@ class SeeAllFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.series.collectLatest { series ->
                 if (series != null) {
-                    startShimmer()
                     seriesAdapter.submitData(series)
                 }
             }
@@ -160,7 +162,6 @@ class SeeAllFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.comics.collectLatest { comics ->
                 if (comics != null) {
-                    startShimmer()
                     comicsAdapter.submitData(comics)
                 }
             }
@@ -175,7 +176,6 @@ class SeeAllFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.events.collectLatest { events ->
                 if (events != null) {
-                    startShimmer()
                     eventsAdapter.submitData(events)
                 }
             }
@@ -193,57 +193,80 @@ class SeeAllFragment : Fragment() {
             }
 
             override fun onQueryTextChange(query: String?): Boolean {
-                searchJob?.cancel()
-                if(query != null && query != ""){
-                    if(tempSearchQuery != query){
-                        searchJob = lifecycleScope.launch(Dispatchers.Main) {
-                            delay(500)
-                            if (selectedCategory == "characters") {
-                                viewModel.searchCharacters(query)
-                            } else if (selectedCategory == "series") {
-                                viewModel.searchSeries(query)
-                            } else if (selectedCategory == "comics") {
-                                viewModel.searchComics(query)
-                            } else if (selectedCategory == "events") {
-                                viewModel.searchEvents(query)
+                    searchJob?.cancel()
+                    if(query != null && query != ""){
+                        if(tempSearchQuery != query){
+                            searchJob = lifecycleScope.launch(Dispatchers.Main) {
+                                delay(500)
+                                if(requireContext().isInternetConnected()){
+                                    if (selectedCategory == "characters") {
+                                        viewModel.searchCharacters(query)
+                                    } else if (selectedCategory == "series") {
+                                        viewModel.searchSeries(query)
+                                    } else if (selectedCategory == "comics") {
+                                        viewModel.searchComics(query)
+                                    } else if (selectedCategory == "events") {
+                                        viewModel.searchEvents(query)
+                                    }
+                                }else{
+                                    startShimmer()
+                                    if (selectedCategory == "characters") {
+                                        searchApiRequestTimer { viewModel.searchCharacters(query) }
+                                    } else if (selectedCategory == "series") {
+                                        searchApiRequestTimer { viewModel.searchSeries(query) }
+                                    } else if (selectedCategory == "comics") {
+                                        searchApiRequestTimer { viewModel.searchComics(query) }
+                                    } else if (selectedCategory == "events") {
+                                        searchApiRequestTimer { viewModel.searchEvents(query) }
+                                    }
+                                }
                             }
                         }
+                    }else{
+                        if(requireContext().isInternetConnected()){
+                            if (selectedCategory == "characters") {
+                                viewModel.fetchCharacters()
+                            } else if (selectedCategory == "series") {
+                                viewModel.fetchSeries()
+                            } else if (selectedCategory == "comics") {
+                                viewModel.fetchComics()
+                            } else if (selectedCategory == "events") {
+                                viewModel.fetchEvents()
+                            }
+                        }else{
+                            startShimmer()
+                            apiRequestTimer()
+                        }
+
                     }
-                }else{
-                    if (selectedCategory == "characters") {
-                        viewModel.fetchCharacters()
-                    } else if (selectedCategory == "series") {
-                        viewModel.fetchSeries()
-                    } else if (selectedCategory == "comics") {
-                        viewModel.fetchComics()
-                    } else if (selectedCategory == "events") {
-                        viewModel.fetchEvents()
-                    }
-                }
-                tempSearchQuery = query
+                    tempSearchQuery = query
+
                 return true
             }
 
         })
 
         binding.iconBack.setOnClickListener {
-            findNavController().navigateUp()
+            findNavController().popBackStack()
         }
     }
 
     private fun sendApiRequests(){
-        if(selectedCategory == "characters"){
-            viewModel.fetchCharacters()
-        }else if (selectedCategory == "series"){
-            viewModel.fetchSeries()
+        if(requireContext().isInternetConnected()){
+            if(selectedCategory == "characters"){
+                viewModel.fetchCharacters()
+            }else if (selectedCategory == "series"){
+                viewModel.fetchSeries()
+            }
+            else if (selectedCategory == "comics"){
+                viewModel.fetchComics()
+            }
+            else if (selectedCategory == "events"){
+                viewModel.fetchEvents()
+            }
+        }else{
+            apiRequestTimer()
         }
-        else if (selectedCategory == "comics"){
-            viewModel.fetchComics()
-        }
-        else if (selectedCategory == "events"){
-            viewModel.fetchEvents()
-        }
-
     }
 
     inner class GridSpacingItemDecoration(private val spanCount: Int, private val spacing: Int) : RecyclerView.ItemDecoration() {
@@ -279,5 +302,51 @@ class SeeAllFragment : Fragment() {
         binding.seeallShimmerInclude.root.visibility = View.GONE
         binding.seeallShimmerInclude.shimmerSeeallLayout.stopShimmer()
         binding.rvSeeAll.visibility = View.VISIBLE
+    }
+
+    private fun apiRequestTimer(){
+        val interval = 3000L
+
+        val job = lifecycleScope.launch {
+            while (isActive) {
+                if (requireContext().isInternetConnected()) {
+                    stopShimmer()
+                    break
+                }
+                delay(interval)
+            }
+            sendApiRequests()
+        }
+    }
+
+    private fun searchApiRequestTimer(searchQuery : () -> Unit){
+        val interval = 3000L
+
+        val job = lifecycleScope.launch {
+            while (isActive) {
+                if (requireContext().isInternetConnected()) {
+                    stopShimmer()
+                    break
+                }
+                delay(interval)
+            }
+            searchQuery()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activity?.let {
+            activity?.let {
+                WindowCompat.setDecorFitsSystemWindows(it.window, false)
+                val insetsController = WindowInsetsControllerCompat(it.window, it.window.decorView)
+                insetsController.isAppearanceLightStatusBars = true
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

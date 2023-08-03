@@ -101,6 +101,7 @@
                 android:textColor="@color/primary_white"
                 android:textSize="@dimen/detail_title_size"
                 android:maxLines="@integer/max_lines"
+                android:ellipsize="end"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/detail_image" />
 
@@ -528,7 +529,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_all_app"
                 android:layout_marginTop="24dp"
-                android:layout_marginBottom="32dp"
+                android:layout_marginBottom="48dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"

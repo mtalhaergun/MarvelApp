@@ -2,6 +2,7 @@ package com.mte.marvelapp.ui.details
 
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
@@ -10,8 +11,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowInsetsController
 import android.widget.ImageView
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -79,6 +85,7 @@ class DetailsFragment : Fragment() {
         _binding = FragmentDetailsBinding.inflate(inflater,container,false)
         return binding.root
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -489,7 +496,7 @@ class DetailsFragment : Fragment() {
     private fun changeToolbarColor(){
         binding.scrollView.viewTreeObserver.addOnScrollChangedListener {
             val scrollY = binding.scrollView.scrollY
-            val alpha = (scrollY / 500f).coerceIn(0f, 1f)
+            val alpha = (scrollY / 1500f).coerceIn(0f, 1f)
             val alphaInt = (alpha * 255).toInt()
             binding.toolbar.setBackgroundColor(android.graphics.Color.argb(alphaInt, 0, 0, 0))
         }
@@ -583,4 +590,14 @@ class DetailsFragment : Fragment() {
             sendApiRequests()
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        activity?.let {
+            WindowCompat.setDecorFitsSystemWindows(it.window, false)
+            val insetsController = WindowInsetsControllerCompat(it.window, it.window.decorView)
+            insetsController.isAppearanceLightStatusBars = false
+        }
+    }
+
 }
