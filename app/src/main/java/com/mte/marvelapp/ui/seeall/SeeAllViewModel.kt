@@ -1,7 +1,5 @@
 package com.mte.marvelapp.ui.seeall
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -12,7 +10,8 @@ import com.mte.marvelapp.data.remote.model.character.Character
 import com.mte.marvelapp.data.remote.model.comic.Comic
 import com.mte.marvelapp.data.remote.model.event.Events
 import com.mte.marvelapp.data.remote.model.series.Series
-import com.mte.marvelapp.ui.home.HomeRepository
+import com.mte.marvelapp.data.repository.HomeRepository
+import com.mte.marvelapp.data.repository.SeeAllRepository
 import com.mte.marvelapp.ui.paging.CharactersPagingSource
 import com.mte.marvelapp.ui.paging.ComicsPagingSource
 import com.mte.marvelapp.ui.paging.EventsPagingSource

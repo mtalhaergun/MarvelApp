@@ -2,13 +2,12 @@ package com.mte.marvelapp.ui.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.mte.marvelapp.data.remote.model.comic.Comic
 import com.mte.marvelapp.data.remote.model.event.Events
 import com.mte.marvelapp.data.remote.model.event.EventsResponse
-import com.mte.marvelapp.ui.home.HomeRepository
+import com.mte.marvelapp.data.repository.HomeRepository
 import com.mte.marvelapp.data.remote.service.NetworkResult
-import com.mte.marvelapp.ui.details.DetailsRepository
-import com.mte.marvelapp.ui.seeall.SeeAllRepository
+import com.mte.marvelapp.data.repository.DetailsRepository
+import com.mte.marvelapp.data.repository.SeeAllRepository
 import com.mte.marvelapp.utils.constants.Constants.PAGE_SIZE
 
 class EventsPagingSource (private val repositoryHome: HomeRepository?,

@@ -1,13 +1,14 @@
-package com.mte.marvelapp.ui.home.adapter
+package com.mte.marvelapp.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mte.marvelapp.databinding.RecyclerListLayoutBinding
-import com.mte.marvelapp.ui.home.adapter.listener.SeeAllClickListener
+import com.mte.marvelapp.ui.adapter.listener.SeeAllClickListener
 
 class CreatorsRecyclerAdapter (private val creatorsAdapter: CreatorsAdapter,
-                               private val seeAllClickListener: SeeAllClickListener) : RecyclerView.Adapter<CreatorsRecyclerAdapter.CreatorsRecyclerViewHolder>() {
+                               private val seeAllClickListener: SeeAllClickListener
+) : RecyclerView.Adapter<CreatorsRecyclerAdapter.CreatorsRecyclerViewHolder>() {
 
     class CreatorsRecyclerViewHolder(private val binding: RecyclerListLayoutBinding,private val creatorsAdapter: CreatorsAdapter) : RecyclerView.ViewHolder(binding.root) {
         fun bind(seeAllClickListener: SeeAllClickListener){

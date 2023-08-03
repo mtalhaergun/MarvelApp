@@ -10,7 +10,7 @@
             type="com.mte.marvelapp.data.remote.model.creator.Creator" />
         <variable
             name="clickListener"
-            type="com.mte.marvelapp.ui.home.adapter.listener.CreatorsClickListener" />
+            type="com.mte.marvelapp.ui.adapter.listener.CreatorsClickListener" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

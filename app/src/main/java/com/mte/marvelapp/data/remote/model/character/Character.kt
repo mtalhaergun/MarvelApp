@@ -6,25 +6,25 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class Character(
     @Json(name = "comics")
-    val comics: Comics,
+    val comics: Comics?,
     @Json(name = "description")
-    val description: String,
+    val description: String?,
     @Json(name = "events")
-    val events: Events,
+    val events: Events?,
     @Json(name = "id")
-    val id: Int,
+    val id: Int?,
     @Json(name = "modified")
-    val modified: String,
+    val modified: String?,
     @Json(name = "name")
-    val name: String,
+    val name: String?,
     @Json(name = "resourceURI")
-    val resourceURI: String,
+    val resourceURI: String?,
     @Json(name = "series")
-    val series: Series,
+    val series: Series?,
     @Json(name = "stories")
-    val stories: Stories,
+    val stories: Stories?,
     @Json(name = "thumbnail")
-    val thumbnail: Thumbnail,
+    val thumbnail: Thumbnail?,
     @Json(name = "urls")
-    val urls: List<Url>
+    val urls: List<Url>?
 )

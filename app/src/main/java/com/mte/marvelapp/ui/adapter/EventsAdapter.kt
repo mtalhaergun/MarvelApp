@@ -1,4 +1,4 @@
-package com.mte.marvelapp.ui.home.adapter
+package com.mte.marvelapp.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,10 +7,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mte.marvelapp.data.remote.model.event.Events
 import com.mte.marvelapp.databinding.RecyclerEventsLayoutBinding
-import com.mte.marvelapp.ui.home.adapter.listener.EventsClickListener
+import com.mte.marvelapp.ui.adapter.listener.EventsClickListener
 
 
-class EventsAdapter (private val eventsClickListener : EventsClickListener) : PagingDataAdapter<Events, EventsAdapter.EventsViewHolder>(diffUtil) {
+class EventsAdapter (private val eventsClickListener : EventsClickListener) : PagingDataAdapter<Events, EventsAdapter.EventsViewHolder>(
+    diffUtil
+) {
 
     companion object{
         private val diffUtil = object : DiffUtil.ItemCallback<Events>(){
@@ -35,7 +37,7 @@ class EventsAdapter (private val eventsClickListener : EventsClickListener) : Pa
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventsViewHolder {
         val binding = RecyclerEventsLayoutBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-        return EventsAdapter.EventsViewHolder(binding)
+        return EventsViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: EventsViewHolder, position: Int) {

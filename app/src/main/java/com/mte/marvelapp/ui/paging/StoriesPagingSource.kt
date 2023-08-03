@@ -4,12 +4,12 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.mte.marvelapp.data.remote.model.stories.Stories
 import com.mte.marvelapp.data.remote.model.stories.StoriesResponse
-import com.mte.marvelapp.ui.home.HomeRepository
+import com.mte.marvelapp.data.repository.HomeRepository
 import com.mte.marvelapp.data.remote.service.NetworkResult
-import com.mte.marvelapp.ui.details.DetailsRepository
+import com.mte.marvelapp.data.repository.DetailsRepository
 import com.mte.marvelapp.utils.constants.Constants.PAGE_SIZE
 
-class StoriesPagingSource (private val repositoryHome: HomeRepository?,private val repositoryDetail : DetailsRepository?, private val id : String?) : PagingSource<Int, Stories>() {
+class StoriesPagingSource (private val repositoryHome: HomeRepository?, private val repositoryDetail : DetailsRepository?, private val id : String?) : PagingSource<Int, Stories>() {
 
     constructor(repositoryHome: HomeRepository?) : this(repositoryHome,null,null)
     constructor(repositoryDetail: DetailsRepository?, id : String?) : this(null,repositoryDetail,id)

@@ -1,23 +1,24 @@
-package com.mte.marvelapp.ui.home.adapter
+package com.mte.marvelapp.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mte.marvelapp.databinding.RecyclerListLayoutBinding
-import com.mte.marvelapp.ui.home.adapter.listener.SeeAllClickListener
+import com.mte.marvelapp.ui.adapter.listener.SeeAllClickListener
 
-class ComicsRecyclerAdapter (private val comicsAdapter: ComicsAdapter,
-                             private val seeAllClickListener: SeeAllClickListener) : RecyclerView.Adapter<ComicsRecyclerAdapter.ComicsRecyclerViewHolder>() {
+class StoriesRecyclerAdapter (private val storiesAdapter: StoriesAdapter,
+                              private val seeAllClickListener: SeeAllClickListener
+) : RecyclerView.Adapter<StoriesRecyclerAdapter.StoriesRecyclerViewHolder>() {
 
     private var shimmerVisibility = true
 
-    class ComicsRecyclerViewHolder(private val binding: RecyclerListLayoutBinding,private val comicsAdapter: ComicsAdapter) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(seeAllClickListener: SeeAllClickListener,shimmerVisibility : Boolean){
-            binding.rvCategories.adapter = comicsAdapter
-            binding.categoryTitle.text = "Comics"
+    class StoriesRecyclerViewHolder(private val binding: RecyclerListLayoutBinding,private val storiesAdapter: StoriesAdapter) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(seeAllClickListener: SeeAllClickListener, shimmerVisibility : Boolean){
+            binding.rvCategories.adapter = storiesAdapter
+            binding.categoryTitle.text = "Stories"
             binding.seeAllTitle.setOnClickListener {
-                seeAllClickListener.onSeeAllClick("comics")
+                seeAllClickListener.onSeeAllClick("stories")
             }
             if(shimmerVisibility){
                 binding.recyclerListLayout.visibility = View.GONE
@@ -31,12 +32,12 @@ class ComicsRecyclerAdapter (private val comicsAdapter: ComicsAdapter,
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComicsRecyclerViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoriesRecyclerViewHolder {
         val binding = RecyclerListLayoutBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-        return ComicsRecyclerViewHolder(binding,comicsAdapter)
+        return StoriesRecyclerViewHolder(binding,storiesAdapter)
     }
 
-    override fun onBindViewHolder(holder: ComicsRecyclerViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: StoriesRecyclerViewHolder, position: Int) {
         holder.bind(seeAllClickListener,shimmerVisibility)
     }
 

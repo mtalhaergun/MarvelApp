@@ -4,7 +4,7 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class ItemXX(
-    val name: String,
-    val resourceURI: String,
-    val role: String
+    val name: String?,
+    val resourceURI: String?,
+    val role: String?
 )

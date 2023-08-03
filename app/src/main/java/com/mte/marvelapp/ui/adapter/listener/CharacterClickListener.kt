@@ -1,4 +1,4 @@
-package com.mte.marvelapp.ui.home.adapter.listener
+package com.mte.marvelapp.ui.adapter.listener
 
 import com.mte.marvelapp.data.remote.model.character.Character
 

@@ -1,4 +1,4 @@
-package com.mte.marvelapp.ui.home.adapter.listener
+package com.mte.marvelapp.ui.adapter.listener
 
 interface SeeAllClickListener {
     fun onSeeAllClick(category : String)

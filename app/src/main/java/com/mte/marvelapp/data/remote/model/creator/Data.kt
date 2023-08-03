@@ -5,10 +5,10 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class Data(
-    val count: Int,
-    val limit: Int,
-    val offset: Int,
+    val count: Int?,
+    val limit: Int?,
+    val offset: Int?,
     @Json(name = "results")
-    val creators: List<Creator>,
-    val total: Int
+    val creators: List<Creator>?,
+    val total: Int?
 )

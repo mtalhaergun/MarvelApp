@@ -1,4 +1,4 @@
-package com.mte.marvelapp.ui.home.adapter
+package com.mte.marvelapp.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mte.marvelapp.data.remote.model.creator.Creator
 import com.mte.marvelapp.databinding.RecyclerCreatorsLayoutBinding
-import com.mte.marvelapp.ui.home.adapter.listener.CreatorsClickListener
+import com.mte.marvelapp.ui.adapter.listener.CreatorsClickListener
 
-class CreatorsAdapter  (private val creatorsClickListener: CreatorsClickListener) : PagingDataAdapter<Creator, CreatorsAdapter.CreatorsViewHolder>(diffUtil) {
+class CreatorsAdapter  (private val creatorsClickListener: CreatorsClickListener) : PagingDataAdapter<Creator, CreatorsAdapter.CreatorsViewHolder>(
+    diffUtil
+) {
 
     companion object{
         private val diffUtil = object : DiffUtil.ItemCallback<Creator>(){

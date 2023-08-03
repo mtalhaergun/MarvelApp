@@ -1,6 +1,5 @@
 package com.mte.marvelapp.ui.details
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -21,6 +20,7 @@ import com.mte.marvelapp.data.remote.model.series.SeriesResponse
 import com.mte.marvelapp.data.remote.model.stories.Stories
 import com.mte.marvelapp.data.remote.model.stories.StoriesResponse
 import com.mte.marvelapp.data.remote.service.NetworkResult
+import com.mte.marvelapp.data.repository.DetailsRepository
 import com.mte.marvelapp.ui.paging.CharactersPagingSource
 import com.mte.marvelapp.ui.paging.ComicsPagingSource
 import com.mte.marvelapp.ui.paging.CreatorsPagingSource

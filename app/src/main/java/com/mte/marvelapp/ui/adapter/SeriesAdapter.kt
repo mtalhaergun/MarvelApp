@@ -1,4 +1,4 @@
-package com.mte.marvelapp.ui.home.adapter
+package com.mte.marvelapp.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mte.marvelapp.data.remote.model.series.Series
 import com.mte.marvelapp.databinding.RecyclerSeriesLayoutBinding
-import com.mte.marvelapp.ui.home.adapter.listener.SeriesClickListener
+import com.mte.marvelapp.ui.adapter.listener.SeriesClickListener
 
-class SeriesAdapter(private val seriesClickListener: SeriesClickListener) : PagingDataAdapter<Series, SeriesAdapter.SeriesViewHolder>(diffUtil) {
+class SeriesAdapter(private val seriesClickListener: SeriesClickListener) : PagingDataAdapter<Series, SeriesAdapter.SeriesViewHolder>(
+    diffUtil
+) {
 
     companion object{
         private val diffUtil = object : DiffUtil.ItemCallback<Series>(){

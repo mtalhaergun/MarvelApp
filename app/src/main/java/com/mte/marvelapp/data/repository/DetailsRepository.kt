@@ -1,4 +1,4 @@
-package com.mte.marvelapp.ui.details
+package com.mte.marvelapp.data.repository
 
 import com.mte.marvelapp.base.BaseRepository
 import com.mte.marvelapp.data.remote.service.ApiService

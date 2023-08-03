@@ -33,18 +33,18 @@ import com.mte.marvelapp.data.remote.model.event.Events
 import com.mte.marvelapp.data.remote.model.series.Series
 import com.mte.marvelapp.data.remote.model.stories.Stories
 import com.mte.marvelapp.databinding.FragmentDetailsBinding
-import com.mte.marvelapp.ui.home.adapter.CharacterAdapter
-import com.mte.marvelapp.ui.home.adapter.ComicsAdapter
-import com.mte.marvelapp.ui.home.adapter.CreatorsAdapter
-import com.mte.marvelapp.ui.home.adapter.EventsAdapter
-import com.mte.marvelapp.ui.home.adapter.SeriesAdapter
-import com.mte.marvelapp.ui.home.adapter.StoriesAdapter
-import com.mte.marvelapp.ui.home.adapter.listener.CharacterClickListener
-import com.mte.marvelapp.ui.home.adapter.listener.ComicClickListener
-import com.mte.marvelapp.ui.home.adapter.listener.CreatorsClickListener
-import com.mte.marvelapp.ui.home.adapter.listener.EventsClickListener
-import com.mte.marvelapp.ui.home.adapter.listener.SeriesClickListener
-import com.mte.marvelapp.ui.home.adapter.listener.StoriesClickListener
+import com.mte.marvelapp.ui.adapter.CharacterAdapter
+import com.mte.marvelapp.ui.adapter.ComicsAdapter
+import com.mte.marvelapp.ui.adapter.CreatorsAdapter
+import com.mte.marvelapp.ui.adapter.EventsAdapter
+import com.mte.marvelapp.ui.adapter.SeriesAdapter
+import com.mte.marvelapp.ui.adapter.StoriesAdapter
+import com.mte.marvelapp.ui.adapter.listener.CharacterClickListener
+import com.mte.marvelapp.ui.adapter.listener.ComicClickListener
+import com.mte.marvelapp.ui.adapter.listener.CreatorsClickListener
+import com.mte.marvelapp.ui.adapter.listener.EventsClickListener
+import com.mte.marvelapp.ui.adapter.listener.SeriesClickListener
+import com.mte.marvelapp.ui.adapter.listener.StoriesClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -89,42 +89,42 @@ class DetailsFragment : Fragment() {
     }
 
     private fun setupRecyclerView() = with(binding) {
-        characterAdapter = CharacterAdapter(object : CharacterClickListener{
+        characterAdapter = CharacterAdapter(object : CharacterClickListener {
             override fun onCharacterClick(character: Character) {
                 val action = DetailsFragmentDirections.actionDetailsFragmentSelf(character.id.toString(),"characters")
                 findNavController().navigate(action)
             }
         })
 
-        seriesAdapter = SeriesAdapter(object : SeriesClickListener{
+        seriesAdapter = SeriesAdapter(object : SeriesClickListener {
             override fun onSeriesClick(series: Series) {
                 val action = DetailsFragmentDirections.actionDetailsFragmentSelf(series.id.toString(),"series")
                 findNavController().navigate(action)
             }
         })
 
-        comicsAdapter = ComicsAdapter(object : ComicClickListener{
+        comicsAdapter = ComicsAdapter(object : ComicClickListener {
             override fun onComicClick(comic: Comic) {
                 val action = DetailsFragmentDirections.actionDetailsFragmentSelf(comic.id.toString(),"comics")
                 findNavController().navigate(action)
             }
         })
 
-        storiesAdapter = StoriesAdapter(object : StoriesClickListener{
+        storiesAdapter = StoriesAdapter(object : StoriesClickListener {
             override fun onStoriesClick(stories: Stories) {
                 val action = DetailsFragmentDirections.actionDetailsFragmentSelf(stories.id.toString(),"stories")
                 findNavController().navigate(action)
             }
         })
 
-        eventsAdapter = EventsAdapter(object : EventsClickListener{
+        eventsAdapter = EventsAdapter(object : EventsClickListener {
             override fun onEventsClick(events: Events) {
                 val action = DetailsFragmentDirections.actionDetailsFragmentSelf(events.id.toString(),"events")
                 findNavController().navigate(action)
             }
         })
 
-        creatorsAdapter = CreatorsAdapter(object : CreatorsClickListener{
+        creatorsAdapter = CreatorsAdapter(object : CreatorsClickListener {
             override fun onCreatorsClick(creators: Creator) {
                 val action = DetailsFragmentDirections.actionDetailsFragmentSelf(creators.id.toString(),"creators")
                 findNavController().navigate(action)
@@ -140,34 +140,36 @@ class DetailsFragment : Fragment() {
                 binding.scrollView.visibility = View.VISIBLE
                 binding.detailShimmerInclude.root.visibility = View.GONE
                 binding.detailShimmerInclude.shimmerDetailLayout.stopShimmer()
-                with(model.data.characters[0]){
-                    var imageUrl = this.thumbnail.path + "/portrait_uncanny." + this.thumbnail.extension
-                    glideWithListener(detailImage,imageUrl)
+                if(model.data.characters != null){
+                    with(model.data.characters[0]){
+                        var imageUrl = this.thumbnail?.path + "/portrait_uncanny." + this.thumbnail?.extension
+                        glideWithListener(detailImage,imageUrl)
 
-                    detailId.text = this.id.toString()
-                    detailTitle.text = this.name
-                    detailDescription.text = this.description
-                    rvTitle.text = "Series"
-                    statsCharacter.visibility = View.GONE
-                    statsSeries.text = this.series.available.toString()
-                    statsComics.text = this.comics.available.toString()
-                    statsStories.text = this.stories.available.toString()
-                    statsEvents.text = this.events.available.toString()
+                        detailId.text = this.id.toString()
+                        detailTitle.text = this.name
+                        detailDescription.text = this.description
+                        rvTitle.text = "Series"
+                        statsCharacter.visibility = View.GONE
+                        statsSeries.text = this.series?.available.toString()
+                        statsComics.text = this.comics?.available.toString()
+                        statsStories.text = this.stories?.available.toString()
+                        statsEvents.text = this.events?.available.toString()
 
-                    val color = ContextCompat.getColor(requireContext(),R.color.primary_red)
-                    categoryHeroIcon.setColorFilter(color)
-                    statsCharacterName.setTextColor(color)
+                        val color = ContextCompat.getColor(requireContext(),R.color.primary_red)
+                        categoryHeroIcon.setColorFilter(color)
+                        statsCharacterName.setTextColor(color)
 
-                    val textListSeries = createStatsBar(this.series.available)
-                    seriesStatsCount.text = spanTextColors(textListSeries[0],textListSeries[1])
-                    val textListComics = createStatsBar(this.comics.available)
-                    comicsStatsCount.text = spanTextColors(textListComics[0],textListComics[1])
-                    val textListStories = createStatsBar(this.stories.available)
-                    storiesStatsCount.text = spanTextColors(textListStories[0],textListStories[1])
-                    val textListEvents = createStatsBar(this.events.available)
-                    eventsStatsCount.text = spanTextColors(textListEvents[0],textListEvents[1])
+                        val textListSeries = createStatsBar(this.series?.available)
+                        seriesStatsCount.text = spanTextColors(textListSeries[0],textListSeries[1])
+                        val textListComics = createStatsBar(this.comics?.available)
+                        comicsStatsCount.text = spanTextColors(textListComics[0],textListComics[1])
+                        val textListStories = createStatsBar(this.stories?.available)
+                        storiesStatsCount.text = spanTextColors(textListStories[0],textListStories[1])
+                        val textListEvents = createStatsBar(this.events?.available)
+                        eventsStatsCount.text = spanTextColors(textListEvents[0],textListEvents[1])
 
-                    characterStatsBar.visibility = View.GONE
+                        characterStatsBar.visibility = View.GONE
+                    }
                 }
             }else{
                 binding.scrollView.visibility = View.GONE
@@ -181,34 +183,36 @@ class DetailsFragment : Fragment() {
                 binding.scrollView.visibility = View.VISIBLE
                 binding.detailShimmerInclude.root.visibility = View.GONE
                 binding.detailShimmerInclude.shimmerDetailLayout.stopShimmer()
-                with(model.data.series[0]){
-                    var imageUrl = this.thumbnail.path + "/portrait_uncanny." + this.thumbnail.extension
-                    glideWithListener(detailImage,imageUrl)
+                if(model.data.series != null){
+                    with(model.data.series[0]){
+                        var imageUrl = this.thumbnail?.path + "/portrait_uncanny." + this.thumbnail?.extension
+                        glideWithListener(detailImage,imageUrl)
 
-                    detailId.text = this.id.toString()
-                    detailTitle.text = this.title
-                    detailDescription.text = this.description
-                    rvTitle.text = "Stories"
-                    statsSeries.visibility = View.GONE
-                    statsCharacter.text = this.characters.available.toString()
-                    statsComics.text = this.comics.available.toString()
-                    statsStories.text = this.stories.available.toString()
-                    statsEvents.text = this.events.available.toString()
+                        detailId.text = this.id.toString()
+                        detailTitle.text = this.title
+                        detailDescription.text = this.description
+                        rvTitle.text = "Stories"
+                        statsSeries.visibility = View.GONE
+                        statsCharacter.text = this.characters?.available.toString()
+                        statsComics.text = this.comics?.available.toString()
+                        statsStories.text = this.stories?.available.toString()
+                        statsEvents.text = this.events?.available.toString()
 
-                    val color = ContextCompat.getColor(requireContext(),R.color.primary_red)
-                    categoryVillainIcon.setColorFilter(color)
-                    statsSeriesName.setTextColor(color)
+                        val color = ContextCompat.getColor(requireContext(),R.color.primary_red)
+                        categoryVillainIcon.setColorFilter(color)
+                        statsSeriesName.setTextColor(color)
 
-                    val textListCharacters = createStatsBar(this.characters.available)
-                    characterStatsCount.text = spanTextColors(textListCharacters[0],textListCharacters[1])
-                    val textListComics = createStatsBar(this.comics.available)
-                    comicsStatsCount.text = spanTextColors(textListComics[0],textListComics[1])
-                    val textListStories = createStatsBar(this.stories.available)
-                    storiesStatsCount.text = spanTextColors(textListStories[0],textListStories[1])
-                    val textListEvents = createStatsBar(this.events.available)
-                    eventsStatsCount.text = spanTextColors(textListEvents[0],textListEvents[1])
+                        val textListCharacters = createStatsBar(this.characters?.available)
+                        characterStatsCount.text = spanTextColors(textListCharacters[0],textListCharacters[1])
+                        val textListComics = createStatsBar(this.comics?.available)
+                        comicsStatsCount.text = spanTextColors(textListComics[0],textListComics[1])
+                        val textListStories = createStatsBar(this.stories?.available)
+                        storiesStatsCount.text = spanTextColors(textListStories[0],textListStories[1])
+                        val textListEvents = createStatsBar(this.events?.available)
+                        eventsStatsCount.text = spanTextColors(textListEvents[0],textListEvents[1])
 
-                    seriesStatsBar.visibility = View.GONE
+                        seriesStatsBar.visibility = View.GONE
+                    }
                 }
             }else{
                 binding.scrollView.visibility = View.GONE
@@ -222,34 +226,36 @@ class DetailsFragment : Fragment() {
                 binding.scrollView.visibility = View.VISIBLE
                 binding.detailShimmerInclude.root.visibility = View.GONE
                 binding.detailShimmerInclude.shimmerDetailLayout.stopShimmer()
-                with(model.data.comics[0]){
-                    var imageUrl = this.thumbnail.path + "/portrait_uncanny." + this.thumbnail.extension
-                    glideWithListener(detailImage,imageUrl)
+                if(model.data.comics != null){
+                    with(model.data.comics[0]){
+                        var imageUrl = this.thumbnail?.path + "/portrait_uncanny." + this.thumbnail?.extension
+                        glideWithListener(detailImage,imageUrl)
 
-                    detailId.text = this.id.toString()
-                    detailTitle.text = this.title
-                    detailDescription.text = this.description
-                    rvTitle.text = "Creators"
-                    statsComics.visibility = View.GONE
-                    statsCharacter.text = this.characters.available.toString()
-                    statsSeries.text = "1"
-                    statsStories.text = this.stories.available.toString()
-                    statsEvents.text = this.events.available.toString()
+                        detailId.text = this.id.toString()
+                        detailTitle.text = this.title
+                        detailDescription.text = this.description
+                        rvTitle.text = "Creators"
+                        statsComics.visibility = View.GONE
+                        statsCharacter.text = this.characters?.available.toString()
+                        statsSeries.text = "1"
+                        statsStories.text = this.stories?.available.toString()
+                        statsEvents.text = this.events?.available.toString()
 
-                    val color = ContextCompat.getColor(requireContext(),R.color.primary_red)
-                    categoryAntiheroIcon.setColorFilter(color)
-                    statsComicsName.setTextColor(color)
+                        val color = ContextCompat.getColor(requireContext(),R.color.primary_red)
+                        categoryAntiheroIcon.setColorFilter(color)
+                        statsComicsName.setTextColor(color)
 
-                    val textListCharacters = createStatsBar(this.characters.available)
-                    characterStatsCount.text = spanTextColors(textListCharacters[0],textListCharacters[1])
-                    val textListSeries = createStatsBar(1)
-                    seriesStatsCount.text = spanTextColors(textListSeries[0],textListSeries[1])
-                    val textListStories = createStatsBar(this.stories.available)
-                    storiesStatsCount.text = spanTextColors(textListStories[0],textListStories[1])
-                    val textListEvents = createStatsBar(this.events.available)
-                    eventsStatsCount.text = spanTextColors(textListEvents[0],textListEvents[1])
+                        val textListCharacters = createStatsBar(this.characters?.available)
+                        characterStatsCount.text = spanTextColors(textListCharacters[0],textListCharacters[1])
+                        val textListSeries = createStatsBar(1)
+                        seriesStatsCount.text = spanTextColors(textListSeries[0],textListSeries[1])
+                        val textListStories = createStatsBar(this.stories?.available)
+                        storiesStatsCount.text = spanTextColors(textListStories[0],textListStories[1])
+                        val textListEvents = createStatsBar(this.events?.available)
+                        eventsStatsCount.text = spanTextColors(textListEvents[0],textListEvents[1])
 
-                    comicsStatsBar.visibility = View.GONE
+                        comicsStatsBar.visibility = View.GONE
+                    }
                 }
             }else{
                 binding.scrollView.visibility = View.GONE
@@ -263,34 +269,36 @@ class DetailsFragment : Fragment() {
                 binding.scrollView.visibility = View.VISIBLE
                 binding.detailShimmerInclude.root.visibility = View.GONE
                 binding.detailShimmerInclude.shimmerDetailLayout.stopShimmer()
-                with(model.data.stories[0]){
-                    var imageUrl = this.thumbnail?.path + "/portrait_uncanny." + this.thumbnail?.extension
-                    glideWithListener(detailImage,imageUrl)
+                if(model.data.stories != null){
+                    with(model.data.stories[0]){
+                        var imageUrl = this.thumbnail?.path + "/portrait_uncanny." + this.thumbnail?.extension
+                        glideWithListener(detailImage,imageUrl)
 
-                    detailId.text = this.id.toString()
-                    detailTitle.text = this.title
-                    detailDescription.text = this.description
-                    rvTitle.text = "Comics"
-                    statsStories.visibility = View.GONE
-                    statsCharacter.text = this.characters.available.toString()
-                    statsComics.text = this.comics.available.toString()
-                    statsSeries.text = this.series.available.toString()
-                    statsEvents.text = this.events.available.toString()
+                        detailId.text = this.id.toString()
+                        detailTitle.text = this.title
+                        detailDescription.text = this.description
+                        rvTitle.text = "Comics"
+                        statsStories.visibility = View.GONE
+                        statsCharacter.text = this.characters?.available.toString()
+                        statsComics.text = this.comics?.available.toString()
+                        statsSeries.text = this.series?.available.toString()
+                        statsEvents.text = this.events?.available.toString()
 
-                    val color = ContextCompat.getColor(requireContext(),R.color.primary_red)
-                    categoryAlienIcon.setColorFilter(color)
-                    statsStoriesName.setTextColor(color)
+                        val color = ContextCompat.getColor(requireContext(),R.color.primary_red)
+                        categoryAlienIcon.setColorFilter(color)
+                        statsStoriesName.setTextColor(color)
 
-                    val textListCharacters = createStatsBar(this.characters.available)
-                    characterStatsCount.text = spanTextColors(textListCharacters[0],textListCharacters[1])
-                    val textListSeries = createStatsBar(this.series.available)
-                    seriesStatsCount.text = spanTextColors(textListSeries[0],textListSeries[1])
-                    val textListComics = createStatsBar(this.comics.available)
-                    comicsStatsCount.text = spanTextColors(textListComics[0],textListComics[1])
-                    val textListEvents = createStatsBar(this.events.available)
-                    eventsStatsCount.text = spanTextColors(textListEvents[0],textListEvents[1])
+                        val textListCharacters = createStatsBar(this.characters?.available)
+                        characterStatsCount.text = spanTextColors(textListCharacters[0],textListCharacters[1])
+                        val textListSeries = createStatsBar(this.series?.available)
+                        seriesStatsCount.text = spanTextColors(textListSeries[0],textListSeries[1])
+                        val textListComics = createStatsBar(this.comics?.available)
+                        comicsStatsCount.text = spanTextColors(textListComics[0],textListComics[1])
+                        val textListEvents = createStatsBar(this.events?.available)
+                        eventsStatsCount.text = spanTextColors(textListEvents[0],textListEvents[1])
 
-                    storiesStatsBar.visibility = View.GONE
+                        storiesStatsBar.visibility = View.GONE
+                    }
                 }
             }else{
                 binding.scrollView.visibility = View.GONE
@@ -304,34 +312,36 @@ class DetailsFragment : Fragment() {
                 binding.scrollView.visibility = View.VISIBLE
                 binding.detailShimmerInclude.root.visibility = View.GONE
                 binding.detailShimmerInclude.shimmerDetailLayout.stopShimmer()
-                with(model.data.events[0]){
-                    var imageUrl = this.thumbnail.path + "/portrait_uncanny." + this.thumbnail.extension
-                    glideWithListener(detailImage,imageUrl)
+                if(model.data.events != null){
+                    with(model.data.events[0]){
+                        var imageUrl = this.thumbnail?.path + "/portrait_uncanny." + this.thumbnail?.extension
+                        glideWithListener(detailImage,imageUrl)
 
-                    detailId.text = this.id.toString()
-                    detailTitle.text = this.title
-                    detailDescription.text = this.description
-                    rvTitle.text = "Characters"
-                    statsEvents.visibility = View.GONE
-                    statsCharacter.text = this.characters.available.toString()
-                    statsComics.text = this.comics.available.toString()
-                    statsSeries.text = this.series.available.toString()
-                    statsStories.text = this.stories.available.toString()
+                        detailId.text = this.id.toString()
+                        detailTitle.text = this.title
+                        detailDescription.text = this.description
+                        rvTitle.text = "Characters"
+                        statsEvents.visibility = View.GONE
+                        statsCharacter.text = this.characters?.available.toString()
+                        statsComics.text = this.comics?.available.toString()
+                        statsSeries.text = this.series?.available.toString()
+                        statsStories.text = this.stories?.available.toString()
 
-                    val color = ContextCompat.getColor(requireContext(),R.color.primary_red)
-                    categoryHumanIcon.setColorFilter(color)
-                    statsEventsName.setTextColor(color)
+                        val color = ContextCompat.getColor(requireContext(),R.color.primary_red)
+                        categoryHumanIcon.setColorFilter(color)
+                        statsEventsName.setTextColor(color)
 
-                    val textListCharacters = createStatsBar(this.characters.available)
-                    characterStatsCount.text = spanTextColors(textListCharacters[0],textListCharacters[1])
-                    val textListSeries = createStatsBar(this.series.available)
-                    seriesStatsCount.text = spanTextColors(textListSeries[0],textListSeries[1])
-                    val textListComics = createStatsBar(this.comics.available)
-                    comicsStatsCount.text = spanTextColors(textListComics[0],textListComics[1])
-                    val textListStories = createStatsBar(this.stories.available)
-                    storiesStatsCount.text = spanTextColors(textListStories[0],textListStories[1])
+                        val textListCharacters = createStatsBar(this.characters?.available)
+                        characterStatsCount.text = spanTextColors(textListCharacters[0],textListCharacters[1])
+                        val textListSeries = createStatsBar(this.series?.available)
+                        seriesStatsCount.text = spanTextColors(textListSeries[0],textListSeries[1])
+                        val textListComics = createStatsBar(this.comics?.available)
+                        comicsStatsCount.text = spanTextColors(textListComics[0],textListComics[1])
+                        val textListStories = createStatsBar(this.stories?.available)
+                        storiesStatsCount.text = spanTextColors(textListStories[0],textListStories[1])
 
-                    eventsStatsBar.visibility = View.GONE
+                        eventsStatsBar.visibility = View.GONE
+                    }
                 }
             }else{
                 binding.scrollView.visibility = View.GONE
@@ -345,31 +355,33 @@ class DetailsFragment : Fragment() {
                 binding.scrollView.visibility = View.VISIBLE
                 binding.detailShimmerInclude.root.visibility = View.GONE
                 binding.detailShimmerInclude.shimmerDetailLayout.stopShimmer()
-                with(model.data.creators[0]){
-                    var imageUrl = this.thumbnail.path + "/portrait_uncanny." + this.thumbnail.extension
-                    glideWithListener(detailImage,imageUrl)
+                if(model.data.creators != null){
+                    with(model.data.creators[0]){
+                        var imageUrl = this.thumbnail?.path + "/portrait_uncanny." + this.thumbnail?.extension
+                        glideWithListener(detailImage,imageUrl)
 
-                    detailId.text = this.id.toString()
-                    detailTitle.text = this.fullName
-                    detailDescription.text = ""
-                    rvTitle.text = "Events"
-                    statsCharacter.text = "0"
-                    statsEvents.text = this.events.available.toString()
-                    statsComics.text = this.comics.available.toString()
-                    statsSeries.text = this.series.available.toString()
-                    statsStories.text = this.stories.available.toString()
+                        detailId.text = this.id.toString()
+                        detailTitle.text = this.fullName
+                        detailDescription.text = ""
+                        rvTitle.text = "Events"
+                        statsCharacter.text = "0"
+                        statsEvents.text = this.events?.available.toString()
+                        statsComics.text = this.comics?.available.toString()
+                        statsSeries.text = this.series?.available.toString()
+                        statsStories.text = this.stories?.available.toString()
 
-                    val textListCharacters = createStatsBar(0)
-                    characterStatsCount.text = spanTextColors(textListCharacters[0],textListCharacters[1])
-                    val textListSeries = createStatsBar(this.series.available)
-                    seriesStatsCount.text = spanTextColors(textListSeries[0],textListSeries[1])
-                    val textListComics = createStatsBar(this.comics.available)
-                    comicsStatsCount.text = spanTextColors(textListComics[0],textListComics[1])
-                    val textListStories = createStatsBar(this.stories.available)
-                    storiesStatsCount.text = spanTextColors(textListStories[0],textListStories[1])
-                    val textListEvents = createStatsBar(this.events.available)
-                    eventsStatsCount.text = spanTextColors(textListEvents[0],textListEvents[1])
+                        val textListCharacters = createStatsBar(0)
+                        characterStatsCount.text = spanTextColors(textListCharacters[0],textListCharacters[1])
+                        val textListSeries = createStatsBar(this.series?.available)
+                        seriesStatsCount.text = spanTextColors(textListSeries[0],textListSeries[1])
+                        val textListComics = createStatsBar(this.comics?.available)
+                        comicsStatsCount.text = spanTextColors(textListComics[0],textListComics[1])
+                        val textListStories = createStatsBar(this.stories?.available)
+                        storiesStatsCount.text = spanTextColors(textListStories[0],textListStories[1])
+                        val textListEvents = createStatsBar(this.events?.available)
+                        eventsStatsCount.text = spanTextColors(textListEvents[0],textListEvents[1])
 
+                    }
                 }
             }else{
                 binding.scrollView.visibility = View.GONE

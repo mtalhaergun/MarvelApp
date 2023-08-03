@@ -6,7 +6,7 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class Next(
     @Json(name = "name")
-    val name: String,
+    val name: String?,
     @Json(name = "resourceURI")
-    val resourceURI: String
+    val resourceURI: String?
 )

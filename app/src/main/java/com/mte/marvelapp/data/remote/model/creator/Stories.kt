@@ -5,9 +5,9 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class Stories(
-    val available: Int,
-    val collectionURI: String,
+    val available: Int?,
+    val collectionURI: String?,
     @Json(name = "items")
-    val items: List<ItemXXX>,
-    val returned: Int
+    val items: List<ItemXXX>?,
+    val returned: Int?
 )

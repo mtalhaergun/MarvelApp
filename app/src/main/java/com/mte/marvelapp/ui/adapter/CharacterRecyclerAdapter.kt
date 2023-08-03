@@ -1,4 +1,4 @@
-package com.mte.marvelapp.ui.home.adapter
+package com.mte.marvelapp.ui.adapter
 
 import android.os.Handler
 import android.os.Looper
@@ -11,16 +11,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mte.marvelapp.databinding.RecyclerListLayoutBinding
 import com.mte.marvelapp.ui.home.HomeFragment
 import com.mte.marvelapp.ui.home.HomeFragmentDirections
-import com.mte.marvelapp.ui.home.adapter.listener.SeeAllClickListener
+import com.mte.marvelapp.ui.adapter.listener.SeeAllClickListener
 import com.mte.marvelapp.utils.extensions.safeNavigate
 
 class CharacterRecyclerAdapter (private val characterAdapter: CharacterAdapter,
-                                private val seeAllClickListener: SeeAllClickListener) : RecyclerView.Adapter<CharacterRecyclerAdapter.CharacterRecyclerViewHolder>() {
+                                private val seeAllClickListener: SeeAllClickListener
+) : RecyclerView.Adapter<CharacterRecyclerAdapter.CharacterRecyclerViewHolder>() {
 
     private var shimmerVisibility = true
 
     class CharacterRecyclerViewHolder(private val binding: RecyclerListLayoutBinding,private val characterAdapter: CharacterAdapter) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(seeAllClickListener: SeeAllClickListener,shimmerVisibility : Boolean){
+        fun bind(seeAllClickListener: SeeAllClickListener, shimmerVisibility : Boolean){
             binding.rvCategories.adapter = characterAdapter
             binding.categoryTitle.text = "Heroes"
             binding.seeAllTitle.setOnClickListener {

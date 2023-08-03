@@ -1,15 +1,17 @@
-package com.mte.marvelapp.ui.home.adapter
+package com.mte.marvelapp.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.mte.marvelapp.ui.home.adapter.listener.CharacterClickListener
+import com.mte.marvelapp.ui.adapter.listener.CharacterClickListener
 import com.mte.marvelapp.data.remote.model.character.Character
 import com.mte.marvelapp.databinding.RecyclerHeroesLayoutBinding
 
-class CharacterAdapter (private val characterClickListener: CharacterClickListener) : PagingDataAdapter<Character, CharacterAdapter.CharacterViewHolder>(diffUtil) {
+class CharacterAdapter (private val characterClickListener: CharacterClickListener) : PagingDataAdapter<Character, CharacterAdapter.CharacterViewHolder>(
+    diffUtil
+) {
 
     companion object{
         private val diffUtil = object : DiffUtil.ItemCallback<Character>() {

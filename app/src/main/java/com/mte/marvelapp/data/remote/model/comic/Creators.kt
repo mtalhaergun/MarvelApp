@@ -5,9 +5,9 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class Creators(
-    val available: Int,
-    val collectionURI: String,
+    val available: Int?,
+    val collectionURI: String?,
     @Json(name = "items")
-    val items: List<ItemX>,
-    val returned: Int
+    val items: List<ItemX>?,
+    val returned: Int?
 )
