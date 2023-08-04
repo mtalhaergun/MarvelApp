@@ -250,7 +250,6 @@
                         android:id="@+id/comics_stats_title"
                         android:layout_width="64dp"
                         android:layout_height="wrap_content"
-                        android:text="Comics"
                         android:textSize="12sp"
                         android:background="@color/primary_silver"
                         app:layout_constraintBottom_toBottomOf="parent"

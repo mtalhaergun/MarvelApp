@@ -1,11 +1,14 @@
 package com.mte.marvelapp.ui.seeall
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Rect
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -60,6 +63,8 @@ class SeeAllFragment : Fragment() {
     var apiRequestOnce = false
     var tempSearchQuery : String? = null
 
+    private var isDarkMode : SharedPreferences? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         selectedCategory = args.category
@@ -76,6 +81,7 @@ class SeeAllFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setTheme()
         setupRecyclerViews()
         if(!apiRequestOnce) {
             sendApiRequests()
@@ -331,6 +337,18 @@ class SeeAllFragment : Fragment() {
                 delay(interval)
             }
             searchQuery()
+        }
+    }
+
+    private fun setTheme(){
+        isDarkMode = requireActivity().getSharedPreferences("theme", Context.MODE_PRIVATE)
+        val isDark = isDarkMode?.getBoolean("theme",false)
+        if(isDark == true){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            isDarkMode?.edit()?.putBoolean("theme",true)?.apply()
+        }else{
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            isDarkMode?.edit()?.putBoolean("theme",false)?.apply()
         }
     }
 

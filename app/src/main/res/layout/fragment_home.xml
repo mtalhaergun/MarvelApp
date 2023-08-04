@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primary_silver"
     tools:context=".ui.home.HomeFragment">
 
 
@@ -46,11 +45,11 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/search_icon"
+                android:id="@+id/theme_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:src="@drawable/icon_search"
+                android:src="@drawable/icon_dark_mode"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -80,7 +79,6 @@
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/font_gilroy_semibold"
                 android:text="@string/banner_text"
-                android:textColor="@color/primary_grey"
                 android:textSize="@dimen/banner_text_size"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -93,7 +91,6 @@
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/font_gilroy_heavy"
                 android:text="@string/banner_title"
-                android:textColor="@color/primary_black"
                 android:textSize="@dimen/banner_title_size"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/banner_text" />
