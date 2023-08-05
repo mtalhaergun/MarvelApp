@@ -321,11 +321,10 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         activity?.let {
-            activity?.let {
-                WindowCompat.setDecorFitsSystemWindows(it.window, false)
-                val insetsController = WindowInsetsControllerCompat(it.window, it.window.decorView)
-                insetsController.isAppearanceLightStatusBars = true
-            }
+            val isDark = isDarkMode?.getBoolean("theme",false)
+            WindowCompat.setDecorFitsSystemWindows(it.window, false)
+            val insetsController = WindowInsetsControllerCompat(it.window, it.window.decorView)
+            insetsController.isAppearanceLightStatusBars = isDark != true
         }
     }
 

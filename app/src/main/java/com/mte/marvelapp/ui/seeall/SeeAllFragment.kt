@@ -356,9 +356,10 @@ class SeeAllFragment : Fragment() {
         super.onResume()
         activity?.let {
             activity?.let {
+                val isDark = isDarkMode?.getBoolean("theme",false)
                 WindowCompat.setDecorFitsSystemWindows(it.window, false)
                 val insetsController = WindowInsetsControllerCompat(it.window, it.window.decorView)
-                insetsController.isAppearanceLightStatusBars = true
+                insetsController.isAppearanceLightStatusBars = isDark != true
             }
         }
     }
