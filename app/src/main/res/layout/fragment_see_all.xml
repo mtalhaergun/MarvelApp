@@ -46,12 +46,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
+                    android:fontFamily="@font/font_gilroy_medium"
                     android:text="@{titleName}"
                     android:textSize="24sp"
-                    android:fontFamily="@font/font_gilroy_medium"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/icon_back"
                     app:layout_constraintStart_toEndOf="@+id/icon_back"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="@+id/icon_back" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
