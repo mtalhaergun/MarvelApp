@@ -17,6 +17,7 @@ import com.mte.marvelapp.ui.paging.ComicsPagingSource
 import com.mte.marvelapp.ui.paging.EventsPagingSource
 import com.mte.marvelapp.ui.paging.SeriesPagingSource
 import com.mte.marvelapp.utils.constants.Constants
+import com.mte.marvelapp.utils.constants.Constants.PREFETCH_DISTANCE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -56,7 +57,7 @@ class SeeAllViewModel @Inject constructor(private val repository: SeeAllReposito
         charactersSearchPagingData = Pager(
             PagingConfig(
                 pageSize = Constants.PAGE_SIZE,
-                prefetchDistance = 1
+                prefetchDistance = PREFETCH_DISTANCE
             )
         ) {
             CharactersPagingSource(repository,name)
@@ -68,7 +69,7 @@ class SeeAllViewModel @Inject constructor(private val repository: SeeAllReposito
     fun fetchCharacters() = viewModelScope.launch {
         charactersPagingData = Pager(PagingConfig(
             pageSize = Constants.PAGE_SIZE,
-            prefetchDistance = 1
+            prefetchDistance = PREFETCH_DISTANCE
         )) {
             CharactersPagingSource(repositoryHome)
         }.flow.cachedIn(viewModelScope).first()
@@ -80,7 +81,7 @@ class SeeAllViewModel @Inject constructor(private val repository: SeeAllReposito
         seriesSearchPagingData = Pager(
             PagingConfig(
                 pageSize = Constants.PAGE_SIZE,
-                prefetchDistance = 1
+                prefetchDistance = PREFETCH_DISTANCE
             )
         ) {
             SeriesPagingSource(repository,title)
@@ -92,7 +93,7 @@ class SeeAllViewModel @Inject constructor(private val repository: SeeAllReposito
     fun fetchSeries() = viewModelScope.launch {
         seriesPagingData = Pager(PagingConfig(
             pageSize = Constants.PAGE_SIZE,
-            prefetchDistance = 1
+            prefetchDistance = PREFETCH_DISTANCE
         )) {
             SeriesPagingSource(repositoryHome)
         }.flow.cachedIn(viewModelScope).first()
@@ -104,7 +105,7 @@ class SeeAllViewModel @Inject constructor(private val repository: SeeAllReposito
         comicsSearchPagingData = Pager(
             PagingConfig(
                 pageSize = Constants.PAGE_SIZE,
-                prefetchDistance = 1
+                prefetchDistance = PREFETCH_DISTANCE
             )
         ) {
             ComicsPagingSource(repository,title)
@@ -116,7 +117,7 @@ class SeeAllViewModel @Inject constructor(private val repository: SeeAllReposito
     fun fetchComics() = viewModelScope.launch {
         comicsPagingData = Pager(PagingConfig(
             pageSize = Constants.PAGE_SIZE,
-            prefetchDistance = 1
+            prefetchDistance = PREFETCH_DISTANCE
         )) {
             ComicsPagingSource(repositoryHome)
         }.flow.cachedIn(viewModelScope).first()
@@ -128,7 +129,7 @@ class SeeAllViewModel @Inject constructor(private val repository: SeeAllReposito
         eventsSearchPagingData = Pager(
             PagingConfig(
                 pageSize = Constants.PAGE_SIZE,
-                prefetchDistance = 1
+                prefetchDistance = PREFETCH_DISTANCE
             )
         ) {
             EventsPagingSource(repository,name)
@@ -140,7 +141,7 @@ class SeeAllViewModel @Inject constructor(private val repository: SeeAllReposito
     fun fetchEvents() = viewModelScope.launch {
         eventsPagingData = Pager(PagingConfig(
             pageSize = Constants.PAGE_SIZE,
-            prefetchDistance = 1
+            prefetchDistance = PREFETCH_DISTANCE
         )) {
             EventsPagingSource(repositoryHome)
         }.flow.cachedIn(viewModelScope).first()

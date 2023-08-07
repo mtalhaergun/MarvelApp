@@ -7,4 +7,5 @@ object Constants {
     const val API_KEY = BuildConfig.API_KEY
     const val HASH = BuildConfig.HASH
     const val PAGE_SIZE = 20
+    const val PREFETCH_DISTANCE = 3
 }

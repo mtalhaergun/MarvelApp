@@ -28,6 +28,7 @@ import com.mte.marvelapp.ui.paging.EventsPagingSource
 import com.mte.marvelapp.ui.paging.SeriesPagingSource
 import com.mte.marvelapp.ui.paging.StoriesPagingSource
 import com.mte.marvelapp.utils.constants.Constants
+import com.mte.marvelapp.utils.constants.Constants.PREFETCH_DISTANCE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -159,7 +160,7 @@ class DetailsViewModel @Inject constructor(private val repository : DetailsRepos
             seriesPagingData = Pager(
                 PagingConfig(
                     pageSize = Constants.PAGE_SIZE,
-                    prefetchDistance = 1
+                    prefetchDistance = PREFETCH_DISTANCE
                 )
             ) {
                 SeriesPagingSource(repository,id)
@@ -172,7 +173,7 @@ class DetailsViewModel @Inject constructor(private val repository : DetailsRepos
         if(storiesPagingData == null){
             storiesPagingData = Pager(PagingConfig(
                 pageSize = Constants.PAGE_SIZE,
-                prefetchDistance = 1
+                prefetchDistance = PREFETCH_DISTANCE
             )) {
                 StoriesPagingSource(repository,id)
             }.flow.cachedIn(viewModelScope).first()
@@ -184,7 +185,7 @@ class DetailsViewModel @Inject constructor(private val repository : DetailsRepos
         if(creatorsPagingData == null){
             creatorsPagingData = Pager(PagingConfig(
                 pageSize = Constants.PAGE_SIZE,
-                prefetchDistance = 1
+                prefetchDistance = PREFETCH_DISTANCE
             )) {
                 CreatorsPagingSource(repository,id)
             }.flow.cachedIn(viewModelScope).first()
@@ -196,7 +197,7 @@ class DetailsViewModel @Inject constructor(private val repository : DetailsRepos
         if(comicsPagingData == null){
             comicsPagingData = Pager(PagingConfig(
                 pageSize = Constants.PAGE_SIZE,
-                prefetchDistance = 1
+                prefetchDistance = PREFETCH_DISTANCE
             )) {
                 ComicsPagingSource(repository,id)
             }.flow.cachedIn(viewModelScope).first()
@@ -209,7 +210,7 @@ class DetailsViewModel @Inject constructor(private val repository : DetailsRepos
             charactersPagingData = Pager(
                 PagingConfig(
                     pageSize = Constants.PAGE_SIZE,
-                    prefetchDistance = 1
+                    prefetchDistance = PREFETCH_DISTANCE
                 )
             ) {
                 CharactersPagingSource(repository,id)
@@ -222,7 +223,7 @@ class DetailsViewModel @Inject constructor(private val repository : DetailsRepos
         if(eventsPagingData == null){
             eventsPagingData = Pager(PagingConfig(
                 pageSize = Constants.PAGE_SIZE,
-                prefetchDistance = 1
+                prefetchDistance = PREFETCH_DISTANCE
             )) {
                 EventsPagingSource(repository,id)
             }.flow.cachedIn(viewModelScope).first()
