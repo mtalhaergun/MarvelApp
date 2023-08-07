@@ -10,15 +10,15 @@ plugins {
 }
 
 android {
-    namespace 'com.mte.marvelapp'
-    compileSdk 33
+    namespace Config.namespace
+    compileSdk Config.compileSdk
 
     defaultConfig {
-        applicationId "com.mte.marvelapp"
-        minSdk 24
-        targetSdk 33
-        versionCode 2
-        versionName "2.0"
+        applicationId Config.namespace
+        minSdk Config.minSdk
+        targetSdk Config.targetSdk
+        versionCode Config.versionCode
+        versionName Config.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
