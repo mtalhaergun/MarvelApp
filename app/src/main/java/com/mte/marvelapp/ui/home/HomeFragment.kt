@@ -19,6 +19,7 @@ import androidx.transition.TransitionManager
 import com.mte.marvelapp.R
 import com.mte.marvelapp.data.remote.model.character.Character
 import com.mte.marvelapp.data.remote.model.comic.Comic
+import com.mte.marvelapp.data.remote.model.enums.Category
 import com.mte.marvelapp.data.remote.model.event.Events
 import com.mte.marvelapp.data.remote.model.series.Series
 import com.mte.marvelapp.data.remote.model.stories.Stories
@@ -196,35 +197,35 @@ class HomeFragment : Fragment() {
     private fun setupAdapters(){
         characterAdapter = CharacterAdapter(object : CharacterClickListener {
             override fun onCharacterClick(character: Character) {
-                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment(character.id.toString(),"characters")
+                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment(character.id.toString(),Category.CHARACTERS)
                 findNavController().safeNavigate(action)
             }
         })
 
         seriesAdapter = SeriesAdapter(object : SeriesClickListener {
             override fun onSeriesClick(series: Series) {
-                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment(series.id.toString(),"series")
+                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment(series.id.toString(),Category.SERIES)
                 findNavController().safeNavigate(action)
             }
         })
 
         comicsAdapter = ComicsAdapter(object : ComicClickListener {
             override fun onComicClick(comic: Comic) {
-                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment(comic.id.toString(),"comics")
+                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment(comic.id.toString(),Category.COMICS)
                 findNavController().safeNavigate(action)
             }
         })
 
         storiesAdapter = StoriesAdapter(object : StoriesClickListener {
             override fun onStoriesClick(stories: Stories) {
-                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment(stories.id.toString(),"stories")
+                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment(stories.id.toString(),Category.STORIES)
                 findNavController().safeNavigate(action)
             }
         })
 
         eventsAdapter = EventsAdapter(object : EventsClickListener {
             override fun onEventsClick(events: Events) {
-                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment(events.id.toString(),"events")
+                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment(events.id.toString(),Category.EVENTS)
                 findNavController().safeNavigate(action)
             }
         })
@@ -232,21 +233,21 @@ class HomeFragment : Fragment() {
         characterRecyclerAdapter = CharacterRecyclerAdapter(characterAdapter, object :
             SeeAllClickListener {
             override fun onSeeAllClick(category: String) {
-                val action = HomeFragmentDirections.actionHomeFragmentToSeeAllFragment("characters")
+                val action = HomeFragmentDirections.actionHomeFragmentToSeeAllFragment(Category.CHARACTERS)
                 findNavController().safeNavigate(action)
             }
         })
 
         seriesRecyclerAdapter = SeriesRecyclerAdapter(seriesAdapter, object : SeeAllClickListener {
             override fun onSeeAllClick(category: String) {
-                val action = HomeFragmentDirections.actionHomeFragmentToSeeAllFragment("series")
+                val action = HomeFragmentDirections.actionHomeFragmentToSeeAllFragment(Category.SERIES)
                 findNavController().safeNavigate(action)
             }
         })
 
         comicsRecyclerAdapter = ComicsRecyclerAdapter(comicsAdapter, object : SeeAllClickListener {
             override fun onSeeAllClick(category: String) {
-                val action = HomeFragmentDirections.actionHomeFragmentToSeeAllFragment("comics")
+                val action = HomeFragmentDirections.actionHomeFragmentToSeeAllFragment(Category.COMICS)
                 findNavController().safeNavigate(action)
             }
         })
@@ -260,7 +261,7 @@ class HomeFragment : Fragment() {
 
         eventsRecyclerAdapter = EventsRecyclerAdapter(eventsAdapter, object : SeeAllClickListener {
             override fun onSeeAllClick(category: String) {
-                val action = HomeFragmentDirections.actionHomeFragmentToSeeAllFragment("events")
+                val action = HomeFragmentDirections.actionHomeFragmentToSeeAllFragment(Category.EVENTS)
                 findNavController().safeNavigate(action)
             }
         })

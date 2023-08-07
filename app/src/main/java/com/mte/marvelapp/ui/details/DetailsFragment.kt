@@ -32,6 +32,7 @@ import com.mte.marvelapp.R
 import com.mte.marvelapp.data.remote.model.character.Character
 import com.mte.marvelapp.data.remote.model.comic.Comic
 import com.mte.marvelapp.data.remote.model.creator.Creator
+import com.mte.marvelapp.data.remote.model.enums.Category
 import com.mte.marvelapp.data.remote.model.event.Events
 import com.mte.marvelapp.data.remote.model.series.Series
 import com.mte.marvelapp.data.remote.model.stories.Stories
@@ -98,42 +99,42 @@ class DetailsFragment : Fragment() {
     private fun setupRecyclerView() = with(binding) {
         characterAdapter = CharacterAdapter(object : CharacterClickListener {
             override fun onCharacterClick(character: Character) {
-                val action = DetailsFragmentDirections.actionDetailsFragmentSelf(character.id.toString(),"characters")
+                val action = DetailsFragmentDirections.actionDetailsFragmentSelf(character.id.toString(),Category.CHARACTERS)
                 findNavController().navigate(action)
             }
         })
 
         seriesAdapter = SeriesAdapter(object : SeriesClickListener {
             override fun onSeriesClick(series: Series) {
-                val action = DetailsFragmentDirections.actionDetailsFragmentSelf(series.id.toString(),"series")
+                val action = DetailsFragmentDirections.actionDetailsFragmentSelf(series.id.toString(),Category.SERIES)
                 findNavController().navigate(action)
             }
         })
 
         comicsAdapter = ComicsAdapter(object : ComicClickListener {
             override fun onComicClick(comic: Comic) {
-                val action = DetailsFragmentDirections.actionDetailsFragmentSelf(comic.id.toString(),"comics")
+                val action = DetailsFragmentDirections.actionDetailsFragmentSelf(comic.id.toString(),Category.COMICS)
                 findNavController().navigate(action)
             }
         })
 
         storiesAdapter = StoriesAdapter(object : StoriesClickListener {
             override fun onStoriesClick(stories: Stories) {
-                val action = DetailsFragmentDirections.actionDetailsFragmentSelf(stories.id.toString(),"stories")
+                val action = DetailsFragmentDirections.actionDetailsFragmentSelf(stories.id.toString(),Category.STORIES)
                 findNavController().navigate(action)
             }
         })
 
         eventsAdapter = EventsAdapter(object : EventsClickListener {
             override fun onEventsClick(events: Events) {
-                val action = DetailsFragmentDirections.actionDetailsFragmentSelf(events.id.toString(),"events")
+                val action = DetailsFragmentDirections.actionDetailsFragmentSelf(events.id.toString(),Category.EVENTS)
                 findNavController().navigate(action)
             }
         })
 
         creatorsAdapter = CreatorsAdapter(object : CreatorsClickListener {
             override fun onCreatorsClick(creators: Creator) {
-                val action = DetailsFragmentDirections.actionDetailsFragmentSelf(creators.id.toString(),"creators")
+                val action = DetailsFragmentDirections.actionDetailsFragmentSelf(creators.id.toString(),Category.CREATORS)
                 findNavController().navigate(action)
             }
         })
@@ -454,35 +455,33 @@ class DetailsFragment : Fragment() {
         if(requireContext().isInternetConnected()){
             args.id?.let {id ->
                 var selectedCategory = args.category
-                if(selectedCategory == "characters"){
+                if(selectedCategory == Category.CHARACTERS){
                     fetchCharacterDetail(id)
                     fetchCharactersSeries(id)
                     binding.rvDetail.adapter = seriesAdapter
-                }else if (selectedCategory == "series"){
+                }else if (selectedCategory == Category.SERIES){
                     fetchSeriesDetail(id)
                     fetchSeriesStories(id)
                     binding.rvDetail.adapter = storiesAdapter
                 }
-                else if (selectedCategory == "comics"){
+                else if (selectedCategory == Category.COMICS){
                     fetchComicDetail(id)
                     fetchComicsCreators(id)
                     binding.rvDetail.adapter = creatorsAdapter
                 }
-                else if (selectedCategory == "stories"){
+                else if (selectedCategory == Category.STORIES){
                     fetchStoriesDetail(id)
                     fetchStoriesComics(id)
                     binding.rvDetail.adapter = comicsAdapter
                 }
-                else if (selectedCategory == "events"){
+                else if (selectedCategory == Category.EVENTS){
                     fetchEventDetail(id)
                     fetchEventsCharacters(id)
                     binding.rvDetail.adapter = characterAdapter
-                }else if (selectedCategory == "creators"){
+                }else if (selectedCategory == Category.CREATORS){
                     fetchCreatorDetail(id)
                     fetchCreatorsEvents(id)
                     binding.rvDetail.adapter = eventsAdapter
-                }else{
-
                 }
             }
         }else{

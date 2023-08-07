@@ -43,23 +43,21 @@
             app:nullable="true" />
         <argument
             android:name="category"
-            app:argType="string"
-            app:nullable="true" />
+            app:argType="com.mte.marvelapp.data.remote.model.enums.Category" />
     </fragment>
     <fragment
         android:id="@+id/seeAllFragment"
         android:name="com.mte.marvelapp.ui.seeall.SeeAllFragment"
         android:label="fragment_see_all"
         tools:layout="@layout/fragment_see_all" >
-        <argument
-            android:name="category"
-            app:argType="string"
-            app:nullable="true" />
         <action
             android:id="@+id/action_seeAllFragment_to_detailsFragment"
             app:destination="@id/detailsFragment"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left" />
+        <argument
+            android:name="category"
+            app:argType="com.mte.marvelapp.data.remote.model.enums.Category" />
     </fragment>
 </navigation>

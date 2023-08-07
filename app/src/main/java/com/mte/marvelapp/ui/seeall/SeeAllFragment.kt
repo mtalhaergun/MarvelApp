@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mte.marvelapp.R
 import com.mte.marvelapp.data.remote.model.character.Character
 import com.mte.marvelapp.data.remote.model.comic.Comic
+import com.mte.marvelapp.data.remote.model.enums.Category
 import com.mte.marvelapp.data.remote.model.event.Events
 import com.mte.marvelapp.data.remote.model.series.Series
 import com.mte.marvelapp.databinding.FragmentSeeAllBinding
@@ -58,7 +59,7 @@ class SeeAllFragment : Fragment() {
 
     private val args : SeeAllFragmentArgs by navArgs()
 
-    var selectedCategory : String? = null
+    lateinit var selectedCategory : Category
     private var searchJob: Job? = null
     var apiRequestOnce = false
     var tempSearchQuery : String? = null
@@ -123,13 +124,13 @@ class SeeAllFragment : Fragment() {
     }
 
     private fun setupRecyclerViews() = with(binding) {
-        if (selectedCategory == "characters") {
+        if (selectedCategory == Category.CHARACTERS) {
             binding.rvSeeAll.adapter = characterAdapter
-        } else if (selectedCategory == "series") {
+        } else if (selectedCategory == Category.SERIES) {
             binding.rvSeeAll.adapter = seriesAdapter
-        } else if (selectedCategory == "comics") {
+        } else if (selectedCategory == Category.COMICS) {
             binding.rvSeeAll.adapter = comicsAdapter
-        } else if (selectedCategory == "events") {
+        } else if (selectedCategory == Category.EVENTS) {
             binding.rvSeeAll.adapter = eventsAdapter
         }
     }
@@ -205,24 +206,24 @@ class SeeAllFragment : Fragment() {
                             searchJob = lifecycleScope.launch(Dispatchers.Main) {
                                 delay(500)
                                 if(requireContext().isInternetConnected()){
-                                    if (selectedCategory == "characters") {
+                                    if (selectedCategory == Category.CHARACTERS) {
                                         viewModel.searchCharacters(query)
-                                    } else if (selectedCategory == "series") {
+                                    } else if (selectedCategory == Category.SERIES) {
                                         viewModel.searchSeries(query)
-                                    } else if (selectedCategory == "comics") {
+                                    } else if (selectedCategory == Category.COMICS) {
                                         viewModel.searchComics(query)
-                                    } else if (selectedCategory == "events") {
+                                    } else if (selectedCategory == Category.EVENTS) {
                                         viewModel.searchEvents(query)
                                     }
                                 }else{
                                     startShimmer()
-                                    if (selectedCategory == "characters") {
+                                    if (selectedCategory == Category.CHARACTERS) {
                                         searchApiRequestTimer { viewModel.searchCharacters(query) }
-                                    } else if (selectedCategory == "series") {
+                                    } else if (selectedCategory == Category.SERIES) {
                                         searchApiRequestTimer { viewModel.searchSeries(query) }
-                                    } else if (selectedCategory == "comics") {
+                                    } else if (selectedCategory == Category.COMICS) {
                                         searchApiRequestTimer { viewModel.searchComics(query) }
-                                    } else if (selectedCategory == "events") {
+                                    } else if (selectedCategory == Category.EVENTS) {
                                         searchApiRequestTimer { viewModel.searchEvents(query) }
                                     }
                                 }
@@ -230,13 +231,13 @@ class SeeAllFragment : Fragment() {
                         }
                     }else{
                         if(requireContext().isInternetConnected()){
-                            if (selectedCategory == "characters") {
+                            if (selectedCategory == Category.CHARACTERS) {
                                 viewModel.fetchCharacters()
-                            } else if (selectedCategory == "series") {
+                            } else if (selectedCategory == Category.SERIES) {
                                 viewModel.fetchSeries()
-                            } else if (selectedCategory == "comics") {
+                            } else if (selectedCategory == Category.COMICS) {
                                 viewModel.fetchComics()
-                            } else if (selectedCategory == "events") {
+                            } else if (selectedCategory == Category.EVENTS) {
                                 viewModel.fetchEvents()
                             }
                         }else{
@@ -259,15 +260,15 @@ class SeeAllFragment : Fragment() {
 
     private fun sendApiRequests(){
         if(requireContext().isInternetConnected()){
-            if(selectedCategory == "characters"){
+            if(selectedCategory == Category.CHARACTERS){
                 viewModel.fetchCharacters()
-            }else if (selectedCategory == "series"){
+            }else if (selectedCategory == Category.SERIES){
                 viewModel.fetchSeries()
             }
-            else if (selectedCategory == "comics"){
+            else if (selectedCategory == Category.COMICS){
                 viewModel.fetchComics()
             }
-            else if (selectedCategory == "events"){
+            else if (selectedCategory == Category.EVENTS){
                 viewModel.fetchEvents()
             }
         }else{
@@ -295,7 +296,7 @@ class SeeAllFragment : Fragment() {
     }
 
     private fun setTitle(){
-        binding.titleName = selectedCategory?.capitalize()
+        binding.titleName = selectedCategory.toString()
     }
 
     private fun startShimmer(){
