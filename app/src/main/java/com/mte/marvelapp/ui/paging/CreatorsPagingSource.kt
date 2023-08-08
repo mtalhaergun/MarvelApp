@@ -7,12 +7,14 @@ import com.mte.marvelapp.data.remote.model.creator.CreatorResponse
 import com.mte.marvelapp.data.repository.HomeRepository
 import com.mte.marvelapp.data.remote.service.NetworkResult
 import com.mte.marvelapp.data.repository.DetailsRepository
+import com.mte.marvelapp.data.repository.SeeAllRepository
 import com.mte.marvelapp.utils.constants.Constants.PAGE_SIZE
 
-class CreatorsPagingSource (private val repositoryHome: HomeRepository?, private val repositoryDetail : DetailsRepository?, private val id : String?) : PagingSource<Int, Creator>() {
-
-    constructor(repositoryHome: HomeRepository?) : this(repositoryHome,null,null)
-    constructor(repositoryDetail: DetailsRepository?, id : String?) : this(null,repositoryDetail,id)
+class CreatorsPagingSource (private val repositoryHome: HomeRepository? = null,
+                            private val repositoryDetail: DetailsRepository? = null,
+                            private val repositorySeeAll: SeeAllRepository? = null,
+                            private val id: String? = null
+) : PagingSource<Int, Creator>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Creator> {
         return try {
@@ -20,7 +22,7 @@ class CreatorsPagingSource (private val repositoryHome: HomeRepository?, private
             val page = params.key ?: 0
             val offset = page * PAGE_SIZE
 
-            val response: NetworkResult<CreatorResponse>? = repositoryDetail?.fetchComicsCreators(id.toString(), offset)
+            val response: NetworkResult<CreatorResponse>? = fetchCreators(offset)
 
             when (response) {
                 is NetworkResult.Success -> {
@@ -48,5 +50,9 @@ class CreatorsPagingSource (private val repositoryHome: HomeRepository?, private
             anchorPage?.prevKey?.plus(1) ?:
             anchorPage?.nextKey?.minus(1)
         }
+    }
+
+    private suspend fun fetchCreators(offset: Int): NetworkResult<CreatorResponse>? {
+        return repositoryDetail?.fetchComicsCreators(id.toString(), offset)
     }
 }

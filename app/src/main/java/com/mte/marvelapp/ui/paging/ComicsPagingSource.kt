@@ -10,14 +10,11 @@ import com.mte.marvelapp.data.repository.DetailsRepository
 import com.mte.marvelapp.data.repository.SeeAllRepository
 import com.mte.marvelapp.utils.constants.Constants.PAGE_SIZE
 
-class ComicsPagingSource (private val repositoryHome: HomeRepository?,
-                          private val repositoryDetail : DetailsRepository?,
-                          private val repositorySeeAll : SeeAllRepository?,
-                          private val id : String?) : PagingSource<Int, Comic>() {
-
-    constructor(repositoryHome: HomeRepository?) : this(repositoryHome,null,null,null)
-    constructor(repositoryDetail: DetailsRepository?, id : String?) : this(null,repositoryDetail,null,id)
-    constructor(repositorySeeAll: SeeAllRepository?, id : String?) : this(null,null,repositorySeeAll,id)
+class ComicsPagingSource (private val repositoryHome: HomeRepository? = null,
+                          private val repositoryDetail: DetailsRepository? = null,
+                          private val repositorySeeAll: SeeAllRepository? = null,
+                          private val id: String? = null
+) : PagingSource<Int, Comic>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Comic> {
         return try {
@@ -25,8 +22,7 @@ class ComicsPagingSource (private val repositoryHome: HomeRepository?,
             val page = params.key ?: 0
             val offset = page * PAGE_SIZE
 
-            val response: NetworkResult<ComicResponse>? = repositoryHome?.fetchComics(offset)
-                ?: repositoryDetail?.fetchStoriesComics(id.toString(), offset) ?: repositorySeeAll?.searchComics(id!!,offset)
+            val response: NetworkResult<ComicResponse>? = fetchComics(offset)
 
             when (response) {
                 is NetworkResult.Success -> {
@@ -54,5 +50,11 @@ class ComicsPagingSource (private val repositoryHome: HomeRepository?,
             anchorPage?.prevKey?.plus(1) ?:
             anchorPage?.nextKey?.minus(1)
         }
+    }
+
+    private suspend fun fetchComics(offset: Int): NetworkResult<ComicResponse>? {
+        return repositoryHome?.fetchComics(offset)
+            ?: repositoryDetail?.fetchStoriesComics(id.toString(), offset)
+            ?: repositorySeeAll?.searchComics(id!!, offset)
     }
 }

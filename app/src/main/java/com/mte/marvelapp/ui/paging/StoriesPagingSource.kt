@@ -7,12 +7,14 @@ import com.mte.marvelapp.data.remote.model.stories.StoriesResponse
 import com.mte.marvelapp.data.repository.HomeRepository
 import com.mte.marvelapp.data.remote.service.NetworkResult
 import com.mte.marvelapp.data.repository.DetailsRepository
+import com.mte.marvelapp.data.repository.SeeAllRepository
 import com.mte.marvelapp.utils.constants.Constants.PAGE_SIZE
 
-class StoriesPagingSource (private val repositoryHome: HomeRepository?, private val repositoryDetail : DetailsRepository?, private val id : String?) : PagingSource<Int, Stories>() {
-
-    constructor(repositoryHome: HomeRepository?) : this(repositoryHome,null,null)
-    constructor(repositoryDetail: DetailsRepository?, id : String?) : this(null,repositoryDetail,id)
+class StoriesPagingSource (private val repositoryHome: HomeRepository? = null,
+                           private val repositoryDetail: DetailsRepository? = null,
+                           private val repositorySeeAll: SeeAllRepository? = null,
+                           private val id: String? = null
+) : PagingSource<Int, Stories>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Stories> {
         return try {
@@ -20,8 +22,7 @@ class StoriesPagingSource (private val repositoryHome: HomeRepository?, private 
             val page = params.key ?: 0
             val offset = page * PAGE_SIZE
 
-            val response: NetworkResult<StoriesResponse>? = repositoryHome?.fetchStories(offset)
-                ?: repositoryDetail?.fetchSeriesStories(id.toString(), offset)
+            val response: NetworkResult<StoriesResponse>? = fetchStories(offset)
 
             when (response) {
                 is NetworkResult.Success -> {
@@ -49,5 +50,10 @@ class StoriesPagingSource (private val repositoryHome: HomeRepository?, private 
             anchorPage?.prevKey?.plus(1) ?:
             anchorPage?.nextKey?.minus(1)
         }
+    }
+
+    private suspend fun fetchStories(offset: Int): NetworkResult<StoriesResponse>? {
+        return repositoryHome?.fetchStories(offset)
+            ?: repositoryDetail?.fetchSeriesStories(id.toString(), offset)
     }
 }

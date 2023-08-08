@@ -163,7 +163,7 @@ class DetailsViewModel @Inject constructor(private val repository : DetailsRepos
                     prefetchDistance = PREFETCH_DISTANCE
                 )
             ) {
-                SeriesPagingSource(repository,id)
+                SeriesPagingSource(repositoryDetail = repository, id = id)
             }.flow.cachedIn(viewModelScope).first()
         }
         _series.value = seriesPagingData
@@ -175,7 +175,7 @@ class DetailsViewModel @Inject constructor(private val repository : DetailsRepos
                 pageSize = Constants.PAGE_SIZE,
                 prefetchDistance = PREFETCH_DISTANCE
             )) {
-                StoriesPagingSource(repository,id)
+                StoriesPagingSource(repositoryDetail = repository, id = id)
             }.flow.cachedIn(viewModelScope).first()
         }
         _stories.value = storiesPagingData
@@ -187,7 +187,7 @@ class DetailsViewModel @Inject constructor(private val repository : DetailsRepos
                 pageSize = Constants.PAGE_SIZE,
                 prefetchDistance = PREFETCH_DISTANCE
             )) {
-                CreatorsPagingSource(repository,id)
+                CreatorsPagingSource(repositoryDetail = repository, id = id)
             }.flow.cachedIn(viewModelScope).first()
         }
         _creators.value = creatorsPagingData
@@ -199,7 +199,7 @@ class DetailsViewModel @Inject constructor(private val repository : DetailsRepos
                 pageSize = Constants.PAGE_SIZE,
                 prefetchDistance = PREFETCH_DISTANCE
             )) {
-                ComicsPagingSource(repository,id)
+                ComicsPagingSource(repositoryDetail = repository, id = id)
             }.flow.cachedIn(viewModelScope).first()
         }
         _comics.value = comicsPagingData
@@ -213,7 +213,7 @@ class DetailsViewModel @Inject constructor(private val repository : DetailsRepos
                     prefetchDistance = PREFETCH_DISTANCE
                 )
             ) {
-                CharactersPagingSource(repository,id)
+                CharactersPagingSource(repositoryDetail = repository, id = id)
             }.flow.cachedIn(viewModelScope).first()
         }
         _characters.value = charactersPagingData
@@ -225,7 +225,7 @@ class DetailsViewModel @Inject constructor(private val repository : DetailsRepos
                 pageSize = Constants.PAGE_SIZE,
                 prefetchDistance = PREFETCH_DISTANCE
             )) {
-                EventsPagingSource(repository,id)
+                EventsPagingSource(repositoryDetail = repository, id = id)
             }.flow.cachedIn(viewModelScope).first()
         }
         _events.value = eventsPagingData

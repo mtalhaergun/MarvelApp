@@ -10,14 +10,11 @@ import com.mte.marvelapp.data.repository.DetailsRepository
 import com.mte.marvelapp.data.repository.SeeAllRepository
 import com.mte.marvelapp.utils.constants.Constants.PAGE_SIZE
 
-class SeriesPagingSource (private val repositoryHome: HomeRepository?,
-                          private val repositoryDetail : DetailsRepository?,
-                          private val repositorySeeAll : SeeAllRepository?,
-                          private val id : String?) : PagingSource<Int, Series>() {
-
-    constructor(repositoryHome: HomeRepository?) : this(repositoryHome,null,null,null)
-    constructor(repositoryDetail: DetailsRepository?, id : String?) : this(null,repositoryDetail,null,id)
-    constructor(repositorySeeAll: SeeAllRepository?, id : String?) : this(null,null,repositorySeeAll,id)
+class SeriesPagingSource (private val repositoryHome: HomeRepository? = null,
+                          private val repositoryDetail: DetailsRepository? = null,
+                          private val repositorySeeAll: SeeAllRepository? = null,
+                          private val id: String? = null
+) : PagingSource<Int, Series>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Series> {
         return try {
@@ -25,8 +22,7 @@ class SeriesPagingSource (private val repositoryHome: HomeRepository?,
             val page = params.key ?: 0
             val offset = page * PAGE_SIZE
 
-            val response: NetworkResult<SeriesResponse>? = repositoryHome?.fetchSeries(offset)
-                ?: repositoryDetail?.fetchCharactersSeries(id.toString(), offset) ?: repositorySeeAll?.searchSeries(id!!,offset)
+            val response: NetworkResult<SeriesResponse>? = fetchSeries(offset)
 
             when (response) {
                 is NetworkResult.Success -> {
@@ -54,5 +50,11 @@ class SeriesPagingSource (private val repositoryHome: HomeRepository?,
             anchorPage?.prevKey?.plus(1) ?:
             anchorPage?.nextKey?.minus(1)
         }
+    }
+
+    private suspend fun fetchSeries(offset: Int): NetworkResult<SeriesResponse>? {
+        return repositoryHome?.fetchSeries(offset)
+            ?: repositoryDetail?.fetchCharactersSeries(id.toString(), offset)
+            ?: repositorySeeAll?.searchSeries(id!!, offset)
     }
 }

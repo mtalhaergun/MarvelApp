@@ -10,14 +10,11 @@ import com.mte.marvelapp.data.repository.DetailsRepository
 import com.mte.marvelapp.data.repository.SeeAllRepository
 import com.mte.marvelapp.utils.constants.Constants.PAGE_SIZE
 
-class EventsPagingSource (private val repositoryHome: HomeRepository?,
-                          private val repositoryDetail : DetailsRepository?,
-                          private val repositorySeeAll : SeeAllRepository?,
-                          private val id : String?) : PagingSource<Int, Events>() {
-
-    constructor(repositoryHome: HomeRepository?) : this(repositoryHome,null,null,null)
-    constructor(repositoryDetail: DetailsRepository?, id : String?) : this(null,repositoryDetail,null,id)
-    constructor(repositorySeeAll: SeeAllRepository?, id : String?) : this(null,null,repositorySeeAll,id)
+class EventsPagingSource (private val repositoryHome: HomeRepository? = null,
+                          private val repositoryDetail: DetailsRepository? = null,
+                          private val repositorySeeAll: SeeAllRepository? = null,
+                          private val id: String? = null
+) : PagingSource<Int, Events>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Events> {
         return try {
@@ -25,8 +22,7 @@ class EventsPagingSource (private val repositoryHome: HomeRepository?,
             val page = params.key ?: 0
             val offset = page * PAGE_SIZE
 
-            val response: NetworkResult<EventsResponse>? = repositoryHome?.fetchEvents(offset)
-                ?: repositoryDetail?.fetchCreatorsEvents(id.toString(), offset) ?: repositorySeeAll?.searchEvents(id!!,offset)
+            val response: NetworkResult<EventsResponse>? = fetchEvents(offset)
 
             when (response) {
                 is NetworkResult.Success -> {
@@ -54,5 +50,11 @@ class EventsPagingSource (private val repositoryHome: HomeRepository?,
             anchorPage?.prevKey?.plus(1) ?:
             anchorPage?.nextKey?.minus(1)
         }
+    }
+
+    private suspend fun fetchEvents(offset: Int): NetworkResult<EventsResponse>? {
+        return repositoryHome?.fetchEvents(offset)
+            ?: repositoryDetail?.fetchCreatorsEvents(id.toString(), offset)
+            ?: repositorySeeAll?.searchEvents(id!!, offset)
     }
 }

@@ -60,7 +60,7 @@ class SeeAllViewModel @Inject constructor(private val repository: SeeAllReposito
                 prefetchDistance = PREFETCH_DISTANCE
             )
         ) {
-            CharactersPagingSource(repository,name)
+            CharactersPagingSource(repositorySeeAll = repository, id = name)
         }.flow.cachedIn(viewModelScope).first()
 
         _characters.value = charactersSearchPagingData
@@ -84,7 +84,7 @@ class SeeAllViewModel @Inject constructor(private val repository: SeeAllReposito
                 prefetchDistance = PREFETCH_DISTANCE
             )
         ) {
-            SeriesPagingSource(repository,title)
+            SeriesPagingSource(repositorySeeAll = repository, id = title)
         }.flow.cachedIn(viewModelScope).first()
 
         _series.value = seriesSearchPagingData
@@ -108,7 +108,7 @@ class SeeAllViewModel @Inject constructor(private val repository: SeeAllReposito
                 prefetchDistance = PREFETCH_DISTANCE
             )
         ) {
-            ComicsPagingSource(repository,title)
+            ComicsPagingSource(repositorySeeAll = repository, id = title)
         }.flow.cachedIn(viewModelScope).first()
 
         _comics.value = comicsSearchPagingData
@@ -132,7 +132,7 @@ class SeeAllViewModel @Inject constructor(private val repository: SeeAllReposito
                 prefetchDistance = PREFETCH_DISTANCE
             )
         ) {
-            EventsPagingSource(repository,name)
+            EventsPagingSource(repositorySeeAll = repository, id = name)
         }.flow.cachedIn(viewModelScope).first()
 
         _events.value = eventsSearchPagingData
