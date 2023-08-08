@@ -1,23 +1,22 @@
 package com.mte.marvelapp.ui.details
 
+import android.animation.Animator
+import android.animation.AnimatorInflater
+import android.animation.AnimatorListenerAdapter
 import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowInsetsController
 import android.widget.ImageView
-import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -55,6 +54,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+
 
 @AndroidEntryPoint
 class DetailsFragment : Fragment() {
@@ -163,6 +163,8 @@ class DetailsFragment : Fragment() {
                         statsStories.text = this.stories?.available.toString()
                         statsEvents.text = this.events?.available.toString()
 
+                        setCategoryAnimation(categoryHeroIcon)
+
                         val color = ContextCompat.getColor(requireContext(),R.color.primary_red)
                         categoryHeroIcon.setColorFilter(color)
                         statsCharacterName.setTextColor(color)
@@ -205,6 +207,8 @@ class DetailsFragment : Fragment() {
                         statsComics.text = this.comics?.available.toString()
                         statsStories.text = this.stories?.available.toString()
                         statsEvents.text = this.events?.available.toString()
+
+                        setCategoryAnimation(categoryVillainIcon)
 
                         val color = ContextCompat.getColor(requireContext(),R.color.primary_red)
                         categoryVillainIcon.setColorFilter(color)
@@ -249,6 +253,8 @@ class DetailsFragment : Fragment() {
                         statsStories.text = this.stories?.available.toString()
                         statsEvents.text = this.events?.available.toString()
 
+                        setCategoryAnimation(categoryAntiheroIcon)
+
                         val color = ContextCompat.getColor(requireContext(),R.color.primary_red)
                         categoryAntiheroIcon.setColorFilter(color)
                         statsComicsName.setTextColor(color)
@@ -292,6 +298,8 @@ class DetailsFragment : Fragment() {
                         statsSeries.text = this.series?.available.toString()
                         statsEvents.text = this.events?.available.toString()
 
+                        setCategoryAnimation(categoryAlienIcon)
+
                         val color = ContextCompat.getColor(requireContext(),R.color.primary_red)
                         categoryAlienIcon.setColorFilter(color)
                         statsStoriesName.setTextColor(color)
@@ -334,6 +342,8 @@ class DetailsFragment : Fragment() {
                         statsComics.text = this.comics?.available.toString()
                         statsSeries.text = this.series?.available.toString()
                         statsStories.text = this.stories?.available.toString()
+
+                        setCategoryAnimation(categoryHumanIcon)
 
                         val color = ContextCompat.getColor(requireContext(),R.color.primary_red)
                         categoryHumanIcon.setColorFilter(color)
@@ -588,6 +598,17 @@ class DetailsFragment : Fragment() {
             }
             sendApiRequests()
         }
+    }
+
+    private fun setCategoryAnimation(categoryImage: View){
+        val scaleAnimation = AnimatorInflater.loadAnimator(context,R.animator.detail_animation)
+        scaleAnimation.setTarget(categoryImage)
+        scaleAnimation.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                animation.start()
+            }
+        })
+        scaleAnimation.start()
     }
 
     override fun onResume() {
