@@ -18,6 +18,7 @@
         android:layout_height="@dimen/card_image_height"
         app:cardCornerRadius="@dimen/card_corner_radius"
         app:strokeWidth="0dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="@dimen/card_margin"
         android:onClick="@{() -> clickListener.onCharacterClick(heroes)}">
 
