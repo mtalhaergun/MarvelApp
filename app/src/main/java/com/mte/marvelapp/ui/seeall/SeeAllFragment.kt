@@ -206,40 +206,16 @@ class SeeAllFragment : Fragment() {
                             searchJob = lifecycleScope.launch(Dispatchers.Main) {
                                 delay(500)
                                 if(requireContext().isInternetConnected()){
-                                    if (selectedCategory == Category.CHARACTERS) {
-                                        viewModel.searchCharacters(query)
-                                    } else if (selectedCategory == Category.SERIES) {
-                                        viewModel.searchSeries(query)
-                                    } else if (selectedCategory == Category.COMICS) {
-                                        viewModel.searchComics(query)
-                                    } else if (selectedCategory == Category.EVENTS) {
-                                        viewModel.searchEvents(query)
-                                    }
+                                    sendSearchApiRequest(query)
                                 }else{
                                     startShimmer()
-                                    if (selectedCategory == Category.CHARACTERS) {
-                                        searchApiRequestTimer { viewModel.searchCharacters(query) }
-                                    } else if (selectedCategory == Category.SERIES) {
-                                        searchApiRequestTimer { viewModel.searchSeries(query) }
-                                    } else if (selectedCategory == Category.COMICS) {
-                                        searchApiRequestTimer { viewModel.searchComics(query) }
-                                    } else if (selectedCategory == Category.EVENTS) {
-                                        searchApiRequestTimer { viewModel.searchEvents(query) }
-                                    }
+                                    searchApiRequestTimer { sendSearchApiRequest(query) }
                                 }
                             }
                         }
                     }else{
                         if(requireContext().isInternetConnected()){
-                            if (selectedCategory == Category.CHARACTERS) {
-                                viewModel.fetchCharacters()
-                            } else if (selectedCategory == Category.SERIES) {
-                                viewModel.fetchSeries()
-                            } else if (selectedCategory == Category.COMICS) {
-                                viewModel.fetchComics()
-                            } else if (selectedCategory == Category.EVENTS) {
-                                viewModel.fetchEvents()
-                            }
+                            sendApiRequests()
                         }else{
                             startShimmer()
                             apiRequestTimer()
@@ -260,19 +236,51 @@ class SeeAllFragment : Fragment() {
 
     private fun sendApiRequests(){
         if(requireContext().isInternetConnected()){
-            if(selectedCategory == Category.CHARACTERS){
-                viewModel.fetchCharacters()
-            }else if (selectedCategory == Category.SERIES){
-                viewModel.fetchSeries()
-            }
-            else if (selectedCategory == Category.COMICS){
-                viewModel.fetchComics()
-            }
-            else if (selectedCategory == Category.EVENTS){
-                viewModel.fetchEvents()
+            when(selectedCategory) {
+
+                Category.CHARACTERS -> {
+                    viewModel.fetchCharacters()
+                }
+
+                Category.SERIES -> {
+                    viewModel.fetchSeries()
+                }
+
+                Category.COMICS -> {
+                    viewModel.fetchComics()
+                }
+
+                Category.EVENTS -> {
+                    viewModel.fetchEvents()
+                }
+
+                else -> {}
             }
         }else{
             apiRequestTimer()
+        }
+    }
+
+    private fun sendSearchApiRequest(query : String){
+        when(selectedCategory){
+
+            Category.CHARACTERS -> {
+                viewModel.searchCharacters(query)
+            }
+
+            Category.SERIES -> {
+                viewModel.searchSeries(query)
+            }
+
+            Category.COMICS -> {
+                viewModel.searchComics(query)
+            }
+
+            Category.EVENTS -> {
+                viewModel.searchEvents(query)
+            }
+
+            else -> {}
         }
     }
 

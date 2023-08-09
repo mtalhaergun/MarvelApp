@@ -464,35 +464,46 @@ class DetailsFragment : Fragment() {
     private fun sendApiRequests() = with(viewModel){
         if(requireContext().isInternetConnected()){
             args.id?.let {id ->
-                var selectedCategory = args.category
-                if(selectedCategory == Category.CHARACTERS){
-                    fetchCharacterDetail(id)
-                    fetchCharactersSeries(id)
-                    binding.rvDetail.adapter = seriesAdapter
-                }else if (selectedCategory == Category.SERIES){
-                    fetchSeriesDetail(id)
-                    fetchSeriesStories(id)
-                    binding.rvDetail.adapter = storiesAdapter
+                val selectedCategory = args.category
+                when(selectedCategory){
+
+                    Category.CHARACTERS -> {
+                        fetchCharacterDetail(id)
+                        fetchCharactersSeries(id)
+                        binding.rvDetail.adapter = seriesAdapter
+                    }
+
+                    Category.SERIES -> {
+                        fetchSeriesDetail(id)
+                        fetchSeriesStories(id)
+                        binding.rvDetail.adapter = storiesAdapter
+                    }
+
+                    Category.COMICS -> {
+                        fetchComicDetail(id)
+                        fetchComicsCreators(id)
+                        binding.rvDetail.adapter = creatorsAdapter
+                    }
+
+                    Category.STORIES -> {
+                        fetchStoriesDetail(id)
+                        fetchStoriesComics(id)
+                        binding.rvDetail.adapter = comicsAdapter
+                    }
+
+                    Category.EVENTS -> {
+                        fetchEventDetail(id)
+                        fetchEventsCharacters(id)
+                        binding.rvDetail.adapter = characterAdapter
+                    }
+
+                    Category.CREATORS -> {
+                        fetchCreatorDetail(id)
+                        fetchCreatorsEvents(id)
+                        binding.rvDetail.adapter = eventsAdapter
+                    }
                 }
-                else if (selectedCategory == Category.COMICS){
-                    fetchComicDetail(id)
-                    fetchComicsCreators(id)
-                    binding.rvDetail.adapter = creatorsAdapter
-                }
-                else if (selectedCategory == Category.STORIES){
-                    fetchStoriesDetail(id)
-                    fetchStoriesComics(id)
-                    binding.rvDetail.adapter = comicsAdapter
-                }
-                else if (selectedCategory == Category.EVENTS){
-                    fetchEventDetail(id)
-                    fetchEventsCharacters(id)
-                    binding.rvDetail.adapter = characterAdapter
-                }else if (selectedCategory == Category.CREATORS){
-                    fetchCreatorDetail(id)
-                    fetchCreatorsEvents(id)
-                    binding.rvDetail.adapter = eventsAdapter
-                }
+
             }
         }else{
             binding.scrollView.visibility = View.GONE
