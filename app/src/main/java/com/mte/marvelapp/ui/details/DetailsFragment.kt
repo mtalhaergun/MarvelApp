@@ -144,268 +144,226 @@ class DetailsFragment : Fragment() {
     private fun observeEvents() = with(binding){
 
         viewModel.characterResponse.observe(viewLifecycleOwner, Observer {model ->
-            if (model != null) {
-                binding.scrollView.visibility = View.VISIBLE
-                binding.detailShimmerInclude.root.visibility = View.GONE
-                binding.detailShimmerInclude.shimmerDetailLayout.stopShimmer()
-                if(model.data.characters != null){
-                    with(model.data.characters[0]){
-                        var imageUrl = this.thumbnail?.path + "/portrait_uncanny." + this.thumbnail?.extension
-                        glideWithListener(detailImage,imageUrl)
+            model?.data?.characters?.getOrNull(0)?.let { character ->
+                stopShimmer()
 
-                        detailId.text = this.id.toString()
-                        detailTitle.text = this.name
-                        detailDescription.text = this.description
-                        rvTitle.text = "Series"
-                        statsCharacter.visibility = View.GONE
-                        statsSeries.text = this.series?.available.toString()
-                        statsComics.text = this.comics?.available.toString()
-                        statsStories.text = this.stories?.available.toString()
-                        statsEvents.text = this.events?.available.toString()
+                with(character) {
+                    val imageUrl = "${thumbnail?.path}/portrait_uncanny.${thumbnail?.extension}"
+                    glideWithListener(detailImage, imageUrl)
 
-                        setCategoryAnimation(categoryHeroIcon)
+                    detailId.text = id.toString()
+                    detailTitle.text = name
+                    detailDescription.text = description
+                    rvTitle.text = "Series"
+                    statsCharacter.visibility = View.GONE
+                    statsSeries.text = series?.available.toString()
+                    statsComics.text = comics?.available.toString()
+                    statsStories.text = stories?.available.toString()
+                    statsEvents.text = events?.available.toString()
 
-                        val color = ContextCompat.getColor(requireContext(),R.color.primary_red)
-                        categoryHeroIcon.setColorFilter(color)
-                        statsCharacterName.setTextColor(color)
+                    setCategoryAnimation(categoryHeroIcon)
 
-                        val textListSeries = createStatsBar(this.series?.available)
-                        seriesStatsCount.text = spanTextColors(textListSeries[0],textListSeries[1])
-                        val textListComics = createStatsBar(this.comics?.available)
-                        comicsStatsCount.text = spanTextColors(textListComics[0],textListComics[1])
-                        val textListStories = createStatsBar(this.stories?.available)
-                        storiesStatsCount.text = spanTextColors(textListStories[0],textListStories[1])
-                        val textListEvents = createStatsBar(this.events?.available)
-                        eventsStatsCount.text = spanTextColors(textListEvents[0],textListEvents[1])
+                    val color = ContextCompat.getColor(requireContext(), R.color.primary_red)
+                    categoryHeroIcon.setColorFilter(color)
+                    statsCharacterName.setTextColor(color)
 
-                        characterStatsBar.visibility = View.GONE
-                    }
+                    val seriesTextList = createStatsBar(series?.available)
+                    seriesStatsCount.text = spanTextColors(seriesTextList[0], seriesTextList[1])
+                    val comicsTextList = createStatsBar(comics?.available)
+                    comicsStatsCount.text = spanTextColors(comicsTextList[0], comicsTextList[1])
+                    val storiesTextList = createStatsBar(stories?.available)
+                    storiesStatsCount.text = spanTextColors(storiesTextList[0], storiesTextList[1])
+                    val eventsTextList = createStatsBar(events?.available)
+                    eventsStatsCount.text = spanTextColors(eventsTextList[0], eventsTextList[1])
+
+                    characterStatsBar.visibility = View.GONE
                 }
-            }else{
-                binding.scrollView.visibility = View.GONE
-                binding.detailShimmerInclude.root.visibility = View.VISIBLE
-                binding.detailShimmerInclude.shimmerDetailLayout.startShimmer()
-            }
+            } ?: startShimmer()
         })
 
         viewModel.seriesResponse.observe(viewLifecycleOwner, Observer {model ->
-            if (model != null) {
-                binding.scrollView.visibility = View.VISIBLE
-                binding.detailShimmerInclude.root.visibility = View.GONE
-                binding.detailShimmerInclude.shimmerDetailLayout.stopShimmer()
-                if(model.data.series != null){
-                    with(model.data.series[0]){
-                        var imageUrl = this.thumbnail?.path + "/portrait_uncanny." + this.thumbnail?.extension
-                        glideWithListener(detailImage,imageUrl)
+            model?.data?.series?.getOrNull(0)?.let { series ->
+                stopShimmer()
 
-                        detailId.text = this.id.toString()
-                        detailTitle.text = this.title
-                        detailDescription.text = this.description
-                        rvTitle.text = "Stories"
-                        statsSeries.visibility = View.GONE
-                        statsCharacter.text = this.characters?.available.toString()
-                        statsComics.text = this.comics?.available.toString()
-                        statsStories.text = this.stories?.available.toString()
-                        statsEvents.text = this.events?.available.toString()
+                with(series){
+                    val imageUrl = "${thumbnail?.path}/portrait_uncanny.${thumbnail?.extension}"
+                    glideWithListener(detailImage, imageUrl)
 
-                        setCategoryAnimation(categoryVillainIcon)
+                    detailId.text = id.toString()
+                    detailTitle.text = title
+                    detailDescription.text = description
+                    rvTitle.text = "Stories"
+                    statsSeries.visibility = View.GONE
+                    statsCharacter.text = characters?.available.toString()
+                    statsComics.text = comics?.available.toString()
+                    statsStories.text = stories?.available.toString()
+                    statsEvents.text = events?.available.toString()
 
-                        val color = ContextCompat.getColor(requireContext(),R.color.primary_red)
-                        categoryVillainIcon.setColorFilter(color)
-                        statsSeriesName.setTextColor(color)
+                    setCategoryAnimation(categoryVillainIcon)
 
-                        val textListCharacters = createStatsBar(this.characters?.available)
-                        characterStatsCount.text = spanTextColors(textListCharacters[0],textListCharacters[1])
-                        val textListComics = createStatsBar(this.comics?.available)
-                        comicsStatsCount.text = spanTextColors(textListComics[0],textListComics[1])
-                        val textListStories = createStatsBar(this.stories?.available)
-                        storiesStatsCount.text = spanTextColors(textListStories[0],textListStories[1])
-                        val textListEvents = createStatsBar(this.events?.available)
-                        eventsStatsCount.text = spanTextColors(textListEvents[0],textListEvents[1])
+                    val color = ContextCompat.getColor(requireContext(),R.color.primary_red)
+                    categoryVillainIcon.setColorFilter(color)
+                    statsSeriesName.setTextColor(color)
 
-                        seriesStatsBar.visibility = View.GONE
-                    }
+                    val textListCharacters = createStatsBar(characters?.available)
+                    characterStatsCount.text = spanTextColors(textListCharacters[0],textListCharacters[1])
+                    val textListComics = createStatsBar(comics?.available)
+                    comicsStatsCount.text = spanTextColors(textListComics[0],textListComics[1])
+                    val textListStories = createStatsBar(stories?.available)
+                    storiesStatsCount.text = spanTextColors(textListStories[0],textListStories[1])
+                    val textListEvents = createStatsBar(events?.available)
+                    eventsStatsCount.text = spanTextColors(textListEvents[0],textListEvents[1])
+
+                    seriesStatsBar.visibility = View.GONE
                 }
-            }else{
-                binding.scrollView.visibility = View.GONE
-                binding.detailShimmerInclude.root.visibility = View.VISIBLE
-                binding.detailShimmerInclude.shimmerDetailLayout.startShimmer()
-            }
+            } ?: startShimmer()
         })
 
         viewModel.comicResponse.observe(viewLifecycleOwner, Observer {model ->
-            if (model != null) {
-                binding.scrollView.visibility = View.VISIBLE
-                binding.detailShimmerInclude.root.visibility = View.GONE
-                binding.detailShimmerInclude.shimmerDetailLayout.stopShimmer()
-                if(model.data.comics != null){
-                    with(model.data.comics[0]){
-                        var imageUrl = this.thumbnail?.path + "/portrait_uncanny." + this.thumbnail?.extension
-                        glideWithListener(detailImage,imageUrl)
+            model?.data?.comics?.getOrNull(0)?.let { comics ->
+                stopShimmer()
 
-                        detailId.text = this.id.toString()
-                        detailTitle.text = this.title
-                        detailDescription.text = this.description
-                        rvTitle.text = "Creators"
-                        statsComics.visibility = View.GONE
-                        statsCharacter.text = this.characters?.available.toString()
-                        statsSeries.text = "1"
-                        statsStories.text = this.stories?.available.toString()
-                        statsEvents.text = this.events?.available.toString()
+                with(comics){
+                    var imageUrl = "${thumbnail?.path}/portrait_uncanny.${thumbnail?.extension}"
+                    glideWithListener(detailImage,imageUrl)
 
-                        setCategoryAnimation(categoryAntiheroIcon)
+                    detailId.text = id.toString()
+                    detailTitle.text = title
+                    detailDescription.text = description
+                    rvTitle.text = "Creators"
+                    statsComics.visibility = View.GONE
+                    statsCharacter.text = characters?.available.toString()
+                    statsSeries.text = "1"
+                    statsStories.text = stories?.available.toString()
+                    statsEvents.text = events?.available.toString()
 
-                        val color = ContextCompat.getColor(requireContext(),R.color.primary_red)
-                        categoryAntiheroIcon.setColorFilter(color)
-                        statsComicsName.setTextColor(color)
+                    setCategoryAnimation(categoryAntiheroIcon)
 
-                        val textListCharacters = createStatsBar(this.characters?.available)
-                        characterStatsCount.text = spanTextColors(textListCharacters[0],textListCharacters[1])
-                        val textListSeries = createStatsBar(1)
-                        seriesStatsCount.text = spanTextColors(textListSeries[0],textListSeries[1])
-                        val textListStories = createStatsBar(this.stories?.available)
-                        storiesStatsCount.text = spanTextColors(textListStories[0],textListStories[1])
-                        val textListEvents = createStatsBar(this.events?.available)
-                        eventsStatsCount.text = spanTextColors(textListEvents[0],textListEvents[1])
+                    val color = ContextCompat.getColor(requireContext(),R.color.primary_red)
+                    categoryAntiheroIcon.setColorFilter(color)
+                    statsComicsName.setTextColor(color)
 
-                        comicsStatsBar.visibility = View.GONE
-                    }
+                    val textListCharacters = createStatsBar(characters?.available)
+                    characterStatsCount.text = spanTextColors(textListCharacters[0],textListCharacters[1])
+                    val textListSeries = createStatsBar(1)
+                    seriesStatsCount.text = spanTextColors(textListSeries[0],textListSeries[1])
+                    val textListStories = createStatsBar(stories?.available)
+                    storiesStatsCount.text = spanTextColors(textListStories[0],textListStories[1])
+                    val textListEvents = createStatsBar(events?.available)
+                    eventsStatsCount.text = spanTextColors(textListEvents[0],textListEvents[1])
+
+                    comicsStatsBar.visibility = View.GONE
                 }
-            }else{
-                binding.scrollView.visibility = View.GONE
-                binding.detailShimmerInclude.root.visibility = View.VISIBLE
-                binding.detailShimmerInclude.shimmerDetailLayout.startShimmer()
-            }
+            } ?: startShimmer()
         })
 
         viewModel.storiesResponse.observe(viewLifecycleOwner, Observer {model ->
-            if (model != null) {
-                binding.scrollView.visibility = View.VISIBLE
-                binding.detailShimmerInclude.root.visibility = View.GONE
-                binding.detailShimmerInclude.shimmerDetailLayout.stopShimmer()
-                if(model.data.stories != null){
-                    with(model.data.stories[0]){
-                        var imageUrl = this.thumbnail?.path + "/portrait_uncanny." + this.thumbnail?.extension
-                        glideWithListener(detailImage,imageUrl)
+            model?.data?.stories?.getOrNull(0)?.let { stories ->
+                stopShimmer()
 
-                        detailId.text = this.id.toString()
-                        detailTitle.text = this.title
-                        detailDescription.text = this.description
-                        rvTitle.text = "Comics"
-                        statsStories.visibility = View.GONE
-                        statsCharacter.text = this.characters?.available.toString()
-                        statsComics.text = this.comics?.available.toString()
-                        statsSeries.text = this.series?.available.toString()
-                        statsEvents.text = this.events?.available.toString()
+                with(stories){
+                    var imageUrl = "${thumbnail?.path}/portrait_uncanny.${thumbnail?.extension}"
+                    glideWithListener(detailImage,imageUrl)
 
-                        setCategoryAnimation(categoryAlienIcon)
+                    detailId.text = id.toString()
+                    detailTitle.text = title
+                    detailDescription.text = description
+                    rvTitle.text = "Comics"
+                    statsStories.visibility = View.GONE
+                    statsCharacter.text = characters?.available.toString()
+                    statsComics.text = comics?.available.toString()
+                    statsSeries.text = series?.available.toString()
+                    statsEvents.text = events?.available.toString()
 
-                        val color = ContextCompat.getColor(requireContext(),R.color.primary_red)
-                        categoryAlienIcon.setColorFilter(color)
-                        statsStoriesName.setTextColor(color)
+                    setCategoryAnimation(categoryAlienIcon)
 
-                        val textListCharacters = createStatsBar(this.characters?.available)
-                        characterStatsCount.text = spanTextColors(textListCharacters[0],textListCharacters[1])
-                        val textListSeries = createStatsBar(this.series?.available)
-                        seriesStatsCount.text = spanTextColors(textListSeries[0],textListSeries[1])
-                        val textListComics = createStatsBar(this.comics?.available)
-                        comicsStatsCount.text = spanTextColors(textListComics[0],textListComics[1])
-                        val textListEvents = createStatsBar(this.events?.available)
-                        eventsStatsCount.text = spanTextColors(textListEvents[0],textListEvents[1])
+                    val color = ContextCompat.getColor(requireContext(),R.color.primary_red)
+                    categoryAlienIcon.setColorFilter(color)
+                    statsStoriesName.setTextColor(color)
 
-                        storiesStatsBar.visibility = View.GONE
-                    }
+                    val textListCharacters = createStatsBar(characters?.available)
+                    characterStatsCount.text = spanTextColors(textListCharacters[0],textListCharacters[1])
+                    val textListSeries = createStatsBar(series?.available)
+                    seriesStatsCount.text = spanTextColors(textListSeries[0],textListSeries[1])
+                    val textListComics = createStatsBar(comics?.available)
+                    comicsStatsCount.text = spanTextColors(textListComics[0],textListComics[1])
+                    val textListEvents = createStatsBar(events?.available)
+                    eventsStatsCount.text = spanTextColors(textListEvents[0],textListEvents[1])
+
+                    storiesStatsBar.visibility = View.GONE
                 }
-            }else{
-                binding.scrollView.visibility = View.GONE
-                binding.detailShimmerInclude.root.visibility = View.VISIBLE
-                binding.detailShimmerInclude.shimmerDetailLayout.startShimmer()
-            }
+            } ?: startShimmer()
         })
 
         viewModel.eventResponse.observe(viewLifecycleOwner, Observer {model ->
-            if (model != null) {
-                binding.scrollView.visibility = View.VISIBLE
-                binding.detailShimmerInclude.root.visibility = View.GONE
-                binding.detailShimmerInclude.shimmerDetailLayout.stopShimmer()
-                if(model.data.events != null){
-                    with(model.data.events[0]){
-                        var imageUrl = this.thumbnail?.path + "/portrait_uncanny." + this.thumbnail?.extension
-                        glideWithListener(detailImage,imageUrl)
+            model?.data?.events?.getOrNull(0)?.let { events ->
+                stopShimmer()
+                with(events){
+                    var imageUrl = "${thumbnail?.path}/portrait_uncanny.${thumbnail?.extension}"
+                    glideWithListener(detailImage,imageUrl)
 
-                        detailId.text = this.id.toString()
-                        detailTitle.text = this.title
-                        detailDescription.text = this.description
-                        rvTitle.text = "Characters"
-                        statsEvents.visibility = View.GONE
-                        statsCharacter.text = this.characters?.available.toString()
-                        statsComics.text = this.comics?.available.toString()
-                        statsSeries.text = this.series?.available.toString()
-                        statsStories.text = this.stories?.available.toString()
+                    detailId.text = id.toString()
+                    detailTitle.text = title
+                    detailDescription.text = description
+                    rvTitle.text = "Characters"
+                    statsEvents.visibility = View.GONE
+                    statsCharacter.text = characters?.available.toString()
+                    statsComics.text = comics?.available.toString()
+                    statsSeries.text = series?.available.toString()
+                    statsStories.text = stories?.available.toString()
 
-                        setCategoryAnimation(categoryHumanIcon)
+                    setCategoryAnimation(categoryHumanIcon)
 
-                        val color = ContextCompat.getColor(requireContext(),R.color.primary_red)
-                        categoryHumanIcon.setColorFilter(color)
-                        statsEventsName.setTextColor(color)
+                    val color = ContextCompat.getColor(requireContext(),R.color.primary_red)
+                    categoryHumanIcon.setColorFilter(color)
+                    statsEventsName.setTextColor(color)
 
-                        val textListCharacters = createStatsBar(this.characters?.available)
-                        characterStatsCount.text = spanTextColors(textListCharacters[0],textListCharacters[1])
-                        val textListSeries = createStatsBar(this.series?.available)
-                        seriesStatsCount.text = spanTextColors(textListSeries[0],textListSeries[1])
-                        val textListComics = createStatsBar(this.comics?.available)
-                        comicsStatsCount.text = spanTextColors(textListComics[0],textListComics[1])
-                        val textListStories = createStatsBar(this.stories?.available)
-                        storiesStatsCount.text = spanTextColors(textListStories[0],textListStories[1])
+                    val textListCharacters = createStatsBar(characters?.available)
+                    characterStatsCount.text = spanTextColors(textListCharacters[0],textListCharacters[1])
+                    val textListSeries = createStatsBar(series?.available)
+                    seriesStatsCount.text = spanTextColors(textListSeries[0],textListSeries[1])
+                    val textListComics = createStatsBar(comics?.available)
+                    comicsStatsCount.text = spanTextColors(textListComics[0],textListComics[1])
+                    val textListStories = createStatsBar(stories?.available)
+                    storiesStatsCount.text = spanTextColors(textListStories[0],textListStories[1])
 
-                        eventsStatsBar.visibility = View.GONE
-                    }
+                    eventsStatsBar.visibility = View.GONE
                 }
-            }else{
-                binding.scrollView.visibility = View.GONE
-                binding.detailShimmerInclude.root.visibility = View.VISIBLE
-                binding.detailShimmerInclude.shimmerDetailLayout.startShimmer()
-            }
+
+            } ?: startShimmer()
         })
 
         viewModel.creatorResponse.observe(viewLifecycleOwner, Observer {model ->
-            if (model != null) {
-                binding.scrollView.visibility = View.VISIBLE
-                binding.detailShimmerInclude.root.visibility = View.GONE
-                binding.detailShimmerInclude.shimmerDetailLayout.stopShimmer()
-                if(model.data.creators != null){
-                    with(model.data.creators[0]){
-                        var imageUrl = this.thumbnail?.path + "/portrait_uncanny." + this.thumbnail?.extension
-                        glideWithListener(detailImage,imageUrl)
+            model?.data?.creators?.getOrNull(0)?.let { creators ->
+                stopShimmer()
 
-                        detailId.text = this.id.toString()
-                        detailTitle.text = this.fullName
-                        detailDescription.text = ""
-                        rvTitle.text = "Events"
-                        statsCharacter.text = "0"
-                        statsEvents.text = this.events?.available.toString()
-                        statsComics.text = this.comics?.available.toString()
-                        statsSeries.text = this.series?.available.toString()
-                        statsStories.text = this.stories?.available.toString()
+                with(creators){
+                    var imageUrl = "${thumbnail?.path}/portrait_uncanny.${thumbnail?.extension}"
+                    glideWithListener(detailImage,imageUrl)
 
-                        val textListCharacters = createStatsBar(0)
-                        characterStatsCount.text = spanTextColors(textListCharacters[0],textListCharacters[1])
-                        val textListSeries = createStatsBar(this.series?.available)
-                        seriesStatsCount.text = spanTextColors(textListSeries[0],textListSeries[1])
-                        val textListComics = createStatsBar(this.comics?.available)
-                        comicsStatsCount.text = spanTextColors(textListComics[0],textListComics[1])
-                        val textListStories = createStatsBar(this.stories?.available)
-                        storiesStatsCount.text = spanTextColors(textListStories[0],textListStories[1])
-                        val textListEvents = createStatsBar(this.events?.available)
-                        eventsStatsCount.text = spanTextColors(textListEvents[0],textListEvents[1])
+                    detailId.text = id.toString()
+                    detailTitle.text = fullName
+                    detailDescription.text = ""
+                    rvTitle.text = "Events"
+                    statsCharacter.text = "0"
+                    statsEvents.text = events?.available.toString()
+                    statsComics.text = comics?.available.toString()
+                    statsSeries.text = series?.available.toString()
+                    statsStories.text = stories?.available.toString()
 
-                    }
+                    val textListCharacters = createStatsBar(0)
+                    characterStatsCount.text = spanTextColors(textListCharacters[0],textListCharacters[1])
+                    val textListSeries = createStatsBar(series?.available)
+                    seriesStatsCount.text = spanTextColors(textListSeries[0],textListSeries[1])
+                    val textListComics = createStatsBar(comics?.available)
+                    comicsStatsCount.text = spanTextColors(textListComics[0],textListComics[1])
+                    val textListStories = createStatsBar(stories?.available)
+                    storiesStatsCount.text = spanTextColors(textListStories[0],textListStories[1])
+                    val textListEvents = createStatsBar(events?.available)
+                    eventsStatsCount.text = spanTextColors(textListEvents[0],textListEvents[1])
+
                 }
-            }else{
-                binding.scrollView.visibility = View.GONE
-                binding.detailShimmerInclude.root.visibility = View.VISIBLE
-                binding.detailShimmerInclude.shimmerDetailLayout.startShimmer()
-            }
+            } ?: startShimmer()
         })
 
         lifecycleScope.launch{
@@ -506,9 +464,7 @@ class DetailsFragment : Fragment() {
 
             }
         }else{
-            binding.scrollView.visibility = View.GONE
-            binding.detailShimmerInclude.root.visibility = View.VISIBLE
-            binding.detailShimmerInclude.shimmerDetailLayout.startShimmer()
+            startShimmer()
             apiRequestTimer()
         }
     }
@@ -600,9 +556,7 @@ class DetailsFragment : Fragment() {
         val job = lifecycleScope.launch {
             while (isActive) {
                 if (requireContext().isInternetConnected()) {
-                    binding.scrollView.visibility = View.VISIBLE
-                    binding.detailShimmerInclude.root.visibility = View.GONE
-                    binding.detailShimmerInclude.shimmerDetailLayout.stopShimmer()
+                    stopShimmer()
                     break
                 }
                 delay(interval)
@@ -620,6 +574,18 @@ class DetailsFragment : Fragment() {
             }
         })
         scaleAnimation.start()
+    }
+
+    private fun startShimmer(){
+        binding.scrollView.visibility = View.GONE
+        binding.detailShimmerInclude.root.visibility = View.VISIBLE
+        binding.detailShimmerInclude.shimmerDetailLayout.startShimmer()
+    }
+
+    private fun stopShimmer(){
+        binding.scrollView.visibility = View.VISIBLE
+        binding.detailShimmerInclude.root.visibility = View.GONE
+        binding.detailShimmerInclude.shimmerDetailLayout.stopShimmer()
     }
 
     override fun onResume() {
