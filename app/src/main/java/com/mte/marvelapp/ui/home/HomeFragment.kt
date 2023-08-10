@@ -309,12 +309,10 @@ class HomeFragment : Fragment() {
         if(isDark == true){
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             binding.themeIcon.setImageResource(R.drawable.icon_light_mode)
-            binding.menuIcon.setImageResource(R.drawable.icon_menu_light)
             isDarkMode?.edit()?.putBoolean("theme",true)?.apply()
         }else{
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             binding.themeIcon.setImageResource(R.drawable.icon_dark_mode)
-            binding.menuIcon.setImageResource(R.drawable.icon_menu)
             isDarkMode?.edit()?.putBoolean("theme",false)?.apply()
         }
     }
