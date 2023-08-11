@@ -52,191 +52,212 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/scrollView"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        app:layout_constraintTop_toBottomOf="@+id/collapsingToolbar">
+        >
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/banner_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/margin_all_app"
-                android:layout_marginTop="24dp"
-                android:fontFamily="@font/font_gilroy_semibold"
-                android:text="@string/banner_text"
-                android:textSize="@dimen/banner_text_size"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/banner_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/margin_all_app"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/font_gilroy_heavy"
-                android:text="@string/banner_title"
-                android:textSize="@dimen/banner_title_size"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/banner_text" />
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toBottomOf="@+id/collapsingToolbar">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layoutCategories"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/margin_all_app"
-                android:layout_marginTop="32dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/banner_title">
+                android:layout_height="wrap_content">
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/categoryHeroCard"
-                    android:layout_width="@dimen/category_width"
-                    android:layout_height="@dimen/category_height"
-                    app:cardCornerRadius="100dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                <TextView
+                    android:id="@+id/banner_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_all_app"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="@font/font_gilroy_semibold"
+                    android:text="@string/banner_text"
+                    android:textSize="@dimen/banner_text_size"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <ImageView
-                        android:id="@+id/categoryHeroRound"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/gradient_blue" />
+                <TextView
+                    android:id="@+id/banner_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_all_app"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/font_gilroy_heavy"
+                    android:text="@string/banner_title"
+                    android:textSize="@dimen/banner_title_size"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/banner_text" />
 
-                    <ImageView
-                        android:id="@+id/categoryHeroIcon"
-                        android:layout_width="@dimen/category_icon_width"
-                        android:layout_height="@dimen/category_icon_height"
-                        android:layout_gravity="center"
-                        android:src="@drawable/icon_hero" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layoutCategories"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_all_app"
+                    android:layout_marginTop="32dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/banner_title">
 
-                </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/categoryHeroCard"
+                        android:layout_width="@dimen/category_width"
+                        android:layout_height="@dimen/category_height"
+                        app:cardCornerRadius="100dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/categoryVillainCard"
-                    android:layout_width="@dimen/category_width"
-                    android:layout_height="@dimen/category_height"
-                    app:cardCornerRadius="100dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/categoryAntiheroCard"
-                    app:layout_constraintStart_toEndOf="@+id/categoryHeroCard"
-                    app:layout_constraintTop_toTopOf="parent">
+                        <ImageView
+                            android:id="@+id/categoryHeroRound"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/gradient_blue" />
 
-                    <ImageView
-                        android:id="@+id/categoryVillainRound"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/gradient_red" />
+                        <ImageView
+                            android:id="@+id/categoryHeroIcon"
+                            android:layout_width="@dimen/category_icon_width"
+                            android:layout_height="@dimen/category_icon_height"
+                            android:layout_gravity="center"
+                            android:src="@drawable/icon_hero" />
 
-                    <ImageView
-                        android:id="@+id/categoryVillainIcon"
-                        android:layout_width="@dimen/category_icon_width"
-                        android:layout_height="@dimen/category_icon_height"
-                        android:layout_gravity="center"
-                        android:src="@drawable/icon_villain" />
+                    </androidx.cardview.widget.CardView>
 
-                </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/categoryVillainCard"
+                        android:layout_width="@dimen/category_width"
+                        android:layout_height="@dimen/category_height"
+                        app:cardCornerRadius="100dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/categoryAntiheroCard"
+                        app:layout_constraintStart_toEndOf="@+id/categoryHeroCard"
+                        app:layout_constraintTop_toTopOf="parent">
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/categoryAntiheroCard"
-                    android:layout_width="@dimen/category_width"
-                    android:layout_height="@dimen/category_height"
-                    app:cardCornerRadius="100dp"
+                        <ImageView
+                            android:id="@+id/categoryVillainRound"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/gradient_red" />
+
+                        <ImageView
+                            android:id="@+id/categoryVillainIcon"
+                            android:layout_width="@dimen/category_icon_width"
+                            android:layout_height="@dimen/category_icon_height"
+                            android:layout_gravity="center"
+                            android:src="@drawable/icon_villain" />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/categoryAntiheroCard"
+                        android:layout_width="@dimen/category_width"
+                        android:layout_height="@dimen/category_height"
+                        app:cardCornerRadius="100dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/categoryAntiheroRound"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/gradient_purple" />
+
+                        <ImageView
+                            android:id="@+id/categoryAntiheroIcon"
+                            android:layout_width="@dimen/category_icon_width"
+                            android:layout_height="@dimen/category_icon_height"
+                            android:layout_gravity="center"
+                            android:src="@drawable/icon_antihero" />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/categoryAlienCard"
+                        android:layout_width="@dimen/category_width"
+                        android:layout_height="@dimen/category_height"
+                        app:cardCornerRadius="100dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/categoryHumanCard"
+                        app:layout_constraintStart_toEndOf="@+id/categoryAntiheroCard"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/categoryAlienRound"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/gradient_green" />
+
+                        <ImageView
+                            android:id="@+id/categoryAlienIcon"
+                            android:layout_width="@dimen/category_icon_width"
+                            android:layout_height="@dimen/category_icon_height"
+                            android:layout_gravity="center"
+                            android:src="@drawable/icon_alien" />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/categoryHumanCard"
+                        android:layout_width="@dimen/category_width"
+                        android:layout_height="@dimen/category_height"
+                        app:cardCornerRadius="100dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/categoryHumanRound"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/gradient_pink" />
+
+                        <ImageView
+                            android:id="@+id/categoryHumanIcon"
+                            android:layout_width="@dimen/category_icon_width"
+                            android:layout_height="@dimen/category_icon_height"
+                            android:layout_gravity="center"
+                            android:src="@drawable/icon_human" />
+
+                    </androidx.cardview.widget.CardView>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <ImageView
+                    android:id="@+id/no_connection_icon"
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginBottom="32dp"
+                    android:visibility="gone"
+                    android:src="@drawable/no_connection_icon"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toBottomOf="@+id/layoutCategories" />
 
-                    <ImageView
-                        android:id="@+id/categoryAntiheroRound"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/gradient_purple" />
-
-                    <ImageView
-                        android:id="@+id/categoryAntiheroIcon"
-                        android:layout_width="@dimen/category_icon_width"
-                        android:layout_height="@dimen/category_icon_height"
-                        android:layout_gravity="center"
-                        android:src="@drawable/icon_antihero" />
-
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/categoryAlienCard"
-                    android:layout_width="@dimen/category_width"
-                    android:layout_height="@dimen/category_height"
-                    app:cardCornerRadius="100dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/categoryHumanCard"
-                    app:layout_constraintStart_toEndOf="@+id/categoryAntiheroCard"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <ImageView
-                        android:id="@+id/categoryAlienRound"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/gradient_green" />
-
-                    <ImageView
-                        android:id="@+id/categoryAlienIcon"
-                        android:layout_width="@dimen/category_icon_width"
-                        android:layout_height="@dimen/category_icon_height"
-                        android:layout_gravity="center"
-                        android:src="@drawable/icon_alien" />
-
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/categoryHumanCard"
-                    android:layout_width="@dimen/category_width"
-                    android:layout_height="@dimen/category_height"
-                    app:cardCornerRadius="100dp"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvCategories"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/margin_all_app"
+                    android:layout_marginBottom="48dp"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <ImageView
-                        android:id="@+id/categoryHumanRound"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/gradient_pink" />
-
-                    <ImageView
-                        android:id="@+id/categoryHumanIcon"
-                        android:layout_width="@dimen/category_icon_width"
-                        android:layout_height="@dimen/category_icon_height"
-                        android:layout_gravity="center"
-                        android:src="@drawable/icon_human" />
-
-                </androidx.cardview.widget.CardView>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layoutCategories"
+                    tools:listitem="@layout/recycler_heroes_layout" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvCategories"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/margin_all_app"
-                android:layout_marginBottom="48dp"
-                android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layoutCategories"
-                tools:listitem="@layout/recycler_heroes_layout" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
-
+        </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+

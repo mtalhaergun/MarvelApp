@@ -1,5 +1,8 @@
 package com.mte.marvelapp.ui.home
 
+import android.animation.Animator
+import android.animation.AnimatorInflater
+import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -192,6 +195,13 @@ class HomeFragment : Fragment() {
                 isDarkMode?.edit()?.putBoolean("theme",false)?.apply()
             }
         }
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            val fragment = HomeFragment()
+            val fragmentTransaction = parentFragmentManager.beginTransaction()
+            fragmentTransaction.replace(R.id.navigationHostFragment,fragment).commit()
+            binding.swipeRefreshLayout.isRefreshing = false
+        }
     }
 
     private fun setupAdapters(){
@@ -295,9 +305,14 @@ class HomeFragment : Fragment() {
             while (isActive) {
                 if (requireContext().isInternetConnected()) {
                     stopShimmer()
+                    binding.noConnectionIcon.visibility = View.GONE
+                    binding.rvCategories.visibility = View.VISIBLE
                     break
                 }
                 delay(interval)
+                binding.rvCategories.visibility = View.GONE
+                binding.noConnectionIcon.visibility = View.VISIBLE
+                setConnectionAnimation(binding.noConnectionIcon)
             }
             fetchCategoryFunction()
         }
@@ -315,6 +330,17 @@ class HomeFragment : Fragment() {
             binding.themeIcon.setImageResource(R.drawable.icon_dark_mode)
             isDarkMode?.edit()?.putBoolean("theme",false)?.apply()
         }
+    }
+
+    private fun setConnectionAnimation(view: View){
+        val scaleAnimation = AnimatorInflater.loadAnimator(context,R.animator.detail_animation)
+        scaleAnimation.setTarget(view)
+        scaleAnimation.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                animation.start()
+            }
+        })
+        scaleAnimation.start()
     }
 
     override fun onResume() {
